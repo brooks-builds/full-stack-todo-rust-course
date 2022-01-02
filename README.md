@@ -6,11 +6,13 @@ wip - we are building this out now in prep for the real course
 
 - [x] Come up with the requirements
 - [x] Create user stories
-- [ ] Design the todo app
+- [x] Design the todo app
 - [ ] Create the database schema
 - [ ] Create init.sql file
 - [ ] Dockerize database
 - [ ] Create the backend
+- [ ] Create list of components to make
+- [ ] Create atomic components
 - [ ] Create the frontend
 - [ ] Set up docker compose for all of the pieces
 
@@ -44,3 +46,7 @@ wip - we are building this out now in prep for the real course
 - [ ] As a logged in doer, I want to assign a task a priority
 - [ ] As a logged in doer, I want to sort my tasks by priority
 - [ ] As a logged in doer, I want to filter my tasks by priority
+
+## Design
+
+View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-app-course-ldCXDnSxy](https://brookspatton508559.invisionapp.com/freehand/todo-app-course-ldCXDnSxy)
