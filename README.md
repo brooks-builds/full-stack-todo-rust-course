@@ -7,9 +7,9 @@ wip - we are building this out now in prep for the real course
 - [x] Come up with the requirements
 - [x] Create user stories
 - [x] Design the todo app
-- [ ] Create the database schema
-- [ ] Create init.sql file
-- [ ] Dockerize database
+- [x] Create the database schema
+- [x] Create init.sql file
+- [x] Dockerize database
 - [ ] Create the backend
 - [ ] Create list of components to make
 - [ ] Create atomic components

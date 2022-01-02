@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  database:
+    image: postgres:latest
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_PASSWORD=keyoarbcat
+volumes:
+  db-data:
