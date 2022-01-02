@@ -11,6 +11,7 @@ wip - we are building this out now in prep for the real course
 - [x] Create init.sql file
 - [x] Dockerize database
 - [ ] Create the backend
+- [ ] Put a unique constraint on the username field in the db
 - [ ] Create list of components to make
 - [ ] Create atomic components
 - [ ] Create the frontend
