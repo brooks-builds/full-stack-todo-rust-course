@@ -15,5 +15,17 @@ services:
       - database
     ports:
       - "3000:3000"
+    environment:
+      - PORT=3000
+      - JWT_SECRET=keyboardcat
+  api-test:
+    build: ./integration-tests/backend-tests
+    volumes:
+      - ./integration-tests/backend-tests:/code/
+    depends_on:
+      - express
+    environment:
+      - API_PORT=3000
+      - API_URI=http://express
 volumes:
   db-data:

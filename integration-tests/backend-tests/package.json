@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "jest": "^27.4.7"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  }
+}

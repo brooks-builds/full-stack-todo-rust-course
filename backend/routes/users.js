@@ -1,5 +1,7 @@
 const express = require('express');
 const userQueries = require('../database/userQueries');
+const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET;
 
 const router = express.Router();
 
@@ -7,12 +9,10 @@ router
   .route("/")
   .post(async (req, res) => {
     const {username, password} = req.body;
-    const userId = await userQueries.createUser(username, password);
+    const newUser = await userQueries.createUser(username, password);
+    newUser.token = jwt.sign(newUser, jwtSecret);
     res.json({
-      data: {
-        userId
-      },
-      message: "user created successfully"
+      data: newUser,
     })
   })
 
