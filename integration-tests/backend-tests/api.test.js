@@ -16,6 +16,7 @@ describe("todo api", () => {
       username: `testuser${Date.now()}`,
       password: `${Date.now()}`,
     }
+
     test("sign up", async () => {
       const {data: response} = await axios.post(`${baseUrl}/users`, userToCreate);
       expect(response).toHaveProperty("data");
@@ -35,7 +36,22 @@ describe("todo api", () => {
       expect(passwordMatched).toBe(true);
     });
   
-    test.todo("cannot create multiple users with the same user name");
+    test.only("cannot create multiple users with the same user name", async () => {
+      const newUser = Object.assign({}, userToCreate);
+      newUser.username += "!";
+      const {data: response} = await axios.post(`${baseUrl}/users`, userToCreate);
+      let gotError = false;
+      try {
+        const response = await axios.post(`${baseUrl}/users`, userToCreate);
+      } catch (error) {
+        expect(error.response.status).toBe(400);
+        expect(error.response.data.error).toBe("Username already taken, try again with a different user name");
+        gotError = true;
+      }
+
+      expect(gotError).toBe(true);
+    });
+
     test.todo("sign in");
     test.todo("log out");
   })

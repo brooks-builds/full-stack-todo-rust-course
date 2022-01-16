@@ -9,8 +9,11 @@ async function createUser(username, password) {
     const [newUser] = await db("users").insert({username, password: hash}).returning(["id", "username"]);
     return newUser
   } catch (error) {
-    console.error("error hashing password", error);
-    throw error
+    const errors = {
+      "23505": "Username already taken, try again with a different user name"
+    }
+
+    throw new Error (errors[error.code] || error.message);
   }
 }
 
