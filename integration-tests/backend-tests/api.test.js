@@ -36,13 +36,13 @@ describe("todo api", () => {
       expect(passwordMatched).toBe(true);
     });
   
-    test.only("cannot create multiple users with the same user name", async () => {
+    test("cannot create multiple users with the same user name", async () => {
       const newUser = Object.assign({}, userToCreate);
       newUser.username += "!";
-      const {data: response} = await axios.post(`${baseUrl}/users`, userToCreate);
+      await axios.post(`${baseUrl}/users`, newUser);
       let gotError = false;
       try {
-        const response = await axios.post(`${baseUrl}/users`, userToCreate);
+        await axios.post(`${baseUrl}/users`, newUser);
       } catch (error) {
         expect(error.response.status).toBe(400);
         expect(error.response.data.error).toBe("Username already taken, try again with a different user name");
