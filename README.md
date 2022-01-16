@@ -31,6 +31,13 @@ wip - we are building this out now in prep for the real course
 - filter by priority
 - sort by priority
 
+## API Todo
+
+- [x] create a user
+- [x] login as a user
+- [x] logout as a user
+- [ ] create middleware for authenticated routes (like /users/logout)
+
 ## user stories
 
 - [ ] As a doer, I want to create an account

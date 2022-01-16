@@ -3,10 +3,10 @@ const bcrypt = require('bcrypt');
 
 const saltRounds = Number(process.env.SALT_ROUNDS || 31);
 
-async function createUser(username, password) {
+async function createUser(username, password, token) {
   try {
     const hash = await hashPassword(password);
-    const [newUser] = await db("users").insert({username, password: hash}).returning(["id", "username"]);
+    const [newUser] = await db("users").insert({username, password: hash, token}).returning(["id", "username", "token"]);
     return newUser
   } catch (error) {
     const errors = {
@@ -26,6 +26,16 @@ function hashPassword(password) {
   })
 }
 
+function getByUsername(username) {
+  return db("users").where("username", username).first();
+}
+
+function findAndRemoveToken(token) {
+  return db("users").where("token", token).update({token: null})
+}
+
 module.exports = {
-  createUser
+  createUser,
+  getByUsername,
+  findAndRemoveToken
 }

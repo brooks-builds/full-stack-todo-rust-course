@@ -21,17 +21,12 @@ describe("todo api", () => {
       const {data: response} = await axios.post(`${baseUrl}/users`, userToCreate);
       expect(response).toHaveProperty("data");
       const {data} = response;
-      expect(typeof data.id).toBe("number");
-      expect(data.username).toBe(userToCreate.username);
-      expect(typeof data.token).toBe("string");
-      const token = jwt.verify(data.token, JWT_SECRET);
-      expect(token.username).toBe(userToCreate.username);
-      expect(typeof token.id).toBe('number');
-      expect(token.id).toBe(data.id);
+      checkLoggedInUser(data, userToCreate);
       const createdUser = await db.table("users").where("username", userToCreate.username).first();
       expect(createdUser.id).toBe(data.id);
       expect(createdUser.username).toBe(userToCreate.username);
       expect(createdUser.password).not.toBe(userToCreate.password);
+      expect(createdUser.token).toBe(data.token);
       const passwordMatched = bcrypt.compareSync(userToCreate.password, createdUser.password);
       expect(passwordMatched).toBe(true);
     });
@@ -52,7 +47,34 @@ describe("todo api", () => {
       expect(gotError).toBe(true);
     });
 
-    test.todo("sign in");
-    test.todo("log out");
+    test("sign in", async () => {
+      const loggedInUser = await axios.post(`${baseUrl}/users/login`, userToCreate);
+      checkLoggedInUser(loggedInUser.data.data, userToCreate);
+    });
+
+    test("log out", async () => {
+      const userToCreate = {
+        username: "userjusttologout" + Date.now(),
+        password: "test1234"
+      }
+      const createdUser = await axios.post(`${baseUrl}/users`, userToCreate);
+      await axios({
+        method: "POST",
+        url: `${baseUrl}/users/logout`,
+        headers: {
+          "x-auth-token": createdUser.data.data.token
+        }
+      });
+      const dbUser = await db.table("users").where("username", userToCreate.username).first();
+      expect(dbUser.token).toBe(null);
+    });
   })
 })
+
+function checkLoggedInUser(userFromApi, testUser) {
+  expect(typeof userFromApi.id).toBe("number");
+  expect(userFromApi.username).toBe(testUser.username);
+  expect(typeof userFromApi.token).toBe("string");
+  const token = jwt.verify(userFromApi.token, JWT_SECRET);
+  expect(token.username).toBe(testUser.username);
+}
