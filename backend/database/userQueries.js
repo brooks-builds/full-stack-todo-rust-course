@@ -34,8 +34,13 @@ function findAndRemoveToken(token) {
   return db("users").where("token", token).update({token: null})
 }
 
+function getByToken(token) {
+  return db("users").select(["id", "username", "token"]).where("token", token).andWhere("deleted_at", null).first();
+}
+
 module.exports = {
   createUser,
   getByUsername,
-  findAndRemoveToken
+  findAndRemoveToken,
+  getByToken
 }

@@ -3,6 +3,7 @@ const userQueries = require('../database/userQueries');
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 const bcrypt = require('bcrypt');
+const { authenticate } = require('./utilities');
 
 const router = express.Router();
 
@@ -17,17 +18,17 @@ router
       data: newUser,
     })
   } catch(error) {
+    console.log(error.message);
     res.status(400).json({error: error.message});
     }
   })
 
 router.route('/logout')
+  .all(authenticate)
   .post(async (req, res) => {
     try {
       const token = req.headers["x-auth-token"];
-      console.log("token", token);
       const result = await userQueries.findAndRemoveToken(token);
-      console.log("result from finding token", result);
       res.json({message: "user logged out"});
     } catch (error) {
       res.status(500).json({error: error.message});

@@ -36,7 +36,12 @@ wip - we are building this out now in prep for the real course
 - [x] create a user
 - [x] login as a user
 - [x] logout as a user
-- [ ] create middleware for authenticated routes (like /users/logout)
+- [x] create middleware for authenticated routes (like /users/logout)
+- [ ] Create a task
+- [ ] Get all my tasks
+- [ ] Get one task
+- [ ] Update task
+- [ ] soft-delete task
 
 ## user stories
 

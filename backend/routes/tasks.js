@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 router.route("/")
-  .get((req, res) => {
+  .post((req, res) => {
+    console.log("creating a task");
     return res.json({
       message: "Now I'm in a router"
     })
