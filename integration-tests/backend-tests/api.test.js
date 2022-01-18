@@ -10,6 +10,8 @@ const baseUrl = `${process.env.API_URI}:${apiPort}/api/v1`;
 const JWT_SECRET = process.env.JWT_SECRET;
 const db = knex(dbConfiguration);
 
+jest.setTimeout(10000)
+
 describe("todo api", () => {
   describe("User CRUD", () => {
     const userToCreate = {
@@ -99,14 +101,7 @@ describe("todo api", () => {
     let headers;
     
     beforeAll(async () => {
-      try {
-        const result = await axios.post(`${baseUrl}/users`, {username: `test-task-crud${Math.random()}`, password: "password"});
-        expect(typeof result.data.data.token).toBe("string");
-        user = result.data.data;
-        headers = {"x-auth-token": user.token};
-      } catch (error) {
-        console.log(error.response.data);
-      }
+      [user, headers] = await createUser();
     });
 
     describe("create a task", () => {
@@ -116,21 +111,15 @@ describe("todo api", () => {
           title: `this is a test task - ${Date.now()}`,
           description: "This task is the best task"
         };
-
-        try {
-          const result = await axios.post(`${baseUrl}/tasks`, newTask, {headers: headers});
-          const createdTask = result.data.data;
-          expect(typeof createdTask.id).toBe("number");
-          expect(createdTask.priority).toBe("A");
-          expect(createdTask.title).toBe(newTask.title);
-          expect(createdTask.completed_at).toBe(null);
-          expect(createdTask.description).toBe(newTask.description);
-          expect(createdTask).not.toHaveProperty("user_id");
-          expect(createdTask).not.toHaveProperty("is_default");
-        } catch(error) {
-          console.log(error);
-          throw error;
-        }
+        const result = await createTask(headers, newTask);
+        const createdTask = result.data.data;
+        expect(typeof createdTask.id).toBe("number");
+        expect(createdTask.priority).toBe("A");
+        expect(createdTask.title).toBe(newTask.title);
+        expect(createdTask.completed_at).toBe(null);
+        expect(createdTask.description).toBe(newTask.description);
+        expect(createdTask).not.toHaveProperty("user_id");
+        expect(createdTask).not.toHaveProperty("is_default");
       });
       test("should not be able to create a task when not logged in", async () => {
         let gotError = false;
@@ -159,9 +148,27 @@ describe("todo api", () => {
     })
 
     describe("get all tasks", () => {
-      test.todo("should be able to get all my tasks");
+      let getAllTasksUser;
+      let getAllTasksHeaders;
+
+      beforeAll(async () => {
+        [getAllTasksUser, getAllTasksHeaders] = await createUser();
+
+        await createTask(getAllTasksHeaders, {title: "task 1"});
+        await createTask(getAllTasksHeaders, {title: "task 2"});
+        await createTask(getAllTasksHeaders, {title: "task 3"});
+      });
+
+      test("should be able to get all my tasks", async () => {
+        const createdTasks = await axios.get(`${baseUrl}/tasks`, {headers: getAllTasksHeaders});
+        expect(createdTasks.data.data.length).toBe(3);
+        expect(createdTasks.data.data[0].title).toBe("task 1");
+        expect(createdTasks.data.data[1].title).toBe("task 2");
+        expect(createdTasks.data.data[2].title).toBe("task 3");
+      });
       test.todo("should not be able to get any tasks when logged out");
       test.todo("should not be able to get other users tasks");
+      test.todo("should not be able to get deleted tasks");
     });
 
     describe("get one task", () => {
@@ -195,4 +202,22 @@ function checkLoggedInUser(userFromApi, testUser) {
   expect(typeof userFromApi.token).toBe("string");
   const token = jwt.verify(userFromApi.token, JWT_SECRET);
   expect(token.username).toBe(testUser.username);
+}
+
+async function createUser() {
+  const result = await axios.post(`${baseUrl}/users`, {username: `${Math.random()}`, password: "password"});
+  expect(typeof result.data.data.token).toBe("string");
+  const user = result.data.data;
+  const headers = {"x-auth-token": user.token};
+  return [user, headers];
+}
+
+async function createTask(headers, newTask) {
+  return await axios.post(`${baseUrl}/tasks`, newTask, {headers});
+}
+
+function sleep(time = 1000) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(), time);
+  });
 }

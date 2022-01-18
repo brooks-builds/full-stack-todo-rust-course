@@ -1,6 +1,6 @@
 const express = require('express');
 const {authenticate} = require('./utilities');
-const {insertTask} = require("../database/taskQueries");
+const {insertTask, getAllUsersTasks} = require("../database/taskQueries");
 
 const router = express.Router();
 
@@ -22,6 +22,15 @@ router.route("/")
         data: createdTask
       })
     } catch (error) {
+      return next(error);
+    }
+  })
+  .get(async (req, res, next) => {
+    try {
+      const tasks = await getAllUsersTasks(req.user.id);
+      console.log("tasks: ", tasks);
+      res.json({data: tasks});
+    } catch(error) {
       return next(error);
     }
   })

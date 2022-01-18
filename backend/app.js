@@ -17,5 +17,5 @@ app.use((error, req, res, next) => {
 })
 
 app.listen(port, () => {
-  console.log(`backend listening on port ${port}`);
+  console.info(`backend listening on port ${port}`);
 })
