@@ -14,6 +14,7 @@ router.route("/")
       description,
     } = req.body;
 
+    if(!title) return res.status(400).json({error: "missing task title"});
 
     try {
       const createdTask = await insertTask(priority, title, completed_at, description, req.user.id);

@@ -144,7 +144,18 @@ describe("todo api", () => {
 
         expect(gotError).toBe(true);
       });
-      test.todo("cannot create a task without all required data");
+      test("cannot create a task without all required data", async () => {
+        let gotError = false;
+        try {
+          await axios.post(`${baseUrl}/tasks`, {}, {headers});
+        } catch(error) {
+          gotError = true;
+          expect(error.response.data.error).toEqual("missing task title");
+          expect(error.response.status).toBe(400);
+        };
+
+        expect(gotError).toBe(true);
+      });
     })
 
     describe("get all tasks", () => {
