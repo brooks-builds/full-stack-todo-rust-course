@@ -28,7 +28,6 @@ router.route("/")
   .get(async (req, res, next) => {
     try {
       const tasks = await getAllUsersTasks(req.user.id);
-      console.log("tasks: ", tasks);
       res.json({data: tasks});
     } catch(error) {
       return next(error);
