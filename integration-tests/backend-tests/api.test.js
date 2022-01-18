@@ -132,7 +132,18 @@ describe("todo api", () => {
           throw error;
         }
       });
-      test.todo("should not be able to create a task when not logged in");
+      test("should not be able to create a task when not logged in", async () => {
+        let gotError = false;
+        try {
+          await axios.post(`${baseUrl}/tasks`);
+        } catch (error) {
+          gotError = true;
+          expect(error.response.data.error).toBe("not authenticated!");
+          expect(error.response.status).toBe(401);
+        }
+
+        expect(gotError).toBe(true);
+      });
       test.todo("cannot create a task without all required data");
     })
 
