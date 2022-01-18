@@ -99,7 +99,6 @@ describe("todo api", () => {
     let headers;
     
     beforeAll(async () => {
-      console.log(`creating task ***************************`);
       try {
         const result = await axios.post(`${baseUrl}/users`, {username: `test-task-crud${Math.random()}`, password: "password"});
         expect(typeof result.data.data.token).toBe("string");
@@ -119,21 +118,22 @@ describe("todo api", () => {
         };
 
         try {
-          const result = await axios.post(`${baseUrl}/tasks`, {}, {headers: headers});
+          const result = await axios.post(`${baseUrl}/tasks`, newTask, {headers: headers});
           const createdTask = result.data.data;
           expect(typeof createdTask.id).toBe("number");
-          expect(createdTask.priority).toBe(null);
+          expect(createdTask.priority).toBe("A");
           expect(createdTask.title).toBe(newTask.title);
           expect(createdTask.completed_at).toBe(null);
           expect(createdTask.description).toBe(newTask.description);
-          expect(createdTask.deleted_at).toBe(null);
           expect(createdTask).not.toHaveProperty("user_id");
           expect(createdTask).not.toHaveProperty("is_default");
         } catch(error) {
           console.log(error);
+          throw error;
         }
       });
       test.todo("should not be able to create a task when not logged in");
+      test.todo("cannot create a task without all required data");
     })
 
     describe("get all tasks", () => {
