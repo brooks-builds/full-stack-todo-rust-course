@@ -39,6 +39,7 @@ router.route("/:taskId")
   .get(async (req, res, next) => {
     try {
       const task = await getOneUsersTask(req.user.id, req.params.taskId);
+      if(!task) return res.status(404).json({error: "not found"});
       return res.json({data: task});
     } catch (error) {
       return next(error);

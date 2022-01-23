@@ -236,7 +236,20 @@ describe("todo api", () => {
 
         expect(gotError).toBe(true);
       });
-      test.todo("should not be able to get another users task");
+
+      test("should not be able to get another users task", async () => {
+        const [newUser, newHeaders] = await createUser();
+        let gotError = false;
+        try {
+          await axios.get(`${baseUrl}/tasks/${task.id}`, {headers: newHeaders});
+        } catch(error) {
+          gotError = true;
+          expect(error.response.status).toBe(404);
+          expect(error.response.data.error).toBe("not found");
+        }
+
+        expect(gotError).toBe(true);
+      });
     });
     
     describe("update task", () => {
