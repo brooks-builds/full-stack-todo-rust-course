@@ -223,7 +223,19 @@ describe("todo api", () => {
 
         expect(result.data.data.title).toBe("my one task 10");
       });
-      test.todo("should not be able to get task when logged out");
+
+      test("should not be able to get task when logged out", async () => {
+        let gotError = false;
+        try {
+          await axios.get(`${baseUrl}/tasks/${task.id}`);
+        } catch (error) {
+          gotError = true;
+          expect(error.response.status).toBe(401);
+          expect(error.response.data.error).toBe("not authenticated!");
+        }
+
+        expect(gotError).toBe(true);
+      });
       test.todo("should not be able to get another users task");
     });
     
