@@ -11,7 +11,7 @@ async function insertTask(priority = null, title, completed_at = false, descript
 }
 
 async function getAllUsersTasks(userId) {
-  const tasks = await db.select().from("tasks").where({user_id: userId});
+  const tasks = await db.select().from("tasks").where({user_id: userId, deleted_at: null});
   return tasks;
 }
 

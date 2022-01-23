@@ -195,15 +195,23 @@ describe("todo api", () => {
         expect(response.data.data[2].title).toBe("my task 30");
       });
 
-      test.todo("should not be able to get deleted tasks");
-    });
+      test("should not be able to get deleted tasks", async () => {
+        const deletedUser = await axios.post(`${baseUrl}/users/login`, {username: "deleteduser", password: "password"});
+        const headers = {
+          "x-auth-token": deletedUser.data.data.token,
+        };
+        const response = await axios.get(`${baseUrl}/tasks`, {headers});
 
+        expect(response.data.data.length).toBe(0);
+      });
+    });
+    
     describe("get one task", () => {
       test.todo("should be able to get my task");
       test.todo("should not be able to get task when logged out");
       test.todo("should not be able to get another users task");
     });
-
+    
     describe("update task", () => {
       test.todo("should be able to mark a task as completed");
       test.todo("should be able to mark a test as not completed");
@@ -211,7 +219,7 @@ describe("todo api", () => {
       test.todo("should not be able to mark other users tasks as completed");
       test.todo("should not be able to update other users tasks");
     });
-
+    
     describe("soft delete a task", () => {
       test.todo("should be able to soft delete a task");
       test.todo("should not be able to soft delete another users task");

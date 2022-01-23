@@ -7,7 +7,7 @@ async function authenticate(req, res, next) {
     error.code = 401;
     return next(error);
   }
-
+  
   try {
     const user = await getByToken(token);
     if(!user) {
