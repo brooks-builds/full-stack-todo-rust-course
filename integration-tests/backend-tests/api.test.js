@@ -253,7 +253,18 @@ describe("todo api", () => {
     });
     
     describe("update task", () => {
-      test.todo("should be able to mark a task as completed");
+      test("should be able to mark a task as completed", async () => {
+        const [user, headers] = await createUser();
+        const taskResponse = await createTask(headers, {title: "new task"});
+        const task = taskResponse.data.data;
+        expect(task.completed_at).toBe(null);
+        let completedUri = `${baseUrl}/tasks/${task.id}/completed`;
+        console.log(completedUri);
+        await axios.put(completedUri, {}, {headers});
+        const dbTask = await db.select().from("tasks").where({id: task.id}).first();
+        expect(dbTask.completed_at).not.toBe(null);
+      });
+
       test.todo("should be able to mark a test as not completed");
       test.todo("should be able to update all fields in the task");
       test.todo("should not be able to mark other users tasks as completed");

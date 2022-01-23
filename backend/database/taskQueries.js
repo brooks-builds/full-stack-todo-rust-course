@@ -19,8 +19,14 @@ function getOneUsersTask(userId, taskId) {
   return db.select().from("tasks").where({user_id: userId, deleted_at: null, id: taskId}).first();
 }
 
+function markTaskAsCompleted(userId, taskId) {
+  const now = new Date();
+  return db("tasks").update({completed_at: now.toUTCString()}).where({user_id: userId, deleted_at: null, id: taskId});
+}
+
 module.exports = {
   insertTask,
   getAllUsersTasks,
   getOneUsersTask,
+  markTaskAsCompleted
 }

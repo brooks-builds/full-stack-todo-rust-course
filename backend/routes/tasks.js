@@ -1,6 +1,6 @@
 const express = require('express');
 const {authenticate} = require('./utilities');
-const {insertTask, getAllUsersTasks, getOneUsersTask} = require("../database/taskQueries");
+const {insertTask, getAllUsersTasks, getOneUsersTask, markTaskAsCompleted} = require("../database/taskQueries");
 
 const router = express.Router();
 
@@ -41,6 +41,19 @@ router.route("/:taskId")
       const task = await getOneUsersTask(req.user.id, req.params.taskId);
       if(!task) return res.status(404).json({error: "not found"});
       return res.json({data: task});
+    } catch (error) {
+      return next(error);
+    }
+  });
+
+router.route("/:taskId/completed")
+  .all(authenticate)
+  .put(async (req, res, next) => {
+    const {taskId} = req.params;
+    const userId = req.user.id;
+    try {
+      await markTaskAsCompleted(userId, taskId);
+      return res.sendStatus(200);
     } catch (error) {
       return next(error);
     }
