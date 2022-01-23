@@ -178,7 +178,23 @@ describe("todo api", () => {
           expect(error.response.data.error).toBe("not authenticated!");
         }
       });
-      test.todo("should not be able to get other users tasks");
+
+      test("should not be able to get other users tasks", async () => {
+        const [user, headers] = await createUser();
+
+        await createTask(headers, {title: "my task 10"});
+        await createTask(headers, {title: "my task 20"});
+        await createTask(headers, {title: "my task 30"});
+
+        const response = await axios.get(`${baseUrl}/tasks`, {headers});
+
+        expect(response.status).toBe(200);
+        expect(response.data.data.length).toBe(3);
+        expect(response.data.data[0].title).toBe("my task 10");
+        expect(response.data.data[1].title).toBe("my task 20");
+        expect(response.data.data[2].title).toBe("my task 30");
+      });
+
       test.todo("should not be able to get deleted tasks");
     });
 
@@ -215,8 +231,8 @@ function checkLoggedInUser(userFromApi, testUser) {
   expect(token.username).toBe(testUser.username);
 }
 
-async function createUser() {
-  const result = await axios.post(`${baseUrl}/users`, {username: `${Math.random()}`, password: "password"});
+async function createUser(username = Math.random()) {
+  const result = await axios.post(`${baseUrl}/users`, {username: `${username}`, password: "password"});
   expect(typeof result.data.data.token).toBe("string");
   const user = result.data.data;
   const headers = {"x-auth-token": user.token};
