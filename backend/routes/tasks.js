@@ -1,6 +1,6 @@
 const express = require('express');
 const {authenticate} = require('./utilities');
-const {insertTask, getAllUsersTasks} = require("../database/taskQueries");
+const {insertTask, getAllUsersTasks, getOneUsersTask} = require("../database/taskQueries");
 
 const router = express.Router();
 
@@ -30,6 +30,17 @@ router.route("/")
       const tasks = await getAllUsersTasks(req.user.id);
       res.json({data: tasks});
     } catch(error) {
+      return next(error);
+    }
+  });
+
+router.route("/:taskId")
+  .all(authenticate)
+  .get(async (req, res, next) => {
+    try {
+      const task = await getOneUsersTask(req.user.id, req.params.taskId);
+      return res.json({data: task});
+    } catch (error) {
       return next(error);
     }
   })

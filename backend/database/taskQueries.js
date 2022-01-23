@@ -15,7 +15,12 @@ async function getAllUsersTasks(userId) {
   return tasks;
 }
 
+function getOneUsersTask(userId, taskId) {
+  return db.select().from("tasks").where({user_id: userId, deleted_at: null, id: taskId}).first();
+}
+
 module.exports = {
   insertTask,
-  getAllUsersTasks
+  getAllUsersTasks,
+  getOneUsersTask,
 }

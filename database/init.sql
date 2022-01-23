@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
   username    VARCHAR(64) NOT NULL UNIQUE,
   password    VARCHAR(64) NOT NULL,
   deleted_at  TIMESTAMP DEFAULT NULL,
-  token       TEXT UNIQUE DEFAULT NULL
+  token       TEXT DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tasks (
