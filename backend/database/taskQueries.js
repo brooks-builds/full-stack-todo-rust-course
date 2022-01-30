@@ -21,12 +21,21 @@ function getOneUsersTask(userId, taskId) {
 
 function markTaskAsCompleted(userId, taskId) {
   const now = new Date();
-  return db("tasks").update({completed_at: now.toUTCString()}).where({user_id: userId, deleted_at: null, id: taskId});
+  return updateCompletedStatus(userId, taskId, now.toUTCString());
+}
+
+function markTaskAsUncompleted(userId, taskId) {
+  return updateCompletedStatus(userId, taskId);
+}
+
+function updateCompletedStatus(user_id, id, completed_at = null) {
+  return db("tasks").update({completed_at}).where({user_id, deleted_at: null, id});
 }
 
 module.exports = {
   insertTask,
   getAllUsersTasks,
   getOneUsersTask,
-  markTaskAsCompleted
+  markTaskAsCompleted,
+  markTaskAsUncompleted
 }

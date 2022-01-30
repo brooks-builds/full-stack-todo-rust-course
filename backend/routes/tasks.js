@@ -1,6 +1,6 @@
 const express = require('express');
 const {authenticate} = require('./utilities');
-const {insertTask, getAllUsersTasks, getOneUsersTask, markTaskAsCompleted} = require("../database/taskQueries");
+const {insertTask, getAllUsersTasks, getOneUsersTask, markTaskAsCompleted, markTaskAsUncompleted} = require("../database/taskQueries");
 
 const router = express.Router();
 
@@ -53,6 +53,19 @@ router.route("/:taskId/completed")
     const userId = req.user.id;
     try {
       await markTaskAsCompleted(userId, taskId);
+      return res.sendStatus(200);
+    } catch (error) {
+      return next(error);
+    }
+  })
+
+router.route("/:taskId/uncompleted")
+  .all(authenticate)
+  .put(async (req, res, next) => {
+    const {taskId} = req.params;
+    const userId = req.user.id;
+    try {
+      await markTaskAsUncompleted(userId, taskId);
       return res.sendStatus(200);
     } catch (error) {
       return next(error);
