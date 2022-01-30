@@ -329,7 +329,14 @@ describe("todo api", () => {
         expect(dbTask.completed_at).toBe(null);
       });
 
-      test.todo("should not be able to update other users tasks");
+      test("should not be able to update other users tasks", async () => {
+        const [user1, headers1] = await createUser();
+        const [user2, headers2] = await createUser();
+        const createdTaskResponse = await createTask(headers1, {title: "user 1 task"});
+        await axios.patch(`${baseUrl}/tasks/${createdTaskResponse.data.data.id}`, {title: "user 2 task"}, {headers: headers2});
+        const dbTask = await db.select().from("tasks").where({id: createdTaskResponse.data.data.id}).first();
+        expect(dbTask.title).toBe("user 1 task");
+      });
     });
     
     describe("soft delete a task", () => {
