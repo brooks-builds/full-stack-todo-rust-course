@@ -259,7 +259,6 @@ describe("todo api", () => {
         const task = taskResponse.data.data;
         expect(task.completed_at).toBe(null);
         let completedUri = `${baseUrl}/tasks/${task.id}/completed`;
-        console.log(completedUri);
         await axios.put(completedUri, {}, {headers});
         const dbTask = await db.select().from("tasks").where({id: task.id}).first();
         expect(dbTask.completed_at).not.toBe(null);

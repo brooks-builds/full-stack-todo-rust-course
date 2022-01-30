@@ -46,7 +46,7 @@ router.route('/login')
         error.code = 400;
         throw error;
       }
-      dbUser.token = createToken(dbUser);
+      dbUser.token = createToken({username: dbUser.username});
       await userQueries.addTokenToUser(dbUser.token, dbUser.id);
       res.json({data: dbUser});
     } catch(error) {
