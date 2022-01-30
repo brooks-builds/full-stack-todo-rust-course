@@ -347,7 +347,15 @@ describe("todo api", () => {
         const dbTask = await db.select().from("tasks").where({id: newTaskResponse.data.data.id}).first();
         expect(dbTask.deleted_at).not.toBe(null);
       });
-      test.todo("should not be able to soft delete another users task");
+
+      test("should not be able to soft delete another users task", async () => {
+        const [user, headers] = await createUser();
+        const [user2, headers2] = await createUser();
+        const newTaskResponse = await createTask(headers, {title: "am I deleted?"});
+        await axios.delete(`${baseUrl}/tasks/${newTaskResponse.data.data.id}`, {headers: headers2});
+        const dbTask = await db.select().from("tasks").where({id: newTaskResponse.data.data.id}).first();
+        expect(dbTask.deleted_at).toBe(null);
+      });
     })
   });
 
