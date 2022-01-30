@@ -36,11 +36,17 @@ function updateTask(userId, taskId, task) {
   return db("tasks").update(task).where({id: taskId, user_id: userId, deleted_at: null});
 }
 
+function softDeleteTask(userId, taskId) {
+  const now = new Date();
+  return db("tasks").update({deleted_at: now.toUTCString()}).where({user_id: userId, id: taskId, deleted_at: null});
+}
+
 module.exports = {
   insertTask,
   getAllUsersTasks,
   getOneUsersTask,
   markTaskAsCompleted,
   markTaskAsUncompleted,
-  updateTask
+  updateTask,
+  softDeleteTask
 }

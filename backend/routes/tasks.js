@@ -1,6 +1,6 @@
 const express = require('express');
 const {authenticate} = require('./utilities');
-const {insertTask, getAllUsersTasks, getOneUsersTask, markTaskAsCompleted, markTaskAsUncompleted, updateTask} = require("../database/taskQueries");
+const {insertTask, getAllUsersTasks, getOneUsersTask, markTaskAsCompleted, markTaskAsUncompleted, updateTask, softDeleteTask} = require("../database/taskQueries");
 
 const router = express.Router();
 
@@ -51,6 +51,14 @@ router.route("/:taskId")
       await updateTask(req.user.id, req.params.taskId, {priority, title, description, completed_at});
       res.sendStatus(200);
     } catch (error) {
+      return next(error);
+    }
+  })
+  .delete(async (req, res, next) => {
+    try {
+      await softDeleteTask(req.user.id, req.params.taskId);
+      return res.sendStatus(200);
+    } catch(error) {
       return next(error);
     }
   })

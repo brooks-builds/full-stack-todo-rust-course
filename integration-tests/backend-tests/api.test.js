@@ -340,7 +340,13 @@ describe("todo api", () => {
     });
     
     describe("soft delete a task", () => {
-      test.todo("should be able to soft delete a task");
+      test("should be able to soft delete a task", async () => {
+        const [user, headers] = await createUser();
+        const newTaskResponse = await createTask(headers, {title: "am I deleted?"});
+        await axios.delete(`${baseUrl}/tasks/${newTaskResponse.data.data.id}`, {headers});
+        const dbTask = await db.select().from("tasks").where({id: newTaskResponse.data.data.id}).first();
+        expect(dbTask.deleted_at).not.toBe(null);
+      });
       test.todo("should not be able to soft delete another users task");
     })
   });
