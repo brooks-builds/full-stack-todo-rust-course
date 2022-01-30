@@ -40,8 +40,8 @@ wip - we are building this out now in prep for the real course
 - [x] Create a task
 - [x] Get all my tasks
 - [x] Get one task
-- [ ] Update task
-- [ ] soft-delete task
+- [x] Update task
+- [x] soft-delete task
 
 ## user stories
 

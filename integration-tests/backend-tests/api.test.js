@@ -161,10 +161,10 @@ describe("todo api", () => {
 
       test("should be able to get all my tasks", async () => {
         const createdTasks = await axios.get(`${baseUrl}/tasks`, {headers: getAllTasksHeaders});
-        expect(createdTasks.data.data.length).toBe(3);
-        expect(createdTasks.data.data[0].title).toBe("task 1");
-        expect(createdTasks.data.data[1].title).toBe("task 2");
-        expect(createdTasks.data.data[2].title).toBe("task 3");
+        expect(createdTasks.data.data.length).toBe(5);
+        expect(createdTasks.data.data[2].title).toBe("task 1");
+        expect(createdTasks.data.data[3].title).toBe("task 2");
+        expect(createdTasks.data.data[4].title).toBe("task 3");
       });
 
       test("should not be able to get any tasks when logged out", async () => {
@@ -189,10 +189,7 @@ describe("todo api", () => {
         const response = await axios.get(`${baseUrl}/tasks`, {headers});
 
         expect(response.status).toBe(200);
-        expect(response.data.data.length).toBe(3);
-        expect(response.data.data[0].title).toBe("my task 10");
-        expect(response.data.data[1].title).toBe("my task 20");
-        expect(response.data.data[2].title).toBe("my task 30");
+        expect(response.data.data.length).toBe(5);
       });
 
       test("should not be able to get deleted tasks", async () => {
@@ -360,7 +357,12 @@ describe("todo api", () => {
   });
 
   describe("Creating an account", () => {
-    test.todo("new users should get default tasks");
+    test("new users should get default tasks", async () => {
+      const [user, headers] = await createUser();
+      const tasksResponse = await axios.get(`${baseUrl}/tasks`, {headers});
+      const tasks = tasksResponse.data.data;
+      expect(tasks.length).toBe(2);
+    });
   })
 })
 

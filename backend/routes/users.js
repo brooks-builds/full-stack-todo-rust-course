@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 const bcrypt = require('bcrypt');
 const { authenticate } = require('./utilities');
+const { getDefaultTasks, insertTask } = require('../database/taskQueries');
 
 const router = express.Router();
-
 
 router
 .route("/")
@@ -14,6 +14,11 @@ router
   const {username, password} = req.body;
   try {
     const newUser = await userQueries.createUser(username, password, createToken({username}));
+    const defaultTasks = await getDefaultTasks();
+    const insertTaskPromises = defaultTasks.map(defaultTask => {
+      return insertTask(defaultTask.priority, defaultTask.title, null, defaultTask.description, newUser.id);
+    });
+    await Promise.all(insertTaskPromises);
     res.json({
       data: newUser,
     })

@@ -41,6 +41,10 @@ function softDeleteTask(userId, taskId) {
   return db("tasks").update({deleted_at: now.toUTCString()}).where({user_id: userId, id: taskId, deleted_at: null});
 }
 
+function getDefaultTasks() {
+  return db.select().from("tasks").where({is_default: true});
+}
+
 module.exports = {
   insertTask,
   getAllUsersTasks,
@@ -48,5 +52,6 @@ module.exports = {
   markTaskAsCompleted,
   markTaskAsUncompleted,
   updateTask,
-  softDeleteTask
+  softDeleteTask,
+  getDefaultTasks,
 }

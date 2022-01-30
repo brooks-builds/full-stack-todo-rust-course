@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS tasks (
   completed_at  TIMESTAMP DEFAULT NULL,
   description   TEXT DEFAULT NULL,
   deleted_at    TIMESTAMP DEFAULT NULL,
-  user_id       INTEGER NOT NULL, 
+  user_id       INTEGER DEFAULT NULL, 
   is_default    BOOLEAN DEFAULT FALSE,
   CONSTRAINT fk_users FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -25,3 +25,7 @@ INSERT INTO tasks (title, deleted_at, user_id) VALUES (
   NOW(),
   (select id from users where username = 'deleteduser')
 );
+
+INSERT INTO tasks (priority, title, description, is_default) VALUES 
+  ('A', 'I am a task, you can complete me by checking the box', 'This is my description', true),
+  ('B', 'See my details for by clicking me', 'My description can be changed', true);
