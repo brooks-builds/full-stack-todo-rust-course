@@ -29,5 +29,21 @@ services:
       - API_URI=http://express
       - JWT_SECRET=keyboardcat
       - DB_CONNECTION=postres://postgres:keyoarbcat@database/postgres
+  vue:
+    build: ./frontend/vue
+    volumes:
+      - ./frontend/vue:/code/
+    depends_on:
+      - express
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+  cypress:
+    build: ./integration-tests/frontend-tests
+    volumes:
+      - ./integration-tests/frontend-tests:/code/
+    depends_on:
+      - vue
 volumes:
   db-data:
