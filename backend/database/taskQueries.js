@@ -32,10 +32,15 @@ function updateCompletedStatus(user_id, id, completed_at = null) {
   return db("tasks").update({completed_at}).where({user_id, deleted_at: null, id});
 }
 
+function updateTask(userId, taskId, task) {
+  return db("tasks").update(task).where({id: taskId, user_id: userId, deleted_at: null});
+}
+
 module.exports = {
   insertTask,
   getAllUsersTasks,
   getOneUsersTask,
   markTaskAsCompleted,
-  markTaskAsUncompleted
+  markTaskAsUncompleted,
+  updateTask
 }

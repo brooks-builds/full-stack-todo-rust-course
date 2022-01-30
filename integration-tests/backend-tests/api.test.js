@@ -278,7 +278,48 @@ describe("todo api", () => {
         expect(dbTask.completed_at).toBe(null);
       });
 
-      test.todo("should be able to update all fields in the task");
+      test("should be able to update all fields in the task", async () => {
+        const [user, headers] = await createUser();
+        const initialTask = {
+          priority: "A",
+          title: "Stream",
+          description: "Stream something on Twitch"
+        };
+        const createdTaskResponse = await axios.post(`${baseUrl}/tasks`, initialTask, {headers});
+        const createdTask = createdTaskResponse.data.data;
+        const now = new Date();
+        const updateTask = {
+          priority: "B",
+          title: "Create YouTube Video",
+          description: "Meant to create a YouTube video instead",
+          completed_at: now.toUTCString()
+        };
+        await axios.patch(`${baseUrl}/tasks/${createdTask.id}`, updateTask, {headers});
+        const dbTask = await db.select().from("tasks").where({id: createdTask.id}).first();
+        expect(dbTask.priority).toBe(updateTask.priority);
+        expect(dbTask.title).toBe(updateTask.title);
+        expect(dbTask.description).toBe(updateTask.description);
+      });
+
+      test("can update some of the task without losing data", async () => {
+        const [user, headers] = await createUser();
+        const initialTask = {
+          priority: "A",
+          title: "Stream",
+          description: "Stream something on Twitch"
+        };
+        const createdTaskResponse = await axios.post(`${baseUrl}/tasks`, initialTask, {headers});
+        const createdTask = createdTaskResponse.data.data;
+        const updateTask = {
+          description: "Meant to create a LinkedIn video instead"
+        };
+        await axios.patch(`${baseUrl}/tasks/${createdTask.id}`, updateTask, {headers});
+        const dbTask = await db.select().from("tasks").where({id: createdTask.id}).first();
+        expect(dbTask.priority).toBe(initialTask.priority);
+        expect(dbTask.title).toBe(initialTask.title);
+        expect(dbTask.description).toBe(updateTask.description);
+      });
+
       test.todo("should not be able to mark other users tasks as completed");
       test.todo("should not be able to update other users tasks");
     });
