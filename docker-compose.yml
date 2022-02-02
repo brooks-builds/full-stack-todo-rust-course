@@ -13,6 +13,8 @@ services:
       - ./backend/:/code/
     depends_on:
       - database
+    expose:
+      - "3000"
     ports:
       - "3000:3000"
     environment:
