@@ -5,6 +5,7 @@
       <router-view
         @usernameSet="handleCreateAccountUsernameSet"
         @passwordSet="handleCreateAccountPasswordSet"
+        @createAccount="handleCreateAccount"
       />
     </main>
   </div>
@@ -18,6 +19,10 @@ export default {
     navbar,
   },
   methods: {
+    handleCreateAccount() {
+      this.$store.dispatch('createAccount');
+    },
+
     handleCreateAccountUsernameSet(username) {
       this.$store.commit("setCreateAccountUsername", username);
     },

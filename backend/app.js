@@ -3,11 +3,13 @@ require('dotenv').config()
 const bodyParser = require('body-parser');
 const express = require('express');
 const {tasksRouter, usersRouter} = require('./routes');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use("/api/v1/tasks", tasksRouter);
 app.use("/api/v1/users", usersRouter);

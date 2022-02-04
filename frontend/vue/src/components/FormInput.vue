@@ -4,6 +4,7 @@
       :type="type"
       :name="label"
       :placeholder="label"
+      :value="value"
       @input="handleChange"
     />
   </div>
@@ -13,6 +14,7 @@
 export default {
   props: {
     label: String,
+    value: String,
     type: String,
   },
   methods: {

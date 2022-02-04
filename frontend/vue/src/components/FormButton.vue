@@ -1,5 +1,5 @@
 <template>
-  <button :class="calculateStatus" :disabled="disabled">{{ label }}</button>
+  <button :class="calculateStatus" :disabled="disabled" @click="handleClick">{{ label }}</button>
 </template>
 
 <script>
@@ -18,6 +18,11 @@ export default {
       return this.status;
     },
   },
+  methods: {
+    handleClick() {
+      this.$emit("click")
+    }
+  }
 };
 </script>
 

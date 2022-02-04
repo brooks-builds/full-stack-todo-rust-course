@@ -2,4 +2,4 @@ FROM node:latest
 EXPOSE 3000
 VOLUME /code
 WORKDIR /code
-CMD npm run dev
+CMD npm i && npm run dev

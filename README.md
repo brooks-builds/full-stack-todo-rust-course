@@ -10,10 +10,8 @@ wip - we are building this out now in prep for the real course
 - [x] Create the database schema
 - [x] Create init.sql file
 - [x] Dockerize database
-- [ ] Create the backend
-- [ ] Put a unique constraint on the username field in the db
-- [ ] Create list of components to make
-- [ ] Create atomic components
+- [x] Create the backend
+- [x] Put a unique constraint on the username field in the db
 - [ ] Create the frontend
 - [ ] Set up docker compose for all of the pieces
 
@@ -60,6 +58,7 @@ wip - we are building this out now in prep for the real course
 - [ ] As a logged in doer, I want to assign a task a priority
 - [ ] As a logged in doer, I want to sort my tasks by priority
 - [ ] As a logged in doer, I want to filter my tasks by priority
+- [ ] As a user, when an error occurs I want to see what happened
 
 ## Design
 
