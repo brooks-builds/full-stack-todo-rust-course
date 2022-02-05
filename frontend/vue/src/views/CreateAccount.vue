@@ -1,17 +1,19 @@
 <template>
   <div class="create-account">
     <h1>Create Account</h1>
-    <form-input label="username" type="text" v-model="username" />
+    <form-input label="username" type="text" v-model="username" data-test-username />
     <form-input
       label="password"
       type="password"
       v-model="password"
+      data-test-password
     />
     <form-button
       label="Create Account"
       status="ok"
       :disabled="isFormValid"
       @click="handleFormSubmitted"
+      data-test-submit
     ></form-button>
   </div>
 </template>

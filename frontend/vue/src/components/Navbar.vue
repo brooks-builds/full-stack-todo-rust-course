@@ -1,8 +1,8 @@
 <template>
   <section>
-    <router-link to="/" class="title">My Todo App</router-link>
+    <router-link to="/" class="title" data-test-logo>My Todo App</router-link>
     <div>
-      <router-link to="/create-account" class="auth"
+      <router-link to="/create-account" class="auth" data-test-create-account
         >Create Account</router-link
       >
       <router-link to="/" class="auth">Login</router-link>
