@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3000/api/v1';
+const baseUrl = `${process.env.VUE_APP_API_URI}/api/v1`;
+console.log(baseUrl)
 
 export async function createAccount(newAccount) {
   try {
