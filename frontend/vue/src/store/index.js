@@ -12,6 +12,7 @@ export default new Vuex.Store({
       password: null
     },
     errorMessage: '',
+    tasks: [],
     user: {
       username: null,
       token: null,
@@ -22,7 +23,9 @@ export default new Vuex.Store({
     resetAccountForm(state) {
       Vue.set(state, 'accountForm', {username: null, password: null});
     },
-
+    resetTasks(state, tasks = []) {
+      Vue.set(state, 'tasks', tasks);
+    },
     setAccountFormPassword(state, password) {
       Vue.set(state.accountForm, 'password', password);
     },
@@ -37,7 +40,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async createAccount({commit, getters, state}) {
+    async createAccount({commit, getters, state, dispatch}) {
       if(!getters.accountFormValid) {
         commit("setErrorMessage", "Can't create account, missing usersname and/or password");
         return;
@@ -47,13 +50,19 @@ export default new Vuex.Store({
         const createdAccount = await api.createAccount(state.accountForm);
         commit('setUser', createdAccount.data);
         commit("resetAccountForm")
+        dispatch("loadTasksFromApi");
         router.push("/")
       } catch (error) {
         commit("setErrorMessage", error.message);
       }
     },
 
-    async login({state, commit, getters}) {
+    async loadTasksFromApi({state, commit}) {
+      const tasks = await api.getTasks(state.user.token);
+      commit("resetTasks", tasks);
+    },
+
+    async login({state, commit, getters, dispatch}) {
       if(!getters.accountFormValid) {
         commit("setErrorMessage", "Can't login, missing usersname and/or password");
         return;
@@ -62,7 +71,8 @@ export default new Vuex.Store({
       try {
         const account = await api.login(state.accountForm);
         commit('setUser', account.data);
-        commit("resetAccountForm")
+        commit("resetAccountForm");
+        dispatch("loadTasksFromApi");
         router.push("/")
       } catch (error) {
         commit("setErrorMessage", error.message);

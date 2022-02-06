@@ -162,9 +162,9 @@ describe("todo api", () => {
       test("should be able to get all my tasks", async () => {
         const createdTasks = await axios.get(`${baseUrl}/tasks`, {headers: getAllTasksHeaders});
         expect(createdTasks.data.data.length).toBe(5);
-        expect(createdTasks.data.data[2].title).toBe("task 1");
-        expect(createdTasks.data.data[3].title).toBe("task 2");
-        expect(createdTasks.data.data[4].title).toBe("task 3");
+        expect(createdTasks.data.data[0]).not.toHaveProperty("deleted_at")
+        expect(createdTasks.data.data[0]).not.toHaveProperty("is_default");
+        expect(createdTasks.data.data[0]).not.toHaveProperty("user_id");
       });
 
       test("should not be able to get any tasks when logged out", async () => {

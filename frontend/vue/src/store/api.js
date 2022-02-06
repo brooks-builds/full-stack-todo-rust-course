@@ -22,3 +22,13 @@ export async function login(account) {
     throw error;
   }
 }
+
+export async function getTasks(token) {
+  try {
+    const result = await axios.get(`${baseUrl}/tasks`, {headers: {"x-auth-token": token}});
+    return result.data.data;
+  } catch(error) {
+    console.error("error getting all tasks", error);
+    throw error
+  }
+}
