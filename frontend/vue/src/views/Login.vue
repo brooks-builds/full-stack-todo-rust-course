@@ -1,6 +1,6 @@
 <template>
-  <div class="create-account">
-    <h1>Create Account</h1>
+  <div class="login">
+    <h1>Login</h1>
     <form-input
       label="username"
       type="text"
@@ -14,7 +14,7 @@
       data-test-password
     />
     <form-button
-      label="Create Account"
+      label="Login"
       status="ok"
       :disabled="isFormValid"
       @click="handleFormSubmitted"
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     handleFormSubmitted() {
-      this.$emit("createAccount");
+      this.$emit("login");
     },
   },
   computed: {
@@ -61,7 +61,7 @@ export default {
 </script>
 
 <style scoped>
-.create-account {
+.login {
   text-align: center;
 }
 </style>

@@ -53,6 +53,8 @@ router.route('/login')
       }
       dbUser.token = createToken({username: dbUser.username});
       await userQueries.addTokenToUser(dbUser.token, dbUser.id);
+      delete dbUser.deleted_at;
+      delete dbUser.password;
       res.json({data: dbUser});
     } catch(error) {
       res.status(error.code|| 500).json({error: error.message});

@@ -45,7 +45,7 @@ wip - we are building this out now in prep for the real course
 
 - [x] As a doer, I want to create an account
   - [x] Set base url as a environment variable
-- [ ] As a doer, I want to log in to my existing account
+- [x] As a doer, I want to log in to my existing account
 - [ ] As a doer logging in for the first time, I want my account to see default tasks
 - [ ] As a logged in doer, I want to see a list of my tasks
 - [ ] As a logged in doer, I want to click on a task and see it's details

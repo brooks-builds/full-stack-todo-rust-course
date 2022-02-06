@@ -12,3 +12,13 @@ export async function createAccount(newAccount) {
     throw error;
   }
 }
+
+export async function login(account) {
+  try {
+    const result = await axios.post(`${baseUrl}/users/login`, account);
+    return result.data;
+  } catch(error) {
+    console.error("Error logging in", error);
+    throw error;
+  }
+}

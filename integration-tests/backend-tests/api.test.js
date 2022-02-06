@@ -372,6 +372,8 @@ function checkLoggedInUser(userFromApi, testUser) {
   expect(typeof userFromApi.token).toBe("string");
   const token = jwt.verify(userFromApi.token, JWT_SECRET);
   expect(token.username).toBe(testUser.username);
+  expect(userFromApi).not.toHaveProperty("deleted_at");
+  expect(userFromApi).not.toHaveProperty("password");
 }
 
 async function createUser(username = Math.random()) {
