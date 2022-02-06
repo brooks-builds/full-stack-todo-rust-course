@@ -59,8 +59,11 @@ export default new Vuex.Store({
     createAccountFormValid(state) {
       return !!state.createAccount.username && !!state.createAccount.password
     },
-    loggedIn() {
-      return false
+    loggedIn(state) {
+      return !!state.user.token
+    },
+    username(state) {
+      return state.user.username
     }
   }
 })

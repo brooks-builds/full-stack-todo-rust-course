@@ -13,7 +13,7 @@ describe("todo app", () => {
   })
 
   describe("creating an account", () => {
-    it("should be able to create an account", () => {
+    it.only("should be able to create an account", () => {
       const username = faker.internet.userName();
       const password = faker.internet.password();
 
@@ -28,7 +28,11 @@ describe("todo app", () => {
         .get("[data-test-password")
         .type(password)
         .get("[data-test-submit")
-        .click();
+        .click()
+        .get("[data-test-create-account]")
+        .should("not.exist")
+        .get("[data-test-login]")
+        .should("not.exist")
     })
   })
 })

@@ -1,2 +1,4 @@
 **/node_modules
 **/.env
+**/integration-tests/**/*.mp4
+**/integration-tests/**/*.png

@@ -1,11 +1,14 @@
 <template>
   <section>
     <router-link to="/" class="title" data-test-logo>My Todo App</router-link>
-    <div>
+    <div v-if="!$store.getters.loggedIn">
       <router-link to="/create-account" class="auth" data-test-create-account
         >Create Account</router-link
       >
       <router-link to="/" class="auth">Login</router-link>
+    </div>
+    <div v-else>
+      <p>Welcome, {{ $store.getters.username }}</p>
     </div>
   </section>
 </template>
