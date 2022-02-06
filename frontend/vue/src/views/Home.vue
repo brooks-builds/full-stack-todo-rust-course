@@ -12,7 +12,7 @@
           />
           <label :for="taskId(task.id)"></label>
         </span>
-        <span>{{ task.title }}</span>
+        <router-link :to="taskLink(task.id)">{{ task.title }}</router-link>
       </div>
     </section>
   </div>
@@ -28,6 +28,9 @@ export default {
     },
   },
   methods: {
+    taskLink(taskId) {
+      return `/tasks/${taskId}`;
+    },
     taskId(taskId) {
       return `completed-${taskId}`;
     },
@@ -72,6 +75,15 @@ input[type="checkbox"] {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
+}
+
+.task {
+  margin-bottom: 1rem;
+}
+
+.task > a {
+  text-decoration: none;
+  color: lightblue;
 }
 
 .task > span {
