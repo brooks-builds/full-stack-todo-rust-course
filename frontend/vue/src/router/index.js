@@ -23,7 +23,8 @@ const routes = [
   },
   {
     path: '/tasks/:taskId',
-    component: Task
+    component: Task,
+    name: "one task"
   }
 ]
 

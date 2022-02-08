@@ -1,6 +1,8 @@
 <template>
   <section class="one-task">
-    <h1>{{ task.title }}</h1>
+    <h1>
+      {{ task.title }}
+    </h1>
     <div>
       <span v-if="!task.completed_at">Completed: </span>
       <form-checkbox :checked="!!task.completed_at" :id="task.id" />

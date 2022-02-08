@@ -60,6 +60,8 @@ wip - we are building this out now in prep for the real course
 - [ ] As a logged in doer, I want to sort my tasks by priority
 - [ ] As a logged in doer, I want to filter my tasks by priority
 - [ ] As a user, when an error occurs I want to see what happened
+- [ ] As a logged in doer viewing task details, I want to complete a task
+- [ ] As a logged in doer viewing task details, I want to uncomplete a task
 
 ## Clean up and Polish
 

@@ -1,6 +1,9 @@
 <template>
   <section>
     <router-link to="/" class="title" data-test-logo>My Todo App</router-link>
+    <div class="edit-task" v-if="inOneTask">
+      <form-button label="Edit Task" size="small" status="info" />
+    </div>
     <div v-if="!$store.getters.loggedIn">
       <router-link to="/create-account" class="auth" data-test-create-account
         >Create Account</router-link
@@ -12,6 +15,21 @@
     </div>
   </section>
 </template>
+
+<script>
+import FormButton from "./FormButton.vue";
+
+export default {
+  components: {
+    FormButton,
+  },
+  computed: {
+    inOneTask() {
+      return this.$route.name == "one task";
+    },
+  },
+};
+</script>
 
 <style scoped>
 section {

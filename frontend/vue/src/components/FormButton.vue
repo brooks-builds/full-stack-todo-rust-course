@@ -1,5 +1,7 @@
 <template>
-  <button :class="calculateStatus" :disabled="disabled" @click="handleClick">{{ label }}</button>
+  <button :class="classes" :disabled="disabled" @click="handleClick">
+    {{ label }}
+  </button>
 </template>
 
 <script>
@@ -8,21 +10,22 @@ export default {
     label: String,
     status: String,
     disabled: Boolean,
+    size: String,
   },
   computed: {
-    calculateStatus() {
+    classes() {
       if (this.disabled) {
         return "disabled";
       }
 
-      return this.status;
+      return `${this.status} ${this.size}`;
     },
   },
   methods: {
     handleClick() {
-      this.$emit("click")
-    }
-  }
+      this.$emit("click");
+    },
+  },
 };
 </script>
 
@@ -37,8 +40,16 @@ button {
   background-color: green;
 }
 
+.info {
+  background-color: aquamarine;
+}
+
 .disabled {
   background-color: grey;
   color: black;
+}
+
+.small {
+  width: auto;
 }
 </style>
