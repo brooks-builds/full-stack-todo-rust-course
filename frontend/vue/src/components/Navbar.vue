@@ -5,7 +5,7 @@
       <router-link to="/create-account" class="auth" data-test-create-account
         >Create Account</router-link
       >
-      <router-link to="/login" class="auth">Login</router-link>
+      <router-link to="/login" class="auth" data-test-login>Login</router-link>
     </div>
     <div v-else>
       <p data-test-welcome>Welcome, {{ $store.getters.username }}</p>

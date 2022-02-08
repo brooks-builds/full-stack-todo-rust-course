@@ -13,7 +13,7 @@ describe("todo app", () => {
   })
 
   describe("creating an account", () => {
-    it.only("should be able to create an account", () => {
+    it("should be able to create an account", () => {
       const username = faker.internet.userName();
       const password = faker.internet.password();
 
@@ -37,6 +37,41 @@ describe("todo app", () => {
         .should("contain", `Welcome, ${username}`)
         .url()
         .should("not.contain", "/create-account")
+    })
+  });
+
+  describe("logging into an account", () => {
+    const username = faker.internet.userName();
+    const password = faker.internet.password();
+
+    before(() => {
+      cy
+        .visit("/create-account")
+        .get("[data-test-username]")
+        .type(username)
+        .get("[data-test-password")
+        .type(password)
+        .get("[data-test-submit")
+        .click()
+    })
+
+    it("should be able to log into an existing account", () => {
+      cy
+        .visit("/")
+        .get("[data-test-login]")
+        .click()
+        .url()
+        .should("contain", "/login")
+        .get("[data-test-username]")
+        .type(username)
+        .get("[data-test-password]")
+        .type(password)
+        .get("[data-test-submit]")
+        .click()
+        .url()
+        .should("not.contain", "/login")
+        .get("[data-test-welcome]")
+        .should("contain", `Welcome, ${username}`)
     })
   })
 })
