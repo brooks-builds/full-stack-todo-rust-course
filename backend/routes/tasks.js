@@ -19,7 +19,7 @@ router.route("/")
     try {
       const createdTask = await insertTask(priority, title, completed_at, description, req.user.id);
       return res.json({
-        data: createdTask
+        data: createdTask[0]
       })
     } catch (error) {
       return next(error);

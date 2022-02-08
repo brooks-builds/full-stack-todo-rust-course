@@ -362,6 +362,10 @@ describe("todo api", () => {
       const tasksResponse = await axios.get(`${baseUrl}/tasks`, {headers});
       const tasks = tasksResponse.data.data;
       expect(tasks.length).toBe(2);
+      const aTask = tasks.find(task => task.priority == 'A');
+      expect(aTask.title).toBe("I am a task, you can complete me by checking the box");
+      const bTask = tasks.find(task => task.priority == "B");
+      expect(bTask.title).toBe("See my details for by clicking me");
     });
   })
 })

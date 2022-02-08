@@ -2,15 +2,15 @@
   <div class="home">
     <h1>My Tasks</h1>
     <section class="tasks">
-      <div v-for="task in tasks" v-bind:key="task.id" class="task" data-test-task>
+      <div
+        v-for="task in tasks"
+        v-bind:key="task.id"
+        class="task"
+        data-test-task
+      >
         <span class="priority">{{ task.priority }}</span>
         <span>
-          <input
-            type="checkbox"
-            :id="taskId(task.id)"
-            :checked="task.completed"
-          />
-          <label :for="taskId(task.id)"></label>
+          <form-checkbox :id="taskId(task.id)" :checked="!!task.completed_at" />
         </span>
         <router-link :to="taskLink(task.id)">{{ task.title }}</router-link>
       </div>
@@ -19,9 +19,13 @@
 </template>
 
 <script>
+import FormCheckbox from "../components/FormCheckbox.vue";
+
 export default {
   name: "Home",
-  components: {},
+  components: {
+    FormCheckbox,
+  },
   computed: {
     tasks() {
       return this.$store.state.tasks;
@@ -46,29 +50,6 @@ h1 {
 
 .home {
   text-align: center;
-}
-
-input[type="checkbox"] + label::before {
-  content: "\a0";
-  display: inline-block;
-  vertical-align: 0.2rem;
-  width: 3rem;
-  height: 3rem;
-  margin-right: 0.2rem;
-  border-radius: 0.2rem;
-  background: silver;
-  text-indent: 0.15rem;
-  line-height: 0.65;
-}
-
-input[type="checkbox"]:checked + label::before {
-  content: "\2713";
-  background: green;
-}
-
-input[type="checkbox"] {
-  position: absolute;
-  clip: rect(0, 0, 0, 0);
 }
 
 .tasks {

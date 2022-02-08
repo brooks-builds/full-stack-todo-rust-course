@@ -48,8 +48,8 @@ wip - we are building this out now in prep for the real course
 - [x] As a doer, I want to log in to my existing account √
 - [x] As a doer logging in for the first time, I want my account to see default tasks
 - [x] As a logged in doer, I want to see a list of my tasks
-- [ ] As a logged in doer, I want to click on a task and see it's details
-  - [ ] break out the checkbox as its own component
+- [x] As a logged in doer, I want to click on a task and see it's details
+  - [x] break out the checkbox as its own component
 - [ ] As a logged in doer viewing task details, I want to edit the task name and description
 - [ ] As a logged in doer, I want to create a task
 - [ ] As a logged in doer, I want to mark my tasks as complete
@@ -60,6 +60,11 @@ wip - we are building this out now in prep for the real course
 - [ ] As a logged in doer, I want to sort my tasks by priority
 - [ ] As a logged in doer, I want to filter my tasks by priority
 - [ ] As a user, when an error occurs I want to see what happened
+
+## Clean up and Polish
+
+- [ ] Come up with a font that doesn't suck
+- [ ] Update colors to be nice and less eye bleeding
 
 ## Design
 
