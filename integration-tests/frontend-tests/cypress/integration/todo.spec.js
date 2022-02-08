@@ -74,4 +74,30 @@ describe("todo app", () => {
         .should("contain", `Welcome, ${username}`)
     })
   })
+
+  describe("default todo items", () => {
+    const username = faker.internet.userName()
+    const password = faker.internet.password()
+
+    before(() => {
+      cy
+        .visit("/create-account")
+        .get("[data-test-username]")
+        .type(username)
+        .get("[data-test-password]")
+        .type(password)
+        .get("[data-test-submit]")
+        .click()
+    })
+
+    it("should exist on newly created accounts", () => {
+      cy
+        .get("[data-test-task]")
+        .should("have.length", 2)
+        .get("[data-test-task]")
+        .should("contain", "I am a task, you can complete me by checking the box")
+        .get("[data-test-task]")
+        .should("contain", "See my details for by clicking me")
+    })
+  })
 })

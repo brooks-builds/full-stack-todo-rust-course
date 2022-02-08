@@ -2,7 +2,7 @@
   <div class="home">
     <h1>My Tasks</h1>
     <section class="tasks">
-      <div v-for="task in tasks" v-bind:key="task.id" class="task">
+      <div v-for="task in tasks" v-bind:key="task.id" class="task" data-test-task>
         <span class="priority">{{ task.priority }}</span>
         <span>
           <input
