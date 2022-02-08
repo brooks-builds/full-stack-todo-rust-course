@@ -8,7 +8,7 @@
       <router-link to="/login" class="auth">Login</router-link>
     </div>
     <div v-else>
-      <p>Welcome, {{ $store.getters.username }}</p>
+      <p data-test-welcome>Welcome, {{ $store.getters.username }}</p>
     </div>
   </section>
 </template>

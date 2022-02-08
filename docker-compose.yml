@@ -44,6 +44,8 @@ services:
     environment:
       - VUE_APP_API_URI=http://localhost:3000
   cypress:
+    profiles:
+      - cicd
     build: ./integration-tests/frontend-tests
     volumes:
       - ./integration-tests/frontend-tests:/code/

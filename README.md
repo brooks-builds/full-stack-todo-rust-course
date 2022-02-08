@@ -43,7 +43,7 @@ wip - we are building this out now in prep for the real course
 
 ## user stories
 
-- [x] As a doer, I want to create an account
+- [x] As a doer, I want to create an account √
   - [x] Set base url as a environment variable
 - [x] As a doer, I want to log in to my existing account
 - [x] As a doer logging in for the first time, I want my account to see default tasks
