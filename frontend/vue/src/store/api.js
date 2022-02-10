@@ -31,3 +31,13 @@ export async function getTasks(token) {
     throw error
   }
 }
+
+export async function updateTask(task, token) {
+  try {
+    const result = await axios.patch(`${baseUrl}/tasks/${task.id}`, task, {headers: {"x-auth-token": token}});
+    return result.data.data;
+  } catch(error) {
+    console.error("Error updating task", error);
+    throw error;
+  }
+}

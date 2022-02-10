@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {cloneDeep} from 'lodash'
 import * as api from './api'
 import router from '../router';
 
@@ -10,6 +11,13 @@ export default new Vuex.Store({
     accountForm: {
       username: null,
       password: null
+    },
+    editedTask: {
+      id: null,
+      title: null,
+      completed: null,
+      priority: null,
+      description: null
     },
     editingOneTask: false,
     errorMessage: '',
@@ -33,6 +41,15 @@ export default new Vuex.Store({
     setAccountFormUsername(state, username) {
       Vue.set(state.accountForm, 'username', username);
     },
+    setEditedTask(state, editedTask) {
+      Vue.set(state, "editedTask", editedTask);
+    },
+    setEditTaskDescription(state, taskDescription) {
+      Vue.set(state.editedTask, "description", taskDescription);
+    },
+    setEditTaskTitle(state, taskTitle) {
+      Vue.set(state.editedTask, "title", taskTitle);
+    },
     setErrorMessage(state, errorMessage) {
       Vue.set(state, 'errorMessage', errorMessage);
     },
@@ -44,6 +61,13 @@ export default new Vuex.Store({
     },
     turnOnEditTaskMode(state) {
       Vue.set(state, "editingOneTask", true);
+    },
+    updateTask(state, updatedTask) {
+      const clonedTasks = cloneDeep(state.tasks);
+      const taskIndex = clonedTasks.findIndex(task => task.id == updatedTask.id);
+      if(!taskIndex) throw new Error(`could not find task with id ${updatedTask.id}`);
+      clonedTasks[taskIndex] = updatedTask;
+      Vue.set(state, "tasks", clonedTasks);
     }
   },
   actions: {
@@ -84,6 +108,19 @@ export default new Vuex.Store({
       } catch (error) {
         commit("setErrorMessage", error.message);
       }
+    },
+    async saveTask({state, commit}) {
+      await api.updateTask(state.editedTask, state.user.token);
+      commit("updateTask", state.editedTask);
+      commit("turnOffEditTaskMode");
+    },
+    switchToEditMode({commit, state}, taskId) {
+      if(!taskId) return commit("setErrorMessage", "No task ID, please try logging in and then retry");
+      const currentTask = state.tasks.find(task => task.id == taskId);
+      if(!currentTask) return commit("setErrorMessage", `Could not find task with id ${taskId}`);
+
+      commit("setEditedTask", Object.assign({}, currentTask));
+      commit("turnOnEditTaskMode");
     }
   },
   modules: {

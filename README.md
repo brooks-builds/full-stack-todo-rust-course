@@ -50,7 +50,7 @@ wip - we are building this out now in prep for the real course
 - [x] As a logged in doer, I want to see a list of my tasks √
 - [x] As a logged in doer, I want to click on a task and see it's details √
   - [x] break out the checkbox as its own component
-- [ ] As a logged in doer viewing task details, I want to edit the task name and description
+- [x] As a logged in doer viewing task details, I want to edit the task name and description
 - [ ] As a logged in doer, I want to create a task
 - [ ] As a logged in doer, I want to mark my tasks as complete
 - [ ] As a logged out doer, I don't want to be able to see my tasks
@@ -62,12 +62,16 @@ wip - we are building this out now in prep for the real course
 - [ ] As a user, when an error occurs I want to see what happened
 - [ ] As a logged in doer viewing task details, I want to complete a task
 - [ ] As a logged in doer viewing task details, I want to uncomplete a task
+- [ ] As a logged in doer editing a task, I want to cancel without saving
 
 ## Clean up and Polish
 
 - [ ] Come up with a font that doesn't suck
 - [ ] Update colors to be nice and less eye bleeding
 - [ ] Handle attempting to log in with a user that doesn't exist better (500 error right now)
+- [ ] Handle if the user isn't logged in, but tries to see a protected page
+- [ ] Keep the user logged in over page refreshes
+- [ ] check other browsers
 
 ## Design
 

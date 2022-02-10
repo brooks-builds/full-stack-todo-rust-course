@@ -2,7 +2,13 @@
   <section>
     <router-link to="/" class="title" data-test-logo>My Todo App</router-link>
     <div class="edit-task" v-if="inOneTask">
-      <form-button label="Edit Task" size="small" status="info" data-test-edit @click="handleEditClicked" />
+      <form-button
+        label="Edit Task"
+        size="small"
+        status="info"
+        data-test-edit
+        @click="handleEditClicked"
+      />
     </div>
     <div v-if="!$store.getters.loggedIn">
       <router-link to="/create-account" class="auth" data-test-create-account
@@ -25,7 +31,14 @@ export default {
   },
   computed: {
     inOneTask() {
-      return this.$route.name == "one task";
+      return (
+        this.$route.name == "one task" && !this.$store.state.editingOneTask
+      );
+    },
+  },
+  methods: {
+    handleEditClicked() {
+      this.$emit("editTask");
     },
   },
 };

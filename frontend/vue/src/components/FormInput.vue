@@ -33,6 +33,7 @@ input {
   padding: 0.5rem;
   margin: 1rem 0;
   width: 50%;
+  background-color: blanchedalmond;
 }
 
 .label {

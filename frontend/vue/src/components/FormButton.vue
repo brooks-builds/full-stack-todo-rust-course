@@ -52,4 +52,8 @@ button {
 .small {
   width: auto;
 }
+
+.medium {
+  width: 15%;
+}
 </style>
