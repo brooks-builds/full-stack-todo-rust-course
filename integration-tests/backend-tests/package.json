@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watchAll --detectOpenHandles"
+    "pretest:watch": "npm i",
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "bcrypt": "^5.0.1"

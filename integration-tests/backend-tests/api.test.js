@@ -368,6 +368,10 @@ describe("todo api", () => {
       expect(bTask.title).toBe("See my details for by clicking me");
     });
   })
+
+  afterAll(async () => {
+    await db.destroy();
+  })
 })
 
 function checkLoggedInUser(userFromApi, testUser) {
