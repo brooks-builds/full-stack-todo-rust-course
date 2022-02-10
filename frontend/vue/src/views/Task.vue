@@ -1,15 +1,15 @@
 <template>
   <section class="one-task">
-    <h1>
+    <h1 data-test-title>
       {{ task.title }}
     </h1>
     <div>
       <span v-if="!task.completed_at">Completed: </span>
-      <form-checkbox :checked="!!task.completed_at" :id="task.id" />
+      <form-checkbox :checked="!!task.completed_at" :id="task.id" dataTest="completed" />
     </div>
-    <div class="priority">Priority: {{ task.priority }}</div>
+    <div class="priority" data-test-priority>Priority: {{ task.priority }}</div>
     <div class="description">
-      <p>{{ task.description }}</p>
+      <p data-test-description>{{ task.description }}</p>
     </div>
   </section>
 </template>

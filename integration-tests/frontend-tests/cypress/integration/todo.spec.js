@@ -100,4 +100,33 @@ describe("todo app", () => {
         .should("contain", "See my details for by clicking me")
     })
   })
+
+  describe.only("task details", () => {
+    it("should load the details for a single task", () => {
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
+
+      cy
+        .visit("/create-account")
+        .get("[data-test-username]")
+        .type(username)
+        .get("[data-test-password]")
+        .type(password)
+        .get("[data-test-submit]")
+        .click()
+        .get("[data-test-tasklink]")
+        .first()
+        .click()
+        .url()
+        .should("contain", "/tasks/")
+        .get("[data-test-title]")
+        .should("contain", "I am a task, you can complete me by checking the box")
+        .get("[data-test=completed]")
+        .should("not.be.checked")
+        .get("[data-test-priority]")
+        .should("contain", "A")
+        .get("[data-test-description]")
+        .should("contain", "This is my description")
+    })
+  })
 })

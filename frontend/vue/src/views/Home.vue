@@ -12,7 +12,7 @@
         <span>
           <form-checkbox :id="taskId(task.id)" :checked="!!task.completed_at" />
         </span>
-        <router-link :to="taskLink(task.id)">{{ task.title }}</router-link>
+        <router-link :to="taskLink(task.id)" data-test-tasklink>{{ task.title }}</router-link>
       </div>
     </section>
   </div>

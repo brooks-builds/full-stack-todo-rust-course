@@ -46,9 +46,9 @@ wip - we are building this out now in prep for the real course
 - [x] As a doer, I want to create an account √
   - [x] Set base url as a environment variable
 - [x] As a doer, I want to log in to my existing account √
-- [x] As a doer logging in for the first time, I want my account to see default tasks
-- [x] As a logged in doer, I want to see a list of my tasks
-- [x] As a logged in doer, I want to click on a task and see it's details
+- [x] As a doer logging in for the first time, I want my account to see default tasks √
+- [x] As a logged in doer, I want to see a list of my tasks √
+- [x] As a logged in doer, I want to click on a task and see it's details √
   - [x] break out the checkbox as its own component
 - [ ] As a logged in doer viewing task details, I want to edit the task name and description
 - [ ] As a logged in doer, I want to create a task
@@ -67,6 +67,7 @@ wip - we are building this out now in prep for the real course
 
 - [ ] Come up with a font that doesn't suck
 - [ ] Update colors to be nice and less eye bleeding
+- [ ] Handle attempting to log in with a user that doesn't exist better (500 error right now)
 
 ## Design
 
