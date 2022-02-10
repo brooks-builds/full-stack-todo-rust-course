@@ -11,6 +11,7 @@ export default new Vuex.Store({
       username: null,
       password: null
     },
+    editingOneTask: false,
     errorMessage: '',
     tasks: [],
     user: {
@@ -37,6 +38,12 @@ export default new Vuex.Store({
     },
     setUser(state, user) {
       Vue.set(state, 'user', user);
+    },
+    turnOffEditTaskMode(state) {
+      Vue.set(state, "editingOneTask", false);
+    },
+    turnOnEditTaskMode(state) {
+      Vue.set(state, "editingOneTask", true);
     }
   },
   actions: {

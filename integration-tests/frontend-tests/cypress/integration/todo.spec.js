@@ -101,7 +101,7 @@ describe("todo app", () => {
     })
   })
 
-  describe.only("task details", () => {
+  describe("task details", () => {
     it("should load the details for a single task", () => {
       const username = faker.internet.userName();
       const password = faker.internet.password();
@@ -127,6 +127,27 @@ describe("todo app", () => {
         .should("contain", "A")
         .get("[data-test-description]")
         .should("contain", "This is my description")
+    })
+
+    it.only("should be editable", () => {
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
+
+      cy
+        .visit("/create-account")
+        .get("[data-test-username]")
+        .type(username)
+        .get("[data-test-password]")
+        .type(password)
+        .get("[data-test-submit]")
+        .click()
+        .get("[data-test-tasklink]")
+        .first()
+        .click()
+        .get("[data-test-edit]")
+        .click()
+        .get("[data-test-editing-title]")
+        .type("!!!")
     })
   })
 })
