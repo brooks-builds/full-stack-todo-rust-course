@@ -34,6 +34,7 @@ button {
   height: 4rem;
   width: 51.5%;
   font-size: 2.5rem;
+  margin: 0 1rem;
 }
 
 .ok {

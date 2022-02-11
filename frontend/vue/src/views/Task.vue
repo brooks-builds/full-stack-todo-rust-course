@@ -24,13 +24,7 @@
       <p data-test-description>{{ task.description }}</p>
     </div>
     <div class="edit-description" v-else>
-      <textarea
-        name="edit-description"
-        id="edit-description"
-        cols="30"
-        rows="10"
-        v-model="editDescription"
-      ></textarea>
+      <form-text-area v-model="editDescription" />
     </div>
     <div class="buttons">
       <form-button label="Save" status="ok" size="medium" @click="handleSave" />
@@ -42,12 +36,14 @@
 import FormCheckbox from "../components/FormCheckbox.vue";
 import FormInput from "../components/FormInput.vue";
 import FormButton from "../components/FormButton.vue";
+import FormTextArea from "../components/FormTextArea.vue";
 
 export default {
   components: {
     FormCheckbox,
     FormInput,
     FormButton,
+    FormTextArea,
   },
   computed: {
     editDescription: {

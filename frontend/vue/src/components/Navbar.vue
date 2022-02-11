@@ -10,14 +10,28 @@
         @click="handleEditClicked"
       />
     </div>
-    <div v-if="!$store.getters.loggedIn">
-      <router-link to="/create-account" class="auth" data-test-create-account
-        >Create Account</router-link
-      >
-      <router-link to="/login" class="auth" data-test-login>Login</router-link>
-    </div>
-    <div v-else>
-      <p data-test-welcome>Welcome, {{ $store.getters.username }}</p>
+    <div class="nav-right">
+      <div class="add-task" v-if="$store.getters.loggedIn">
+        <router-link to="/add-task">
+          <form-button
+            label="Add Task"
+            size="small"
+            status="ok"
+            @click="handleNavToAddTask"
+          />
+        </router-link>
+      </div>
+      <div v-if="!$store.getters.loggedIn">
+        <router-link to="/create-account" class="auth" data-test-create-account
+          >Create Account</router-link
+        >
+        <router-link to="/login" class="auth" data-test-login
+          >Login</router-link
+        >
+      </div>
+      <div v-else>
+        <p data-test-welcome>Welcome, {{ $store.getters.username }}</p>
+      </div>
     </div>
   </section>
 </template>
@@ -40,6 +54,9 @@ export default {
     handleEditClicked() {
       this.$emit("editTask");
     },
+    handleNavToAddTask() {
+      this.$emit("navToAddTask");
+    },
   },
 };
 </script>
@@ -47,6 +64,10 @@ export default {
 <style scoped>
 section {
   border-bottom: 1px solid bisque;
+}
+
+section,
+.nav-right {
   padding: 0.5rem 2rem;
   display: flex;
   justify-content: space-between;

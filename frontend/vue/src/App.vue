@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app">
-    <navbar @editTask="handleEditTask" />
+    <navbar @editTask="handleEditTask" @navToAddTask="handleNavToAddTask" />
     <main>
       <router-view
         @usernameSet="handleCreateAccountUsernameSet"
@@ -10,6 +10,8 @@
         @editTitle="handleEditTitle"
         @editDescription="handleEditDescription"
         @saveTask="handleSaveTask"
+        @editPriority="handleEditPriority"
+        @createTask="handleCreateTask"
       />
     </main>
   </div>
@@ -39,6 +41,9 @@ export default {
     handleEditDescription(newTaskDescription) {
       this.$store.commit("setEditTaskDescription", newTaskDescription);
     },
+    handleEditPriority(priority) {
+      this.$store.commit("setEditPriority", priority);
+    },
     handleEditTitle(taskTitle) {
       this.$store.commit("setEditTaskTitle", taskTitle);
     },
@@ -47,6 +52,12 @@ export default {
     },
     handleSaveTask() {
       this.$store.dispatch("saveTask");
+    },
+    handleNavToAddTask() {
+      this.$store.dispatch("resetEditTask");
+    },
+    handleCreateTask() {
+      this.$store.dispatch("createTask");
     },
   },
 };

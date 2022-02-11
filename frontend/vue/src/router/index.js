@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import CreateAccount from '../views/CreateAccount.vue'
 import Login from '../views/Login.vue'
 import Task from '../views/Task.vue';
+import AddTask from '../views/AddTask.vue';
 
 Vue.use(VueRouter)
 
@@ -25,6 +26,11 @@ const routes = [
     path: '/tasks/:taskId',
     component: Task,
     name: "one task"
+  },
+  {
+    path: '/add-task',
+    component: AddTask,
+    name: "add task"
   }
 ]
 

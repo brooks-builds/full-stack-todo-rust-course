@@ -41,3 +41,13 @@ export async function updateTask(task, token) {
     throw error;
   }
 }
+
+export async function createTask(task, token) {
+  try {
+    const result = await axios.post(`${baseUrl}/tasks`, task, {headers: {"x-auth-token": token}});
+    return result.data.data;
+  } catch(error) {
+    console.error("Error creating task", error);
+    throw error;
+  }
+}

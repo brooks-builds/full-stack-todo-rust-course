@@ -41,6 +41,9 @@ export default new Vuex.Store({
     setAccountFormUsername(state, username) {
       Vue.set(state.accountForm, 'username', username);
     },
+    setEditPriority(state, priority) {
+      Vue.set(state.editedTask, "priority", priority);
+    },
     setEditedTask(state, editedTask) {
       Vue.set(state, "editedTask", editedTask);
     },
@@ -65,9 +68,14 @@ export default new Vuex.Store({
     updateTask(state, updatedTask) {
       const clonedTasks = cloneDeep(state.tasks);
       const taskIndex = clonedTasks.findIndex(task => task.id == updatedTask.id);
-      if(!taskIndex) throw new Error(`could not find task with id ${updatedTask.id}`);
+      if(taskIndex == -1) throw new Error(`could not find task with id ${updatedTask.id}`);
       clonedTasks[taskIndex] = updatedTask;
       Vue.set(state, "tasks", clonedTasks);
+    },
+    appendTask(state, task) {
+      const clonedTasks = cloneDeep(state.tasks);
+      clonedTasks.push(task);
+      Vue.set(state, 'tasks', clonedTasks);
     }
   },
   actions: {
@@ -121,6 +129,20 @@ export default new Vuex.Store({
 
       commit("setEditedTask", Object.assign({}, currentTask));
       commit("turnOnEditTaskMode");
+    },
+    resetEditTask({commit, state}) {
+      const editTask = Object.assign({}, state.editedTask);
+      editTask.id = null;
+      editTask.completed = null;
+      editTask.description = null;
+      editTask.priority = 'A';
+      editTask.title = null;
+      commit("setEditedTask", editTask);
+    },
+    async createTask({state, commit}) {
+      const createdTask = await api.createTask(state.editedTask, state.user.token);
+      commit("appendTask", createdTask);
+      router.push("/")
     }
   },
   modules: {
