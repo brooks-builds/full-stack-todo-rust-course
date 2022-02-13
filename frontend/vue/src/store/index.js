@@ -31,7 +31,13 @@ export default new Vuex.Store({
       {value: "A", label: "A", default: true},
       {value: "B", label: "B", default: false},
       {value: "C", label: "C", default: false},
-    ]
+    ],
+    sortBy: [
+      {value: "priority", label: "Priority", default: false},
+      {value: "name", label: "Name", default: false},
+      {value: "id", label: "Created Order", default: true},
+    ],
+    selectedSortBy: "id",
   },
   mutations: {
     resetAccountForm(state) {
@@ -100,6 +106,9 @@ export default new Vuex.Store({
       const clonedTasks = cloneDeep(state.tasks);
       const filteredTasks = clonedTasks.filter(task => task.id != taskId);
       Vue.set(state, 'tasks', filteredTasks);
+    },
+    setSelectedSortBy(state, sortBy) {
+      Vue.set(state, "selectedSortBy", sortBy);
     }
   },
   actions: {

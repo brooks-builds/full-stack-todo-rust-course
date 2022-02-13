@@ -35,6 +35,10 @@ export default {
 </script>
 
 <style scoped>
+.priority {
+  margin: 2rem;
+}
+
 .priority > select {
   font-size: 3rem;
 }

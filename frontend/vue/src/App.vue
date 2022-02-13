@@ -19,6 +19,7 @@
         @createTask="handleCreateTask"
         @completedTask="handleCompletedTask"
         @resetEditedTask="handleResetEditedTask"
+        @changeSortBy="handleChangeSortBy"
       />
     </main>
   </div>
@@ -78,6 +79,9 @@ export default {
     handleResetEditedTask() {
       this.$store.dispatch("resetEditTask");
       this.$store.commit("turnOffEditTaskMode");
+    },
+    handleChangeSortBy(sortByValue) {
+      this.$store.commit("setSelectedSortBy", sortByValue);
     },
   },
 };

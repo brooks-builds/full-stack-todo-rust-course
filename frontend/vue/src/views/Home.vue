@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <h1>My Tasks</h1>
+    <h1 v-if="isLoggedIn">My Tasks</h1>
+    <div class="sort-by" v-if="isLoggedIn">
+      <form-select label="Sort By" :options="sortByOptions" v-model="sortBy" />
+    </div>
     <section class="tasks">
       <div
         v-for="task in tasks"
@@ -8,6 +11,7 @@
         class="task"
         data-test-task
       >
+        <span>Id: {{ task.id }}</span>
         <span class="priority">{{ task.priority }}</span>
         <span>
           <form-checkbox
@@ -26,15 +30,39 @@
 
 <script>
 import FormCheckbox from "../components/FormCheckbox.vue";
+import FormSelect from "../components/FormSelect.vue";
+import { cloneDeep } from "lodash";
 
 export default {
   name: "Home",
   components: {
     FormCheckbox,
+    FormSelect,
   },
   computed: {
     tasks() {
-      return this.$store.state.tasks;
+      const clonedTasks = cloneDeep(this.$store.state.tasks);
+      clonedTasks.sort(this.sortCallback);
+      return clonedTasks;
+    },
+    sortByOptions() {
+      const clonedSortByOptions = cloneDeep(this.$store.state.sortBy);
+      return clonedSortByOptions.map((sortByOption) => {
+        sortByOption.default =
+          sortByOption.value == this.$store.state.selectedSortBy;
+        return sortByOption;
+      });
+    },
+    isLoggedIn() {
+      return this.$store.getters.loggedIn;
+    },
+    sortBy: {
+      get() {
+        return this.$store.state.selectedSortBy;
+      },
+      set(sortByValue) {
+        this.$emit("changeSortBy", sortByValue);
+      },
     },
   },
   methods: {
@@ -46,6 +74,15 @@ export default {
     },
     handleCompletedTask(taskId) {
       this.$emit("completedTask", taskId);
+    },
+    sortCallback(taskA, taskB) {
+      const sortByComparitors = {
+        id: taskA.id > taskB.id,
+        priority: taskA.priority > taskB.priority,
+        name: taskA.title.toLowerCase() > taskB.title.toLowerCase(),
+      };
+
+      return sortByComparitors[this.$store.state.selectedSortBy];
     },
   },
 };
