@@ -54,7 +54,7 @@ wip - we are building this out now in prep for the real course
 - [x] As a logged in doer, I want to create a task
 - [x] As a logged in doer, I want to mark my tasks as complete
 - [x] As a logged out doer, I don't want to be able to see my tasks
-- [ ] As a logged in doer, I want to delete a task
+- [x] As a logged in doer, I want to delete a task
 - [ ] As a logged in doer, I want to be able to log out
 - [ ] As a logged in doer, I want to assign a task a priority
 - [ ] As a logged in doer, I want to sort my tasks by priority

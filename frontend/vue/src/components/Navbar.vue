@@ -9,6 +9,12 @@
         data-test-edit
         @click="handleEditClicked"
       />
+      <form-button
+        label="Delete Task"
+        size="small"
+        status="warning"
+        @click="handleDeleteTask"
+      />
     </div>
     <div class="nav-right">
       <div class="add-task" v-if="$store.getters.loggedIn">
@@ -65,6 +71,11 @@ export default {
     },
     handleLogout() {
       this.$emit("logout");
+    },
+    handleDeleteTask() {
+      const taskId = this.$route.params.taskId;
+      if (!taskId) throw new Error("could not find task id to delete");
+      this.$emit("deleteTask", taskId);
     },
   },
 };

@@ -70,6 +70,15 @@ export async function logout(token) {
   }
 }
 
+export async function deleteTask(taskId, token) {
+  try {
+    await axios.delete(`${baseUrl}/tasks/${taskId}`, createHeaders(token));
+  } catch(error) {
+    console.error("Error deleting task", error);
+    throw error;
+  }
+}
+
 function createHeaders(token) {
   return {headers: {"x-auth-token": token}}
 }

@@ -4,6 +4,7 @@
       @editTask="handleEditTask"
       @navToAddTask="handleNavToAddTask"
       @logout="handleLogout"
+      @deleteTask="handleDeleteTask"
     />
     <main>
       <router-view
@@ -69,6 +70,9 @@ export default {
     },
     handleLogout() {
       this.$store.dispatch("logout");
+    },
+    handleDeleteTask(taskId) {
+      this.$store.dispatch("deleteTask", taskId);
     },
   },
 };

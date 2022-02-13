@@ -90,7 +90,11 @@ export default new Vuex.Store({
       username: null,
       token: null,
       id: null,
-    })
+    })},
+    removeTaskById(state, taskId) {
+      const clonedTasks = cloneDeep(state.tasks);
+      const filteredTasks = clonedTasks.filter(task => task.id != taskId);
+      Vue.set(state, 'tasks', filteredTasks);
     }
   },
   actions: {
@@ -168,6 +172,11 @@ export default new Vuex.Store({
       commit("logout");
       commit("resetTasks");
       router.push('/');
+    },
+    async deleteTask({state, commit}, taskId) {
+      await api.deleteTask(taskId, state.user.token);
+      commit("removeTaskById", taskId);
+      router.push("/");
     }
   },
   modules: {
