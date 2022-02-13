@@ -29,8 +29,14 @@
           >Login</router-link
         >
       </div>
-      <div v-else>
+      <div v-else class="flex">
         <p data-test-welcome>Welcome, {{ $store.getters.username }}</p>
+        <form-button
+          label="log out"
+          size="small"
+          status="warning"
+          @click="handleLogout"
+        />
       </div>
     </div>
   </section>
@@ -56,6 +62,9 @@ export default {
     },
     handleNavToAddTask() {
       this.$emit("navToAddTask");
+    },
+    handleLogout() {
+      this.$emit("logout");
     },
   },
 };
@@ -85,5 +94,9 @@ section,
 
 .auth:last-child {
   margin-right: 0;
+}
+
+.flex {
+  display: flex;
 }
 </style>

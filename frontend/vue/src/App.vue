@@ -1,6 +1,10 @@
 <template>
   <div id="app" class="app">
-    <navbar @editTask="handleEditTask" @navToAddTask="handleNavToAddTask" />
+    <navbar
+      @editTask="handleEditTask"
+      @navToAddTask="handleNavToAddTask"
+      @logout="handleLogout"
+    />
     <main>
       <router-view
         @usernameSet="handleCreateAccountUsernameSet"
@@ -62,6 +66,9 @@ export default {
     },
     handleCompletedTask(taskId) {
       this.$store.dispatch("completeTask", taskId);
+    },
+    handleLogout() {
+      this.$store.dispatch("logout");
     },
   },
 };

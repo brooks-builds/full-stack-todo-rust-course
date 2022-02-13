@@ -35,6 +35,16 @@ button {
   width: 51.5%;
   font-size: 2.5rem;
   margin: 0 1rem;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+button:hover {
+  color: white;
+}
+
+button:active {
+  border: 1px solid white;
 }
 
 .ok {
@@ -43,6 +53,10 @@ button {
 
 .info {
   background-color: aquamarine;
+}
+
+.warning {
+  background-color: palevioletred;
 }
 
 .disabled {

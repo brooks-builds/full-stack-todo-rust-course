@@ -84,7 +84,14 @@ export default new Vuex.Store({
       const now = new Date();
       taskToComplete.completed_at = now.toUTCString();
       Vue.set(state, "tasks", clonedTasks);
-    } 
+    },
+    logout(state) {
+      Vue.set(state, "user", {
+      username: null,
+      token: null,
+      id: null,
+    })
+    }
   },
   actions: {
     async createAccount({commit, getters, state, dispatch}) {
@@ -155,6 +162,12 @@ export default new Vuex.Store({
     async completeTask({state, commit}, taskId) {
       await api.completeTask(taskId, state.user.token);
       commit("completeTask", taskId);
+    },
+    async logout({state, commit}) {
+      await api.logout(state.user.token);
+      commit("logout");
+      commit("resetTasks");
+      router.push('/');
     }
   },
   modules: {

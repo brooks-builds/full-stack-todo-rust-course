@@ -24,7 +24,7 @@ export async function login(account) {
 
 export async function getTasks(token) {
   try {
-    const result = await axios.get(`${baseUrl}/tasks`, {headers: {"x-auth-token": token}});
+    const result = await axios.get(`${baseUrl}/tasks`, createHeaders(token));
     return result.data.data;
   } catch(error) {
     console.error("error getting all tasks", error);
@@ -34,7 +34,7 @@ export async function getTasks(token) {
 
 export async function updateTask(task, token) {
   try {
-    const result = await axios.patch(`${baseUrl}/tasks/${task.id}`, task, {headers: {"x-auth-token": token}});
+    const result = await axios.patch(`${baseUrl}/tasks/${task.id}`, task, createHeaders(token));
     return result.data.data;
   } catch(error) {
     console.error("Error updating task", error);
@@ -44,7 +44,7 @@ export async function updateTask(task, token) {
 
 export async function createTask(task, token) {
   try {
-    const result = await axios.post(`${baseUrl}/tasks`, task, {headers: {"x-auth-token": token}});
+    const result = await axios.post(`${baseUrl}/tasks`, task, createHeaders(token));
     return result.data.data;
   } catch(error) {
     console.error("Error creating task", error);
@@ -57,6 +57,15 @@ export async function completeTask(taskId, token) {
     await axios.put(`${baseUrl}/tasks/${taskId}/completed`, {}, createHeaders(token));
   } catch(error) {
     console.error("Error completing a task", error);
+    throw error;
+  }
+}
+
+export async function logout(token) {
+  try {
+    await axios.post(`${baseUrl}/users/logout`, {}, createHeaders(token));
+  } catch(error) {
+    console.error("Error logging out", error);
     throw error;
   }
 }
