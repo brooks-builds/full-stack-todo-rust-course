@@ -1,6 +1,9 @@
 <template>
   <div class="home">
     <h1 v-if="isLoggedIn">My Tasks</h1>
+    <div class="filter-by" v-if="isLoggedIn">
+      <form-select label="Filter By" :options="filterByOptions" v-model="filterBy" />
+    </div>
     <div class="sort-by" v-if="isLoggedIn">
       <form-select label="Sort By" :options="sortByOptions" v-model="sortBy" />
     </div>
@@ -11,7 +14,6 @@
         class="task"
         data-test-task
       >
-        <span>Id: {{ task.id }}</span>
         <span class="priority">{{ task.priority }}</span>
         <span>
           <form-checkbox
@@ -42,8 +44,9 @@ export default {
   computed: {
     tasks() {
       const clonedTasks = cloneDeep(this.$store.state.tasks);
-      clonedTasks.sort(this.sortCallback);
-      return clonedTasks;
+      const filteredTasks = clonedTasks.filter(this.filterCallback);
+      filteredTasks.sort(this.sortCallback);
+      return filteredTasks;
     },
     sortByOptions() {
       const clonedSortByOptions = cloneDeep(this.$store.state.sortBy);
@@ -64,6 +67,17 @@ export default {
         this.$emit("changeSortBy", sortByValue);
       },
     },
+    filterByOptions() {
+      return this.$store.state.filterByOptions;
+    },
+    filterBy: {
+      get() {
+        return this.$store.state.selectedFilterBy;
+      },
+      set(filterOptionValue) {
+        this.$emit("filterSet", filterOptionValue);
+      }
+    }
   },
   methods: {
     taskLink(taskId) {
@@ -84,6 +98,18 @@ export default {
 
       return sortByComparitors[this.$store.state.selectedSortBy];
     },
+    filterCallback(task) {
+      const filterByComparitors = {
+        none: true,
+        completed: task.completed_at,
+        uncompleted: !task.completed_at,
+        priorityA: task.priority == 'A',
+        priorityB: task.priority == 'B',
+        priorityC: task.priority == 'C',
+      }
+
+      return filterByComparitors[this.$store.state.selectedFilterBy];
+    }
   },
 };
 </script>

@@ -20,6 +20,7 @@
         @completedTask="handleCompletedTask"
         @resetEditedTask="handleResetEditedTask"
         @changeSortBy="handleChangeSortBy"
+        @filterSet="handleFilterSet"
       />
     </main>
   </div>
@@ -83,6 +84,9 @@ export default {
     handleChangeSortBy(sortByValue) {
       this.$store.commit("setSelectedSortBy", sortByValue);
     },
+    handleFilterSet(filterOptionValue) {
+      this.$store.commit("setSelectedFilterBy", filterOptionValue);
+    }
   },
 };
 </script>

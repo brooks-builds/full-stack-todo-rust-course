@@ -38,6 +38,15 @@ export default new Vuex.Store({
       {value: "id", label: "Created Order", default: true},
     ],
     selectedSortBy: "id",
+    filterByOptions: [
+      {value: "none", label: "None", default: true},
+      {value: "completed", label: "Completed", default: false},
+      {value: "uncompleted", label: "Uncompleted", default: false},
+      {value: "priorityA", label: "Priority A", default: false},
+      {value: "priorityB", label: "Priority B", default: false},
+      {value: "priorityC", label: "Priority C", default: false},
+    ],
+    selectedFilterBy: "none"
   },
   mutations: {
     resetAccountForm(state) {
@@ -109,6 +118,9 @@ export default new Vuex.Store({
     },
     setSelectedSortBy(state, sortBy) {
       Vue.set(state, "selectedSortBy", sortBy);
+    },
+    setSelectedFilterBy(state, filterByOptionValue) {
+      Vue.set(state, "selectedFilterBy", filterByOptionValue);
     }
   },
   actions: {
