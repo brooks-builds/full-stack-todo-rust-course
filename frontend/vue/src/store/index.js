@@ -76,7 +76,15 @@ export default new Vuex.Store({
       const clonedTasks = cloneDeep(state.tasks);
       clonedTasks.push(task);
       Vue.set(state, 'tasks', clonedTasks);
-    }
+    },
+    completeTask(state, taskId) {
+      const clonedTasks = cloneDeep(state.tasks);
+      const taskToComplete = clonedTasks.find(task => task.id == taskId);
+      if(!taskToComplete) throw new Error(`could not find task with id ${taskId}`);
+      const now = new Date();
+      taskToComplete.completed_at = now.toUTCString();
+      Vue.set(state, "tasks", clonedTasks);
+    } 
   },
   actions: {
     async createAccount({commit, getters, state, dispatch}) {
@@ -143,6 +151,10 @@ export default new Vuex.Store({
       const createdTask = await api.createTask(state.editedTask, state.user.token);
       commit("appendTask", createdTask);
       router.push("/")
+    },
+    async completeTask({state, commit}, taskId) {
+      await api.completeTask(taskId, state.user.token);
+      commit("completeTask", taskId);
     }
   },
   modules: {

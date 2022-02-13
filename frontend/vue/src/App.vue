@@ -12,6 +12,7 @@
         @saveTask="handleSaveTask"
         @editPriority="handleEditPriority"
         @createTask="handleCreateTask"
+        @completedTask="handleCompletedTask"
       />
     </main>
   </div>
@@ -58,6 +59,9 @@ export default {
     },
     handleCreateTask() {
       this.$store.dispatch("createTask");
+    },
+    handleCompletedTask(taskId) {
+      this.$store.dispatch("completeTask", taskId);
     },
   },
 };

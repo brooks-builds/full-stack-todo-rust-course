@@ -10,9 +10,15 @@
       >
         <span class="priority">{{ task.priority }}</span>
         <span>
-          <form-checkbox :id="taskId(task.id)" :checked="!!task.completed_at" />
+          <form-checkbox
+            :id="taskId(task.id)"
+            :checked="!!task.completed_at"
+            @checked="handleCompletedTask(task.id)"
+          />
         </span>
-        <router-link :to="taskLink(task.id)" data-test-tasklink>{{ task.title }}</router-link>
+        <router-link :to="taskLink(task.id)" data-test-tasklink>{{
+          task.title
+        }}</router-link>
       </div>
     </section>
   </div>
@@ -37,6 +43,9 @@ export default {
     },
     taskId(taskId) {
       return `completed-${taskId}`;
+    },
+    handleCompletedTask(taskId) {
+      this.$emit("completedTask", taskId);
     },
   },
 };

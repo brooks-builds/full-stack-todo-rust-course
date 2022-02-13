@@ -51,3 +51,16 @@ export async function createTask(task, token) {
     throw error;
   }
 }
+
+export async function completeTask(taskId, token) {
+  try {
+    await axios.put(`${baseUrl}/tasks/${taskId}/completed`, {}, createHeaders(token));
+  } catch(error) {
+    console.error("Error completing a task", error);
+    throw error;
+  }
+}
+
+function createHeaders(token) {
+  return {headers: {"x-auth-token": token}}
+}

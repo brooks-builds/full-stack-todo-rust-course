@@ -1,6 +1,12 @@
 <template>
   <span>
-    <input type="checkbox" :id="id" :checked="checked" :data-test="dataTest" />
+    <input
+      type="checkbox"
+      :id="id"
+      :checked="checked"
+      :data-test="dataTest"
+      @input="handleChecked"
+    />
     <label :for="id"></label>
   </span>
 </template>
@@ -10,7 +16,12 @@ export default {
   props: {
     id: String,
     checked: Boolean,
-    dataTest: String
+    dataTest: String,
+  },
+  methods: {
+    handleChecked() {
+      this.$emit("checked");
+    },
   },
 };
 </script>
