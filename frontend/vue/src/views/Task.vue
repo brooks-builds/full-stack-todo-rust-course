@@ -19,7 +19,16 @@
         dataTest="completed"
       />
     </div>
-    <div class="priority" data-test-priority>Priority: {{ task.priority }}</div>
+    <div class="priority" data-test-priority v-if="!isEditMode">
+      Priority: {{ task.priority }}
+    </div>
+    <div class="priority" v-else>
+      <form-select
+        label="Priority"
+        :options="priorities"
+        v-model="editPriority"
+      />
+    </div>
     <div class="description" v-if="!isEditMode">
       <p data-test-description>{{ task.description }}</p>
     </div>
@@ -37,6 +46,8 @@ import FormCheckbox from "../components/FormCheckbox.vue";
 import FormInput from "../components/FormInput.vue";
 import FormButton from "../components/FormButton.vue";
 import FormTextArea from "../components/FormTextArea.vue";
+import FormSelect from "../components/FormSelect.vue";
+import { cloneDeep } from "lodash";
 
 export default {
   components: {
@@ -44,6 +55,7 @@ export default {
     FormInput,
     FormButton,
     FormTextArea,
+    FormSelect,
   },
   computed: {
     editDescription: {
@@ -70,11 +82,36 @@ export default {
         (storeTask) => storeTask.id == this.$route.params.taskId
       );
     },
+    priorities() {
+      const prioritiesClone = cloneDeep(this.$store.state.priorities);
+      console.log("cloned priorities", prioritiesClone);
+      const prioritiesWithDefaultSet = prioritiesClone.map((priority) => {
+        console.log(
+          "currently edited priority",
+          this.$store.state.editedTask.priority
+        );
+        priority.default =
+          priority.value == this.$store.state.editedTask.priority;
+        return priority;
+      });
+      return prioritiesWithDefaultSet;
+    },
+    editPriority: {
+      get() {
+        return this.$store.state.editedTask.priority;
+      },
+      set(newPriority) {
+        this.$emit("editPriority", newPriority);
+      },
+    },
   },
   methods: {
     handleSave() {
       this.$emit("saveTask");
     },
+  },
+  mounted() {
+    this.$emit("resetEditedTask");
   },
 };
 </script>

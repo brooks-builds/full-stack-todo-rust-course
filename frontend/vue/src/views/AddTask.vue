@@ -3,14 +3,7 @@
     <div class="title">
       <form-input label="Title" type="text" v-model="taskTitle" />
     </div>
-    <div class="priority">
-      <span class="label">Priority</span>
-      <select v-model="priority">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-      </select>
-    </div>
+    <form-select label="Priority" :options="priorities" v-model="priority" />
     <div class="description">
       <form-text-area v-model="description" />
     </div>
@@ -29,12 +22,14 @@
 import FormInput from "../components/FormInput.vue";
 import FormTextArea from "../components/FormTextArea.vue";
 import FormButton from "../components/FormButton.vue";
+import FormSelect from "../components/FormSelect.vue";
 
 export default {
   components: {
     FormInput,
     FormTextArea,
     FormButton,
+    FormSelect,
   },
   computed: {
     taskTitle: {
@@ -60,6 +55,9 @@ export default {
       set(newDescription) {
         return this.$emit("editDescription", newDescription);
       },
+    },
+    priorities() {
+      return this.$store.state.priorities;
     },
   },
   methods: {
@@ -88,13 +86,5 @@ div {
 textarea {
   background-color: blanchedalmond;
   font-size: 3rem;
-}
-
-.priority > select {
-  font-size: 3rem;
-}
-
-.priority > .label {
-  margin: 0 1rem;
 }
 </style>

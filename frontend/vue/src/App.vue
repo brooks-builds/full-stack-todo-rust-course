@@ -18,6 +18,7 @@
         @editPriority="handleEditPriority"
         @createTask="handleCreateTask"
         @completedTask="handleCompletedTask"
+        @resetEditedTask="handleResetEditedTask"
       />
     </main>
   </div>
@@ -73,6 +74,10 @@ export default {
     },
     handleDeleteTask(taskId) {
       this.$store.dispatch("deleteTask", taskId);
+    },
+    handleResetEditedTask() {
+      this.$store.dispatch("resetEditTask");
+      this.$store.commit("turnOffEditTaskMode");
     },
   },
 };

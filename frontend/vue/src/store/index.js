@@ -26,7 +26,12 @@ export default new Vuex.Store({
       username: null,
       token: null,
       id: null,
-    }
+    },
+    priorities: [
+      {value: "A", label: "A", default: true},
+      {value: "B", label: "B", default: false},
+      {value: "C", label: "C", default: false},
+    ]
   },
   mutations: {
     resetAccountForm(state) {
