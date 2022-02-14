@@ -46,7 +46,8 @@ export default new Vuex.Store({
       {value: "priorityB", label: "Priority B", default: false},
       {value: "priorityC", label: "Priority C", default: false},
     ],
-    selectedFilterBy: "none"
+    selectedFilterBy: "none",
+    errorMessageTimeout: 10000,
   },
   mutations: {
     resetAccountForm(state) {

@@ -7,6 +7,7 @@
       @deleteTask="handleDeleteTask"
     />
     <main>
+      <div :class="errorActive">{{errorMessage}}</div>
       <router-view
         @usernameSet="handleCreateAccountUsernameSet"
         @passwordSet="handleCreateAccountPasswordSet"
@@ -21,6 +22,7 @@
         @resetEditedTask="handleResetEditedTask"
         @changeSortBy="handleChangeSortBy"
         @filterSet="handleFilterSet"
+        @error="handleError"
       />
     </main>
   </div>
@@ -86,8 +88,27 @@ export default {
     },
     handleFilterSet(filterOptionValue) {
       this.$store.commit("setSelectedFilterBy", filterOptionValue);
+    },
+    handleError(errorMessage) {
+      this.$store.commit("setErrorMessage", errorMessage);
     }
   },
+  computed: {
+    errorMessage() {
+      return this.$store.state.errorMessage;
+    },
+    errorActive() {
+      return `error ${this.$store.state.errorMessage ? "errorActive" : "ErrorNotActive"}`;
+    }
+  },
+  watch: {
+    "$store.state.errorMessage": {
+      deep: true,
+      handler() {
+        setTimeout(() => this.$store.commit("setErrorMessage", null), this.$store.state.errorMessageTimeout);
+      }
+    }
+  }
 };
 </script>
 
@@ -101,5 +122,29 @@ body {
 
 main {
   margin: 1rem;
+}
+
+.error {
+  height: 4rem;
+  font-size: 4rem;
+  text-align: center;
+  margin: 0;
+  position: relative;
+  animation: fade-away 1s 9s linear;
+}
+
+.errorActive {
+  background-color: indianred;
+}
+
+@keyframes fade-away {
+  from {
+    background-color: indianred;
+    color: white;
+  }
+  to {
+    background-color: black;
+    color: black;
+  }
 }
 </style>

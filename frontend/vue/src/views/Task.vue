@@ -112,6 +112,9 @@ export default {
   },
   mounted() {
     this.$emit("resetEditedTask");
+    if(!this.$store.getters.loggedIn) {
+      this.$emit("error", "You must be logged in to view tasks");
+    }
   },
 };
 </script>
