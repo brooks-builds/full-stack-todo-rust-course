@@ -14,11 +14,15 @@
     </div>
     <div>
       <span>Completed: </span>
+      <span v-if="!isEditMode" :class="completedClass">{{
+        completedIcon
+      }}</span>
       <form-checkbox
         :checked="!!task.completed_at"
         :id="`${task.id}`"
         dataTest="completed"
-        @checked="handleCompletedToggle"
+        v-else
+        @checked="handleEditCompletedToggle"
       />
     </div>
     <div class="priority" data-test-priority v-if="!isEditMode">
@@ -37,7 +41,7 @@
     <div class="edit-description" v-else>
       <form-text-area v-model="editDescription" data-test-editing-description />
     </div>
-    <div class="buttons" v-if="isLoggedIn">
+    <div class="buttons" v-if="isEditMode">
       <form-button
         label="Save"
         status="ok"
@@ -112,16 +116,19 @@ export default {
         this.$emit("editPriority", newPriority);
       },
     },
-    isLoggedIn() {
-      return this.$store.state.editingOneTask;
+    completedIcon() {
+      return this.task.completed_at ? "✓" : "X";
+    },
+    completedClass() {
+      return this.task.completed_at ? "completed" : "not-completed";
     },
   },
   methods: {
     handleSave() {
       this.$emit("saveTask");
     },
-    handleCompletedToggle() {
-      this.$emit("completedTask", this.$route.params.taskId);
+    handleEditCompletedToggle() {
+      this.$emit("editCompleteToggle");
     },
   },
   mounted() {
@@ -151,5 +158,13 @@ div {
 textarea {
   background-color: blanchedalmond;
   font-size: 3rem;
+}
+
+.completed {
+  color: green;
+}
+
+.not-completed {
+  color: palevioletred;
 }
 </style>

@@ -23,6 +23,7 @@
         @changeSortBy="handleChangeSortBy"
         @filterSet="handleFilterSet"
         @error="handleError"
+        @editCompleteToggle="handleEditCompleteToggle"
       />
     </main>
   </div>
@@ -92,7 +93,7 @@ export default {
     handleError(errorMessage) {
       this.$store.commit("setErrorMessage", errorMessage);
     },
-    handleToggleCompleted() {
+    handleEditCompleteToggle() {
       this.$store.commit("toggleEditedCompleted");
     },
   },
