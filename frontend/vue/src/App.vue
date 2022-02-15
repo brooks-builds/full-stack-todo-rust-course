@@ -7,7 +7,7 @@
       @deleteTask="handleDeleteTask"
     />
     <main>
-      <div :class="errorActive">{{errorMessage}}</div>
+      <div :class="errorActive">{{ errorMessage }}</div>
       <router-view
         @usernameSet="handleCreateAccountUsernameSet"
         @passwordSet="handleCreateAccountPasswordSet"
@@ -91,24 +91,32 @@ export default {
     },
     handleError(errorMessage) {
       this.$store.commit("setErrorMessage", errorMessage);
-    }
+    },
+    handleToggleCompleted() {
+      this.$store.commit("toggleEditedCompleted");
+    },
   },
   computed: {
     errorMessage() {
       return this.$store.state.errorMessage;
     },
     errorActive() {
-      return `error ${this.$store.state.errorMessage ? "errorActive" : "ErrorNotActive"}`;
-    }
+      return `error ${
+        this.$store.state.errorMessage ? "errorActive" : "ErrorNotActive"
+      }`;
+    },
   },
   watch: {
     "$store.state.errorMessage": {
       deep: true,
       handler() {
-        setTimeout(() => this.$store.commit("setErrorMessage", null), this.$store.state.errorMessageTimeout);
-      }
-    }
-  }
+        setTimeout(
+          () => this.$store.commit("setErrorMessage", null),
+          this.$store.state.errorMessageTimeout
+        );
+      },
+    },
+  },
 };
 </script>
 

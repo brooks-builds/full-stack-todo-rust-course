@@ -63,7 +63,7 @@ wip - we are building this out now in prep for the real course
 - [x] As a logged in doer, I want to filter my tasks by completed
 - [x] As a logged in doer, I want to filter my tasks by priority
 - [x] As a user, when an error occurs I want to see what happened
-- [ ] As a logged in doer viewing task details, I want to complete a task
+- [x] As a logged in doer viewing task details, I want to complete a task
 - [ ] As a logged in doer viewing task details, I want to uncomplete a task
 - [ ] As a logged in doer editing a task, I want to cancel without saving
 - [ ] As a logged in doer creating a task, I want to cancel without saving
@@ -76,6 +76,7 @@ wip - we are building this out now in prep for the real course
 - [ ] Handle if the user isn't logged in, but tries to see a protected page
 - [ ] Keep the user logged in over page refreshes
 - [ ] check other browsers
+- [ ] Error bar should not flash unless there is a real error
 
 ## Design
 

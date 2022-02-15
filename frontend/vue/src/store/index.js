@@ -15,7 +15,7 @@ export default new Vuex.Store({
     editedTask: {
       id: null,
       title: null,
-      completed: null,
+      completed_at: null,
       priority: null,
       description: null
     },
@@ -122,6 +122,9 @@ export default new Vuex.Store({
     },
     setSelectedFilterBy(state, filterByOptionValue) {
       Vue.set(state, "selectedFilterBy", filterByOptionValue);
+    },
+    toggleEditedCompleted(state) {
+      Vue.set(state.editedTask, "completed_at", state.editedTask.completed ? null : (new Date()).toUTCString());
     }
   },
   actions: {

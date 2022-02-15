@@ -13,11 +13,12 @@
       />
     </div>
     <div>
-      <span v-if="!task.completed_at">Completed: </span>
+      <span>Completed: </span>
       <form-checkbox
         :checked="!!task.completed_at"
         :id="`${task.id}`"
         dataTest="completed"
+        @checked="handleCompletedToggle"
       />
     </div>
     <div class="priority" data-test-priority v-if="!isEditMode">
@@ -36,8 +37,14 @@
     <div class="edit-description" v-else>
       <form-text-area v-model="editDescription" data-test-editing-description />
     </div>
-    <div class="buttons">
-      <form-button label="Save" status="ok" size="medium" @click="handleSave" data-test-submit />
+    <div class="buttons" v-if="isLoggedIn">
+      <form-button
+        label="Save"
+        status="ok"
+        size="medium"
+        @click="handleSave"
+        data-test-submit
+      />
     </div>
   </section>
 </template>
@@ -80,7 +87,7 @@ export default {
     },
     task() {
       return this.$store.state.tasks.find(
-        (storeTask) => storeTask.id == this.$route.params.taskId
+        (task) => task.id == this.$route.params.taskId
       );
     },
     priorities() {
@@ -105,15 +112,21 @@ export default {
         this.$emit("editPriority", newPriority);
       },
     },
+    isLoggedIn() {
+      return this.$store.state.editingOneTask;
+    },
   },
   methods: {
     handleSave() {
       this.$emit("saveTask");
     },
+    handleCompletedToggle() {
+      this.$emit("completedTask", this.$route.params.taskId);
+    },
   },
   mounted() {
     this.$emit("resetEditedTask");
-    if(!this.$store.getters.loggedIn) {
+    if (!this.$store.getters.loggedIn) {
       this.$emit("error", "You must be logged in to view tasks");
     }
   },
