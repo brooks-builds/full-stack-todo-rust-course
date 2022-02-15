@@ -83,6 +83,8 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
+
 section {
   border-bottom: 1px solid bisque;
 }
@@ -97,6 +99,7 @@ section,
 .title {
   color: bisque;
   text-decoration: none;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 .auth {

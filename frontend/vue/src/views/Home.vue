@@ -2,7 +2,11 @@
   <div class="home">
     <h1 v-if="isLoggedIn">My Tasks</h1>
     <div class="filter-by" v-if="isLoggedIn">
-      <form-select label="Filter By" :options="filterByOptions" v-model="filterBy" />
+      <form-select
+        label="Filter By"
+        :options="filterByOptions"
+        v-model="filterBy"
+      />
     </div>
     <div class="sort-by" v-if="isLoggedIn">
       <form-select label="Sort By" :options="sortByOptions" v-model="sortBy" />
@@ -76,8 +80,8 @@ export default {
       },
       set(filterOptionValue) {
         this.$emit("filterSet", filterOptionValue);
-      }
-    }
+      },
+    },
   },
   methods: {
     taskLink(taskId) {
@@ -103,18 +107,24 @@ export default {
         none: true,
         completed: task.completed_at,
         uncompleted: !task.completed_at,
-        priorityA: task.priority == 'A',
-        priorityB: task.priority == 'B',
-        priorityC: task.priority == 'C',
-      }
+        priorityA: task.priority == "A",
+        priorityB: task.priority == "B",
+        priorityC: task.priority == "C",
+      };
 
       return filterByComparitors[this.$store.state.selectedFilterBy];
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
+
+h1 {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
 h1 {
   margin-bottom: 2rem;
   font-size: 4rem;

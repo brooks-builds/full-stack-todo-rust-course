@@ -150,6 +150,12 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
+
+h1 {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
 .one-task {
   text-align: center;
 }
