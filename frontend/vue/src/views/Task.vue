@@ -9,6 +9,7 @@
         type="text"
         :value="task.title"
         v-model="editTitle"
+        data-test-editing-title
       />
     </div>
     <div>
@@ -33,10 +34,10 @@
       <p data-test-description>{{ task.description }}</p>
     </div>
     <div class="edit-description" v-else>
-      <form-text-area v-model="editDescription" />
+      <form-text-area v-model="editDescription" data-test-editing-description />
     </div>
     <div class="buttons">
-      <form-button label="Save" status="ok" size="medium" @click="handleSave" />
+      <form-button label="Save" status="ok" size="medium" @click="handleSave" data-test-submit />
     </div>
   </section>
 </template>
