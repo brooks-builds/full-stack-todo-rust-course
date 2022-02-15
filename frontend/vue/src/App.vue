@@ -24,6 +24,7 @@
         @filterSet="handleFilterSet"
         @error="handleError"
         @editCompleteToggle="handleEditCompleteToggle"
+        @cancelEditMode="handleCancelEditMode"
       />
     </main>
   </div>
@@ -95,6 +96,9 @@ export default {
     },
     handleEditCompleteToggle() {
       this.$store.commit("toggleEditedCompleted");
+    },
+    handleCancelEditMode() {
+      this.$store.commit("turnOffEditTaskMode");
     },
   },
   computed: {

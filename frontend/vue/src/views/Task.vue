@@ -49,6 +49,12 @@
         @click="handleSave"
         data-test-submit
       />
+      <form-button
+        label="Cancel"
+        status="info"
+        size="medium"
+        @click="handleCancel"
+      />
     </div>
   </section>
 </template>
@@ -129,6 +135,9 @@ export default {
     },
     handleEditCompletedToggle() {
       this.$emit("editCompleteToggle");
+    },
+    handleCancel() {
+      this.$emit("cancelEditMode");
     },
   },
   mounted() {
