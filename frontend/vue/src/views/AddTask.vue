@@ -1,9 +1,19 @@
 <template>
   <section class="one-task">
     <div class="title">
-      <form-input label="Title" type="text" v-model="taskTitle" data-test-title />
+      <form-input
+        label="Title"
+        type="text"
+        v-model="taskTitle"
+        data-test-title
+      />
     </div>
-    <form-select label="Priority" :options="priorities" v-model="priority" dataTest="priority" />
+    <form-select
+      label="Priority"
+      :options="priorities"
+      v-model="priority"
+      dataTest="priority"
+    />
     <div class="description">
       <form-text-area v-model="description" data-test-description />
     </div>
@@ -14,6 +24,13 @@
         status="ok"
         @click="handleCreateTask"
         data-test-submit
+      />
+      <form-button
+        label="Cancel"
+        size="medium"
+        status="info"
+        @click="handleCancel"
+        data-test-cancel
       />
     </div>
   </section>
@@ -64,6 +81,9 @@ export default {
   methods: {
     handleCreateTask() {
       this.$emit("createTask");
+    },
+    handleCancel() {
+      this.$router.push("/");
     },
   },
 };

@@ -66,7 +66,7 @@ wip - we are building this out now in prep for the real course
 - [x] As a logged in doer viewing task details, I want to complete a task
 - [x] As a logged in doer viewing task details, I want to uncomplete a task
 - [x] As a logged in doer editing a task, I want to cancel without saving
-- [ ] As a logged in doer creating a task, I want to cancel without saving
+- [x] As a logged in doer creating a task, I want to cancel without saving
 
 ## Clean up and Polish
 
