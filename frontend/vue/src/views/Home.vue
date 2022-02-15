@@ -14,7 +14,7 @@
         class="task"
         data-test-task
       >
-        <span class="priority">{{ task.priority }}</span>
+        <span class="priority" data-test-priority>{{ task.priority }}</span>
         <span>
           <form-checkbox
             :id="taskId(task.id)"

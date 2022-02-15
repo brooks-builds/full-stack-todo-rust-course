@@ -24,6 +24,7 @@
             size="small"
             status="ok"
             @click="handleNavToAddTask"
+            data-test-add-task
           />
         </router-link>
       </div>

@@ -41,22 +41,12 @@ describe("todo app", () => {
   });
 
   describe("logging into an account", () => {
-    const username = faker.internet.userName();
-    const password = faker.internet.password();
-
-    before(() => {
-      cy
-        .visit("/create-account")
-        .get("[data-test-username]")
-        .type(username)
-        .get("[data-test-password")
-        .type(password)
-        .get("[data-test-submit")
-        .click()
-    })
-
     it("should be able to log into an existing account", () => {
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
+
       cy
+        .createAccount(username, password)
         .visit("/")
         .get("[data-test-login]")
         .click()
@@ -76,22 +66,12 @@ describe("todo app", () => {
   })
 
   describe("default todo items", () => {
-    const username = faker.internet.userName()
-    const password = faker.internet.password()
-
-    before(() => {
-      cy
-        .visit("/create-account")
-        .get("[data-test-username]")
-        .type(username)
-        .get("[data-test-password]")
-        .type(password)
-        .get("[data-test-submit]")
-        .click()
-    })
-
     it("should exist on newly created accounts", () => {
+      const username = faker.internet.userName()
+      const password = faker.internet.password()
+
       cy
+        .createAccount(username, password)
         .get("[data-test-task]")
         .should("have.length", 2)
         .get("[data-test-task]")
@@ -107,13 +87,7 @@ describe("todo app", () => {
       const password = faker.internet.password();
 
       cy
-        .visit("/create-account")
-        .get("[data-test-username]")
-        .type(username)
-        .get("[data-test-password]")
-        .type(password)
-        .get("[data-test-submit]")
-        .click()
+        .createAccount(username, password)
         .get("[data-test-tasklink]")
         .first()
         .click()
@@ -129,18 +103,12 @@ describe("todo app", () => {
         .should("contain", "This is my description")
     })
 
-    it.only("should be editable", () => {
+    it("should be editable", () => {
       const username = faker.internet.userName();
       const password = faker.internet.password();
 
       cy
-        .visit("/create-account")
-        .get("[data-test-username]")
-        .type(username)
-        .get("[data-test-password]")
-        .type(password)
-        .get("[data-test-submit]")
-        .click()
+        .createAccount(username, password)
         .get("[data-test-tasklink]")
         .first()
         .click()
@@ -172,6 +140,46 @@ describe("todo app", () => {
         .should("contain", "I am a task, you can complete me by checking the box!!!")
         .get("[data-test-description]")
         .should("contain", "This is my description!!!")
+    })
+  })
+
+  describe("creating a task", () => {
+    it("should be able to create a new task", () => {
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
+      const title = faker.lorem.sentence();
+      const description = faker.lorem.sentences(3);
+      const priority = 'B'
+
+      cy
+        .createAccount(username, password)
+        .dataGet("add-task")
+        .click()
+        .dataGet("title")
+        .type(title)
+        .dataGet("description")
+        .type(description)
+        .get("[data-test=priority]")
+        .select(priority)
+        .dataGet("submit")
+        .click()
+        .dataGet("task")
+        .last()
+        .should("contain", title)
+        .dataGet("priority")
+        .last()
+        .should("contain", priority)
+        .dataGet("tasklink")
+        .last()
+        .click()
+        .dataGet("title")
+        .should("contain", title)
+        .dataGet("priority")
+        .should("contain", priority)
+        .get('[data-test="completed"]')
+        .should("not.be.checked")
+        .dataGet("description")
+        .should("contain", description)
     })
   })
 })

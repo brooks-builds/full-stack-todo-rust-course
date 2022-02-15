@@ -1,11 +1,11 @@
 <template>
   <section class="one-task">
     <div class="title">
-      <form-input label="Title" type="text" v-model="taskTitle" />
+      <form-input label="Title" type="text" v-model="taskTitle" data-test-title />
     </div>
-    <form-select label="Priority" :options="priorities" v-model="priority" />
+    <form-select label="Priority" :options="priorities" v-model="priority" dataTest="priority" />
     <div class="description">
-      <form-text-area v-model="description" />
+      <form-text-area v-model="description" data-test-description />
     </div>
     <div class="buttons">
       <form-button
@@ -13,6 +13,7 @@
         size="medium"
         status="ok"
         @click="handleCreateTask"
+        data-test-submit
       />
     </div>
   </section>
