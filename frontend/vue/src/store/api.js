@@ -18,7 +18,7 @@ export async function login(account) {
     return result.data;
   } catch(error) {
     console.error("Error logging in", error);
-    throw error;
+    throw new Error(error.response.data.error);
   }
 }
 

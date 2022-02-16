@@ -54,6 +54,19 @@ describe("todo api", () => {
       checkLoggedInUser(loggedInUser.data.data, userToCreate);
     });
 
+    test("gets a good error message when attempting to log in with bad username and/or password", async () => {
+      let gotError = false;
+      try {
+        await axios.post(`${baseUrl}/users/login`, {username: "329q845gljwenpdhrefpdhury", password: "q9384gfuenh"});
+      } catch(error) {
+        gotError = true;
+        expect(error.response.status).toBe(400);
+        expect(error.response.data.error).toBe("incorrect username and/or password");
+      }
+
+      expect(gotError).toBe(true);
+    })
+
     test("log out", async () => {
       const userToCreate = {
         username: "userjusttologout" + Date.now(),

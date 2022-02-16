@@ -45,6 +45,11 @@ router.route('/login')
     const {username, password} = req.body;
     try {
       const dbUser = await userQueries.getByUsername(username);
+      if (!dbUser) {
+        const error = new Error("incorrect username and/or password");
+        error.code = 400;
+        throw error;
+      }
       const matchedPassword = await bcrypt.compare(password, dbUser.password);
       if(!matchedPassword) {
         const error = new Error("incorrect username or password")
@@ -57,7 +62,7 @@ router.route('/login')
       delete dbUser.password;
       res.json({data: dbUser});
     } catch(error) {
-      res.status(error.code|| 500).json({error: error.message});
+      res.status(error.code || 500).json({error: error.message});
     }
   })
 
