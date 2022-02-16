@@ -49,8 +49,8 @@ export default {
     tasks() {
       const clonedTasks = cloneDeep(this.$store.state.tasks);
       const filteredTasks = clonedTasks.filter(this.filterCallback);
-      filteredTasks.sort(this.sortCallback);
-      return filteredTasks;
+      const sortedFilteredTasks = filteredTasks.sort(this.sortCallback);
+      return sortedFilteredTasks;
     },
     sortByOptions() {
       const clonedSortByOptions = cloneDeep(this.$store.state.sortBy);
@@ -95,11 +95,18 @@ export default {
     },
     sortCallback(taskA, taskB) {
       const sortByComparitors = {
-        id: taskA.id > taskB.id,
-        priority: taskA.priority > taskB.priority,
-        name: taskA.title.toLowerCase() > taskB.title.toLowerCase(),
+        id: taskA.id > taskB.id || -(taskA.id < taskB.id),
+        priority:
+          taskA.priority > taskB.priority || -(taskA.priority < taskB.priority),
+        name:
+          taskA.title.toLowerCase() > taskB.title.toLowerCase() ||
+          -(taskA.title.toLowerCase() < taskB.title.toLowerCase()),
       };
-
+      console.log(
+        "selected sort by",
+        `"${this.$store.state.selectedSortBy}"`,
+        sortByComparitors[this.$store.state.selectedSortBy]
+      );
       return sortByComparitors[this.$store.state.selectedSortBy];
     },
     filterCallback(task) {

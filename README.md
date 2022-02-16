@@ -75,9 +75,13 @@ wip - we are building this out now in prep for the real course
 - [x] Handle if the user isn't logged in, but tries to see a protected page
 - [x] Keep the user logged in over page refreshes
 - [ ] check other browsers
+  - [x] Edge
+    - [x] Sorting tasks not working
 - [ ] Error bar should not flash unless there is a real error
 - [ ] Decide if we should refactor to smaller components
 - [ ] turn list of tasks into a data-table
+- [ ] Bugs
+  - [ ] New tasks are created completed if created after editing a task and clicking complete but not saving
 
 ## Design
 
