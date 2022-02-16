@@ -27,8 +27,13 @@ export async function getTasks(token) {
     const result = await axios.get(`${baseUrl}/tasks`, createHeaders(token));
     return result.data.data;
   } catch(error) {
-    console.error("error getting all tasks", error);
-    throw error
+    if(error.response.status == 401) {
+      const newError = new Error("Not authenticated, please log in and try again");
+      newError.code = 401;
+      throw newError
+    } else {
+      throw error;
+    }
   }
 }
 

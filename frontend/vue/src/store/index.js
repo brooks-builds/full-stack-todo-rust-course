@@ -48,6 +48,7 @@ export default new Vuex.Store({
     ],
     selectedFilterBy: "none",
     errorMessageTimeout: 10000,
+    localStorageUser: "user"
   },
   mutations: {
     resetAccountForm(state) {
@@ -147,8 +148,16 @@ export default new Vuex.Store({
     },
 
     async loadTasksFromApi({state, commit}) {
-      const tasks = await api.getTasks(state.user.token);
-      commit("resetTasks", tasks);
+      try {
+        const tasks = await api.getTasks(state.user.token);
+        commit("resetTasks", tasks);
+      } catch(error) {
+        commit("setErrorMessage", error.message);
+        if(error.code == 401) {
+          commit("deleteStoredUserData");
+          commit("setUser", {});
+        }
+      }
     },
 
     async login({state, commit, getters, dispatch}) {
@@ -163,6 +172,7 @@ export default new Vuex.Store({
         commit("resetAccountForm");
         dispatch("loadTasksFromApi");
         router.push("/")
+        dispatch("saveUserData", account.data);
       } catch (error) {
         commit("setErrorMessage", error.message);
       }
@@ -203,11 +213,38 @@ export default new Vuex.Store({
       commit("logout");
       commit("resetTasks");
       router.push('/');
+      commit("deleteStoredUserData");
     },
     async deleteTask({state, commit}, taskId) {
       await api.deleteTask(taskId, state.user.token);
       commit("removeTaskById", taskId);
       router.push("/");
+    },
+    loadUser({state, commit, dispatch}) {
+      const storedUser = localStorage.getItem(state.localStorageUser);
+      console.log(storedUser)
+      if(!storedUser) return;
+      try {
+        const user = JSON.parse(storedUser);
+        commit("setUser", user);
+        dispatch("loadTasksFromApi")
+      } catch(error) {
+        commit("setErrorMessage", error.message);
+      }
+    },
+    saveUserData({state, commit}, user) {
+      try {
+        localStorage.setItem(state.localStorageUser, JSON.stringify(user));
+      } catch (error) {
+        commit("setErrorMessage", error.message);
+      }
+    },
+    deleteStoredUserData({state, commit}) {
+      try {
+        localStorage.removeItem(state.localStorageUser);
+      } catch (error) {
+        commit("setErrorMessage", error.message);
+      }
     }
   },
   modules: {
