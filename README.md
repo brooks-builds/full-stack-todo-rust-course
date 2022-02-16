@@ -73,7 +73,7 @@ wip - we are building this out now in prep for the real course
 - [x] Come up with a font that doesn't suck
 - [x] Handle attempting to log in with a user that doesn't exist better (500 error right now)
 - [x] Handle if the user isn't logged in, but tries to see a protected page
-- [ ] Keep the user logged in over page refreshes
+- [x] Keep the user logged in over page refreshes
 - [ ] check other browsers
 - [ ] Error bar should not flash unless there is a real error
 - [ ] Decide if we should refactor to smaller components

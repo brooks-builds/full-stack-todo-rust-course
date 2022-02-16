@@ -143,20 +143,16 @@ export default new Vuex.Store({
         dispatch("loadTasksFromApi");
         router.push("/")
       } catch (error) {
-        commit("setErrorMessage", error.message);
+        dispatch("handleError", error);
       }
     },
 
-    async loadTasksFromApi({state, commit}) {
+    async loadTasksFromApi({state, commit, dispatch}) {
       try {
         const tasks = await api.getTasks(state.user.token);
         commit("resetTasks", tasks);
       } catch(error) {
-        commit("setErrorMessage", error.message);
-        if(error.code == 401) {
-          commit("deleteStoredUserData");
-          commit("setUser", {});
-        }
+        dispatch("handleError", error);
       }
     },
 
@@ -174,7 +170,7 @@ export default new Vuex.Store({
         router.push("/")
         dispatch("saveUserData", account.data);
       } catch (error) {
-        commit("setErrorMessage", error.message);
+        dispatch("handleError", error);
       }
     },
     async saveTask({state, commit}) {
@@ -208,12 +204,12 @@ export default new Vuex.Store({
       await api.completeTask(taskId, state.user.token);
       commit("completeTask", taskId);
     },
-    async logout({state, commit}) {
+    async logout({state, commit, dispatch}) {
       await api.logout(state.user.token);
       commit("logout");
       commit("resetTasks");
       router.push('/');
-      commit("deleteStoredUserData");
+      dispatch("deleteStoredUserData");
     },
     async deleteTask({state, commit}, taskId) {
       await api.deleteTask(taskId, state.user.token);
@@ -222,28 +218,34 @@ export default new Vuex.Store({
     },
     loadUser({state, commit, dispatch}) {
       const storedUser = localStorage.getItem(state.localStorageUser);
-      console.log(storedUser)
       if(!storedUser) return;
       try {
         const user = JSON.parse(storedUser);
         commit("setUser", user);
         dispatch("loadTasksFromApi")
       } catch(error) {
-        commit("setErrorMessage", error.message);
+        dispatch("handleError", error);
       }
     },
-    saveUserData({state, commit}, user) {
+    saveUserData({state, dispatch}, user) {
       try {
         localStorage.setItem(state.localStorageUser, JSON.stringify(user));
       } catch (error) {
-        commit("setErrorMessage", error.message);
+        dispatch("handleError", error);
       }
     },
-    deleteStoredUserData({state, commit}) {
+    deleteStoredUserData({state, dispatch}) {
       try {
         localStorage.removeItem(state.localStorageUser);
       } catch (error) {
-        commit("setErrorMessage", error.message);
+        dispatch("handleError", error);
+      }
+    },
+    handleError({commit, dispatch}, error) {
+      commit("setErrorMessage", error.message);
+      if(error.code == 401) {
+        dispatch("deleteStoredUserData");
+        commit("setUser", {});
       }
     }
   },
