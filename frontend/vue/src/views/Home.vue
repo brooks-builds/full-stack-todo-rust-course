@@ -12,6 +12,7 @@
       <form-select label="Sort By" :options="sortByOptions" v-model="sortBy" />
     </div>
     <section class="tasks">
+      <data-table :data="dataTableTasks" />
       <div
         v-for="task in tasks"
         v-bind:key="task.id"
@@ -38,12 +39,14 @@
 import FormCheckbox from "../components/FormCheckbox.vue";
 import FormSelect from "../components/FormSelect.vue";
 import { cloneDeep } from "lodash";
+import DataTable from "../components/DataTable.vue";
 
 export default {
   name: "Home",
   components: {
     FormCheckbox,
     FormSelect,
+    DataTable,
   },
   computed: {
     tasks() {
@@ -81,6 +84,15 @@ export default {
       set(filterOptionValue) {
         this.$emit("filterSet", filterOptionValue);
       },
+    },
+    dataTableTasks() {
+      return {
+        titles: ["Priority", "Completed", "Task"],
+        data: [
+          ["A", "[x]", "This is a task title"],
+          ["A", "[ ]", "This is a task title, but not completed"],
+        ],
+      };
     },
   },
   methods: {
