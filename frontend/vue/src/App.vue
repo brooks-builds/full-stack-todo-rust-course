@@ -107,7 +107,7 @@ export default {
     },
     errorActive() {
       return `error ${
-        this.$store.state.errorMessage ? "errorActive" : "ErrorNotActive"
+        this.$store.state.errorMessage ? "error-active" : "error-not-active"
       }`;
     },
   },
@@ -116,7 +116,7 @@ export default {
       deep: true,
       handler() {
         setTimeout(
-          () => this.$store.commit("setErrorMessage", null),
+          () => this.$store.commit("setErrorMessage", ""),
           this.$store.state.errorMessageTimeout
         );
       },
@@ -149,17 +149,34 @@ main {
   text-align: center;
   margin: 0;
   position: relative;
-  animation: fade-away 1s 9s linear;
+  padding: 1rem;
+  line-height: 3rem;
 }
 
-.errorActive {
-  background-color: indianred;
+.error-active {
+  animation: fade-away 60s linear;
+}
+
+.error-not-active {
+  background-color: black;
 }
 
 @keyframes fade-away {
   from {
+    background-color: black;
+    color: black;
+  }
+  3% {
     background-color: indianred;
     color: white;
+  }
+  95% {
+    background-color: indianred;
+    color: white;
+  }
+  99% {
+    background-color: black;
+    color: black;
   }
   to {
     background-color: black;

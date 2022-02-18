@@ -77,7 +77,7 @@ wip - we are building this out now in prep for the real course
 - [ ] check other browsers
   - [x] Edge
     - [x] Sorting tasks not working
-- [ ] Error bar should not flash unless there is a real error
+- [x] Error bar should not flash unless there is a real error
 - [ ] Decide if we should refactor to smaller components
 - [ ] turn list of tasks into a data-table
 - [ ] Bugs

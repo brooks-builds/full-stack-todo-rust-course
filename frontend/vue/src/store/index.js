@@ -20,7 +20,7 @@ export default new Vuex.Store({
       description: null
     },
     editingOneTask: false,
-    errorMessage: '',
+    errorMessage: null,
     tasks: [],
     user: {
       username: null,
@@ -47,7 +47,7 @@ export default new Vuex.Store({
       {value: "priorityC", label: "Priority C", default: false},
     ],
     selectedFilterBy: "none",
-    errorMessageTimeout: 10000,
+    errorMessageTimeout: 60000,
     localStorageUser: "user"
   },
   mutations: {
