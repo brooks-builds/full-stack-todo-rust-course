@@ -189,7 +189,7 @@ export default new Vuex.Store({
     resetEditTask({commit, state}) {
       const editTask = Object.assign({}, state.editedTask);
       editTask.id = null;
-      editTask.completed = null;
+      editTask.completed_at = null;
       editTask.description = null;
       editTask.priority = 'A';
       editTask.title = null;
