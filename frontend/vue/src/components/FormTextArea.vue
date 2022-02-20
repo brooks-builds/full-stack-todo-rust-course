@@ -15,3 +15,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+textarea {
+  background-color: bisque;
+}
+</style>

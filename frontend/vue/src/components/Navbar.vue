@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="flex">
     <router-link to="/" class="title" data-test-logo>My Todo App</router-link>
     <div class="edit-task" v-if="inOneTask">
       <form-button
@@ -16,23 +16,18 @@
         @click="handleDeleteTask"
       />
     </div>
-    <div class="nav-right">
+    <div class="flex">
       <div class="add-task" v-if="$store.getters.loggedIn">
-        <router-link to="/add-task">
-          <form-button
-            label="Add Task"
-            size="small"
-            status="ok"
-            @click="handleNavToAddTask"
-            data-test-add-task
-          />
-        </router-link>
+        <router-link to="/add-task" class="button"> Add Task </router-link>
       </div>
       <div v-if="!$store.getters.loggedIn">
-        <router-link to="/create-account" class="auth" data-test-create-account
+        <router-link
+          to="/create-account"
+          class="button"
+          data-test-create-account
           >Create Account</router-link
         >
-        <router-link to="/login" class="auth" data-test-login
+        <router-link to="/login" class="button" data-test-login
           >Login</router-link
         >
       </div>
@@ -83,7 +78,52 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
+section {
+  justify-content: space-between;
+  border-bottom: 1px solid white;
+  padding-bottom: 10px;
+}
+
+section * {
+  margin-right: 10px;
+}
+
+section *:last-child {
+  margin-right: 0;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+.title {
+  color: bisque;
+}
+
+.title:hover {
+  color: white;
+}
+
+.button {
+  background-color: cadetblue;
+  padding: 15px;
+  margin-right: 10px;
+  display: inline-block;
+  border-radius: 10px;
+  line-height: 20px;
+  color: black;
+}
+
+.button:hover {
+  color: white;
+}
+
+/* @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
 
 section {
   border-bottom: 1px solid bisque;
@@ -113,5 +153,5 @@ section,
 
 .flex {
   display: flex;
-}
+} */
 </style>

@@ -61,7 +61,18 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
+div {
+  text-align: center;
+}
+
+div > * {
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin-bottom: 25px;
+}
+/* @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
 
 h1 {
   font-family: "IBM Plex Sans", sans-serif;
@@ -69,5 +80,5 @@ h1 {
 
 .create-account {
   text-align: center;
-}
+} */
 </style>

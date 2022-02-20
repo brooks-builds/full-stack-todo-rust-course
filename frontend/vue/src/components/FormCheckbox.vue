@@ -30,14 +30,14 @@ export default {
 input[type="checkbox"] + label::before {
   content: "\a0";
   display: inline-block;
-  vertical-align: 0.2rem;
-  width: 3rem;
-  height: 3rem;
-  margin-right: 0.2rem;
-  border-radius: 0.2rem;
+  /* vertical-align: 0.2rem; */
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 10px;
   background: silver;
-  text-indent: 0.15rem;
-  line-height: 0.65;
+  text-indent: 5px;
+  line-height: 50px;
 }
 
 input[type="checkbox"]:checked + label::before {

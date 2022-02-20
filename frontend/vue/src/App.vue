@@ -130,19 +130,6 @@ export default {
 
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&family=IBM+Plex+Serif&display=swap");
-
-body {
-  background-color: black;
-  color: bisque;
-  font-size: 3rem;
-  font-family: "IBM Plex Serif";
-}
-
-main {
-  margin: 1rem;
-}
-
 .error {
   height: 4rem;
   font-size: 4rem;

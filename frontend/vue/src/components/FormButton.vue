@@ -31,6 +31,37 @@ export default {
 
 <style scoped>
 button {
+  border: none;
+  border-radius: 10px;
+  font-size: 40px;
+  padding: 2px;
+}
+
+.warning {
+  background-color: indianred;
+}
+.warning:hover {
+  color: white;
+}
+
+.ok {
+  background-color: green;
+}
+.ok:hover {
+  color: white;
+}
+
+.info {
+  background-color: cadetblue;
+}
+.info:hover {
+  color: white;
+}
+
+.disabled {
+  color: black;
+}
+/* button {
   height: 4rem;
   width: 51.5%;
   font-size: 2.5rem;
@@ -70,5 +101,5 @@ button:active {
 
 .medium {
   width: 15%;
-}
+} */
 </style>

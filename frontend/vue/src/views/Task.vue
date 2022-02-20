@@ -26,7 +26,7 @@
       />
     </div>
     <div class="priority" data-test-priority v-if="!isEditMode">
-      Priority: {{ task.priority }}
+      Priority: <span>{{ task.priority }}</span>
     </div>
     <div class="priority" v-else>
       <form-select
@@ -150,7 +150,38 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
+section {
+  text-align: center;
+}
+
+section > * {
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin-bottom: 25px;
+}
+
+.completed {
+  color: green;
+}
+
+.not-completed {
+  color: indianred;
+}
+
+.priority > span {
+  color: aquamarine;
+}
+
+input[type="text"] {
+  width: 100%;
+}
+
+.buttons > *:first-child {
+  margin-right: 10px;
+}
+/* @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
 
 h1 {
   font-family: "IBM Plex Sans", sans-serif;
@@ -181,5 +212,5 @@ textarea {
 
 .not-completed {
   color: palevioletred;
-}
+} */
 </style>

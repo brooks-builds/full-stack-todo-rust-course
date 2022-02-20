@@ -1,7 +1,11 @@
 <template>
   <div class="priority">
     <span class="label">{{ label }}</span>
-    <select @input="handleInput" :value="defaultOption.value" :data-test="dataTest">
+    <select
+      @input="handleInput"
+      :value="defaultOption.value"
+      :data-test="dataTest"
+    >
       <option
         v-for="(option, index) in options"
         :value="option.value"
@@ -19,7 +23,7 @@ export default {
     // An option looks like {value: 'A', label: 'A', default: false}
     options: Array,
     label: String,
-    dataTest: String
+    dataTest: String,
   },
   methods: {
     handleInput(event) {
@@ -36,7 +40,10 @@ export default {
 </script>
 
 <style scoped>
-.priority {
+.label {
+  margin-right: 10px;
+}
+/* .priority {
   margin: 2rem;
 }
 
@@ -46,5 +53,5 @@ export default {
 
 .priority > .label {
   margin: 0 1rem;
-}
+} */
 </style>

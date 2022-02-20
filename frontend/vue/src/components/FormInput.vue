@@ -28,6 +28,11 @@ export default {
 
 <style scoped>
 input {
+  margin: 10px;
+  background-color: bisque;
+  width: 90%;
+}
+/* input {
   height: 3rem;
   font-size: 3rem;
   padding: 0.5rem;
@@ -38,5 +43,5 @@ input {
 
 .label {
   text-align: left;
-}
+} */
 </style>

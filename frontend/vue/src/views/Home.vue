@@ -1,16 +1,22 @@
 <template>
   <div class="home">
     <h1 v-if="isLoggedIn">My Tasks</h1>
-    <div class="filter-by" v-if="isLoggedIn">
-      <form-select
-        label="Filter By"
-        :options="filterByOptions"
-        v-model="filterBy"
-      />
-    </div>
-    <div class="sort-by" v-if="isLoggedIn">
-      <form-select label="Sort By" :options="sortByOptions" v-model="sortBy" />
-    </div>
+    <section class="sort-and-filter">
+      <div class="filter-by" v-if="isLoggedIn">
+        <form-select
+          label="Filter By"
+          :options="filterByOptions"
+          v-model="filterBy"
+        />
+      </div>
+      <div class="sort-by" v-if="isLoggedIn">
+        <form-select
+          label="Sort By"
+          :options="sortByOptions"
+          v-model="sortBy"
+        />
+      </div>
+    </section>
     <section class="tasks">
       <data-table :data="dataTableTasks">
         <template v-slot:Completed="{ data: task }">
@@ -135,38 +141,21 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans@1&display=swap");
 
 h1 {
+  text-align: center;
+  margin: 20px 0;
   font-family: "IBM Plex Sans", sans-serif;
 }
 
-h1 {
-  margin-bottom: 2rem;
-  font-size: 4rem;
-}
-
-.home {
-  text-align: center;
-}
-
-.tasks {
+.sort-and-filter {
   display: flex;
-  justify-content: space-around;
-  flex-direction: column;
+  justify-content: space-evenly;
 }
 
-.task {
-  margin-bottom: 1rem;
-}
-
-.tasks a {
-  text-decoration: none;
+a {
   color: lightblue;
-  text-align: left;
-}
-
-.task > span {
-  margin-right: 0.5rem;
+  text-decoration: none;
 }
 </style>

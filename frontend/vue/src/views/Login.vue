@@ -61,13 +61,15 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
-
-h1 {
-  font-family: "IBM Plex Sans", sans-serif;
+div {
+  text-align: center;
 }
 
-.login {
-  text-align: center;
+div > * {
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin-bottom: 25px;
 }
 </style>

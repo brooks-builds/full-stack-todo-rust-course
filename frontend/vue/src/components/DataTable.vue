@@ -27,11 +27,24 @@ export default {
 
 <style scoped>
 table {
+  text-align: center;
+  margin: 25px auto;
+}
+
+td,
+th {
+  padding: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: #2d2929;
+}
+/* table {
   margin: 1rem auto;
 }
 
 td,
 th {
   padding: 2rem;
-}
+} */
 </style>

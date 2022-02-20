@@ -80,10 +80,15 @@ wip - we are building this out now in prep for the real course
 - [x] Error bar should not flash unless there is a real error
 - [x] Decide if we should refactor to smaller components (we are going to save that for a potential course)
 - [x] turn list of tasks into a data-table
-- [ ] Bugs
+- [x] Bugs
   - [x] New tasks are created completed if created after editing a task and clicking complete but not saving
   - [x] Cannot uncomplete tasks
 - [ ] Fix styling by switching to pixels but also breakpoints
+  - [x] Desktop (1920 x 1080)
+  - [x] Tablet landscape (1080 x 810)
+  - [ ] Tablet portrait (810 x 1080)
+  - [ ] Phone landscape (375 x 812)
+  - [ ] Phone portrait (812 x 375)
 
 ## Design
 

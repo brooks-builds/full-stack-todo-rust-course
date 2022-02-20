@@ -90,22 +90,16 @@ export default {
 </script>
 
 <style scoped>
-.one-task {
+section {
   text-align: center;
+  margin-top: 25px;
 }
 
-h1 {
-  font-size: 5rem;
-  color: aqua;
+section > * {
+  margin-bottom: 10px;
 }
 
-h1,
-div {
-  margin-bottom: 3rem;
-}
-
-textarea {
-  background-color: blanchedalmond;
-  font-size: 3rem;
+.buttons > *:first-child {
+  margin-right: 10px;
 }
 </style>
