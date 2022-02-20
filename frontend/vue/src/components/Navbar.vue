@@ -123,6 +123,12 @@ a {
   color: white;
 }
 
+@media (max-width: 810px) {
+  .button {
+    padding: 5px;
+  }
+}
+
 /* @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital@1&display=swap");
 
 section {

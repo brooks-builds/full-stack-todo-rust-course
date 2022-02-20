@@ -61,6 +61,12 @@ button {
 .disabled {
   color: black;
 }
+
+@media (max-width: 810px) {
+  button {
+    font-size: 19px;
+  }
+}
 /* button {
   height: 4rem;
   width: 51.5%;
