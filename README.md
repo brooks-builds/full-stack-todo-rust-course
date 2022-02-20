@@ -79,9 +79,10 @@ wip - we are building this out now in prep for the real course
     - [x] Sorting tasks not working
 - [x] Error bar should not flash unless there is a real error
 - [x] Decide if we should refactor to smaller components (we are going to save that for a potential course)
-- [ ] turn list of tasks into a data-table
+- [x] turn list of tasks into a data-table
 - [ ] Bugs
   - [ ] New tasks are created completed if created after editing a task and clicking complete but not saving
+  - [ ] Cannot uncomplete tasks
 - [ ] Fix styling by switching to pixels but also breakpoints
 
 ## Design

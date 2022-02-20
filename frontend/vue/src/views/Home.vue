@@ -12,25 +12,22 @@
       <form-select label="Sort By" :options="sortByOptions" v-model="sortBy" />
     </div>
     <section class="tasks">
-      <data-table :data="dataTableTasks" />
-      <div
-        v-for="task in tasks"
-        v-bind:key="task.id"
-        class="task"
-        data-test-task
-      >
-        <span class="priority" data-test-priority>{{ task.priority }}</span>
-        <span>
+      <data-table :data="dataTableTasks">
+        <template v-slot:Completed="{ data: task }">
           <form-checkbox
-            :id="taskId(task.id)"
             :checked="!!task.completed_at"
+            :id="task.id.toString()"
             @checked="handleCompletedTask(task.id)"
           />
-        </span>
-        <router-link :to="taskLink(task.id)" data-test-tasklink>{{
-          task.title
-        }}</router-link>
-      </div>
+        </template>
+        <template v-slot:Task="{ data: task }">
+          <span class="task-title">
+            <router-link :to="taskLink(task.id)" data-test-tasklink>{{
+              task.title
+            }}</router-link>
+          </span>
+        </template>
+      </data-table>
     </section>
   </div>
 </template>
@@ -88,10 +85,9 @@ export default {
     dataTableTasks() {
       return {
         titles: ["Priority", "Completed", "Task"],
-        data: [
-          ["A", "[x]", "This is a task title"],
-          ["A", "[ ]", "This is a task title, but not completed"],
-        ],
+        data: this.tasks.map((task) => {
+          return [task.priority, task, task];
+        }),
       };
     },
   },
@@ -164,9 +160,10 @@ h1 {
   margin-bottom: 1rem;
 }
 
-.task > a {
+.tasks a {
   text-decoration: none;
   color: lightblue;
+  text-align: left;
 }
 
 .task > span {

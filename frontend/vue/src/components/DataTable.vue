@@ -10,7 +10,7 @@
     <tbody>
       <tr v-for="(row, rowIndex) in data.data" v-bind:key="rowIndex">
         <td v-for="(cell, cellIndex) in row" v-bind:key="cellIndex">
-          {{ cell }}
+          <slot :name="data.titles[cellIndex]" :data="cell">{{ cell }}</slot>
         </td>
       </tr>
     </tbody>
