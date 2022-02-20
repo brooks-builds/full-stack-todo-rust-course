@@ -200,9 +200,18 @@ export default new Vuex.Store({
       commit("appendTask", createdTask);
       router.push("/")
     },
-    async completeTask({state, commit}, taskId) {
-      await api.completeTask(taskId, state.user.token);
-      commit("completeTask", taskId);
+    async toggleCompletedTask({state, commit}, taskId) {
+      const task = state.tasks.find(task => task.id == taskId);
+      if(!task) {
+        commit("setErrorMessage", "Could not find task to toggle completion, please reload and try again");
+        return
+      }
+      if(!task.completed_at) {
+        await api.completeTask(taskId, state.user.token);
+      } else {
+        await api.unCompleteTask(taskId, state.user.token);
+      }
+      commit("toggleTaskCompletion", taskId);
     },
     async logout({state, commit, dispatch}) {
       await api.logout(state.user.token);

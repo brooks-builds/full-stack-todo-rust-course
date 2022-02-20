@@ -17,7 +17,7 @@
           <form-checkbox
             :checked="!!task.completed_at"
             :id="task.id.toString()"
-            @checked="handleCompletedTask(task.id)"
+            @checked="handleCompletedToggle(task.id)"
           />
         </template>
         <template v-slot:Task="{ data: task }">
@@ -98,8 +98,8 @@ export default {
     taskId(taskId) {
       return `completed-${taskId}`;
     },
-    handleCompletedTask(taskId) {
-      this.$emit("completedTask", taskId);
+    handleCompletedToggle(taskId) {
+      this.$emit("toggleCompletedTask", taskId);
     },
     sortCallback(taskA, taskB) {
       const sortByComparitors = {

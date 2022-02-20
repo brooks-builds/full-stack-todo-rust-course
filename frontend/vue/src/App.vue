@@ -18,7 +18,7 @@
         @saveTask="handleSaveTask"
         @editPriority="handleEditPriority"
         @createTask="handleCreateTask"
-        @completedTask="handleCompletedTask"
+        @toggleCompletedTask="handleToggleCompletedTask"
         @resetEditedTask="handleResetEditedTask"
         @changeSortBy="handleChangeSortBy"
         @filterSet="handleFilterSet"
@@ -72,8 +72,8 @@ export default {
     handleCreateTask() {
       this.$store.dispatch("createTask");
     },
-    handleCompletedTask(taskId) {
-      this.$store.dispatch("completeTask", taskId);
+    handleToggleCompletedTask(taskId) {
+      this.$store.dispatch("toggleCompletedTask", taskId);
     },
     handleLogout() {
       this.$store.dispatch("logout");

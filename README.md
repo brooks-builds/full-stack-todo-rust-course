@@ -82,7 +82,7 @@ wip - we are building this out now in prep for the real course
 - [x] turn list of tasks into a data-table
 - [ ] Bugs
   - [x] New tasks are created completed if created after editing a task and clicking complete but not saving
-  - [ ] Cannot uncomplete tasks
+  - [x] Cannot uncomplete tasks
 - [ ] Fix styling by switching to pixels but also breakpoints
 
 ## Design

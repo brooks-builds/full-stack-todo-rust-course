@@ -66,6 +66,15 @@ export async function completeTask(taskId, token) {
   }
 }
 
+export async function unCompleteTask(taskId, token) {
+  try {
+    await axios.put(`${baseUrl}/tasks/${taskId}/uncompleted`, {}, createHeaders(token));
+  } catch(error) {
+    console.error("Error uncompleting a task", error);
+    throw error;
+  }
+}
+
 export async function logout(token) {
   try {
     await axios.post(`${baseUrl}/users/logout`, {}, createHeaders(token));
