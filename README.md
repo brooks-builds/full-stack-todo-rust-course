@@ -86,9 +86,8 @@ wip - we are building this out now in prep for the real course
 - [ ] Fix styling by switching to pixels but also breakpoints
   - [x] Desktop (1920 x 1080)
   - [x] Tablet landscape (1080 x 810)
-  - [x] Tablet portrait (810 x 1080)
-  - [ ] Phone landscape (375 x 812)
-  - [ ] Phone portrait (812 x 375)
+  - [x] Phone landscape (812 x 375)
+  - [ ] Phone portrait (375 x 812)
 
 ## Design
 

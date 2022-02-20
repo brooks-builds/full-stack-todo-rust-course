@@ -49,4 +49,13 @@ input[type="checkbox"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
 }
+
+@media (max-width: 376px) {
+  input[type="checkbox"] + label::before {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    border-radius: 5px;
+  }
+}
 </style>

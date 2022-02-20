@@ -62,9 +62,15 @@ button {
   color: black;
 }
 
-@media (max-width: 810px) {
+@media (max-width: 812px) {
   button {
     font-size: 19px;
+  }
+}
+
+@media (max-width: 375px) {
+  button {
+    font-size: 12px;
   }
 }
 /* button {

@@ -170,4 +170,10 @@ export default {
     color: black;
   }
 }
+
+@media (max-width: 375px) {
+  .error {
+    font-size: 12px;
+  }
+}
 </style>

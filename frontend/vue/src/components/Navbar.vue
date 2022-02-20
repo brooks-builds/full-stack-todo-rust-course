@@ -123,9 +123,15 @@ a {
   color: white;
 }
 
-@media (max-width: 810px) {
+@media (max-width: 812px) {
   .button {
     padding: 5px;
+  }
+}
+
+@media (max-width: 375px) {
+  .button {
+    padding: 2px;
   }
 }
 
