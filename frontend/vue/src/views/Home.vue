@@ -107,19 +107,20 @@ export default {
     },
     sortCallback(taskA, taskB) {
       const sortByComparitors = {
-        id: taskA.id > taskB.id || -(taskA.id < taskB.id),
-        priority:
-          taskA.priority > taskB.priority || -(taskA.priority < taskB.priority),
-        name:
-          taskA.title.toLowerCase() > taskB.title.toLowerCase() ||
-          -(taskA.title.toLowerCase() < taskB.title.toLowerCase()),
+        id: (taskA, taskB) => taskA.id - taskB.id,
+        priority: (taskA, taskB) => {
+          if (taskA.priority > taskB.priority) return 1;
+          else if (taskA.priority < taskB.priority) return -1;
+          else return 0;
+        },
+        name: (taskA, taskB) => {
+          if (taskA.title.toLowerCase() < taskB.title.toLowerCase()) return -1;
+          else if (taskA.title.toLowerCase() > taskB.title.toLowerCase())
+            return 1;
+          else return 0;
+        },
       };
-      console.log(
-        "selected sort by",
-        `"${this.$store.state.selectedSortBy}"`,
-        sortByComparitors[this.$store.state.selectedSortBy]
-      );
-      return sortByComparitors[this.$store.state.selectedSortBy];
+      return sortByComparitors[this.$store.state.selectedSortBy](taskA, taskB);
     },
     filterCallback(task) {
       const filterByComparitors = {
