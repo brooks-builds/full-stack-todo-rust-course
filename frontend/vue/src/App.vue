@@ -131,13 +131,9 @@ export default {
 
 <style>
 .error {
-  height: 4rem;
-  font-size: 4rem;
   text-align: center;
   margin: 0;
   position: relative;
-  padding: 1rem;
-  line-height: 3rem;
 }
 
 .error-active {
@@ -171,9 +167,14 @@ export default {
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
   .error {
-    font-size: 12px;
+    font-size: 16px;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    margin-left: -10px;
+    width: 100%;
   }
 }
 </style>

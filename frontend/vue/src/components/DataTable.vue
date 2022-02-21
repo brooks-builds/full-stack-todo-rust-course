@@ -39,6 +39,36 @@ th {
 tr:nth-child(even) {
   background-color: #2d2929;
 }
+
+@media (max-width: 376px) {
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  tr {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  td {
+    inline-size: 340px;
+    overflow-wrap: break-word;
+  }
+
+  th {
+    display: none;
+  }
+
+  tr > td:first-child::before {
+    content: "Priority: ";
+  }
+
+  tr > td:nth-child(2)::before {
+    content: "Completed: ";
+  }
+}
 /* table {
   margin: 1rem auto;
 }

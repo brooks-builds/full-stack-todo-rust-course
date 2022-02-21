@@ -12,7 +12,7 @@ wip - we are building this out now in prep for the real course
 - [x] Dockerize database
 - [x] Create the backend
 - [x] Put a unique constraint on the username field in the db
-- [ ] Create the frontend
+- [x] Create the frontend
 - [ ] Set up docker compose for all of the pieces
 
 ## Requirements
@@ -83,11 +83,12 @@ wip - we are building this out now in prep for the real course
 - [x] Bugs
   - [x] New tasks are created completed if created after editing a task and clicking complete but not saving
   - [x] Cannot uncomplete tasks
-- [ ] Fix styling by switching to pixels but also breakpoints
+- [x] Fix styling by switching to pixels but also breakpoints
   - [x] Desktop (1920 x 1080)
   - [x] Tablet landscape (1080 x 810)
   - [x] Phone landscape (812 x 375)
-  - [ ] Phone portrait (375 x 812)
+  - [x] Phone portrait (375 x 812)
+- [ ] Write end to end tests with Cypress
 
 ## Design
 
