@@ -7,10 +7,10 @@ services:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - POSTGRES_PASSWORD=keyoarbcat
-  express:
-    build: ./backend
+  nodejs-express:
+    build: ./backend/nodejs/express
     volumes:
-      - ./backend/:/code/
+      - ./backend/nodejs/express:/code/
     depends_on:
       - database
     expose:
@@ -25,18 +25,18 @@ services:
     volumes:
       - ./integration-tests/backend-tests:/code/
     depends_on:
-      - express
+      - nodejs-express
     environment:
       - API_PORT=3000
       - API_URI=http://express
       - JWT_SECRET=keyboardcat
       - DB_CONNECTION=postres://postgres:keyoarbcat@database/postgres
-  vue:
-    build: ./frontend/vue
+  js-vue:
+    build: ./frontend/js/vue
     volumes:
-      - ./frontend/vue:/code/
+      - ./frontend/js/vue:/code/
     depends_on:
-      - express
+      - nodejs-express
     expose:
       - "8080"
     ports:
@@ -50,6 +50,6 @@ services:
     volumes:
       - ./integration-tests/frontend-tests:/code/
     depends_on:
-      - vue
+      - js-vue
 volumes:
   db-data:

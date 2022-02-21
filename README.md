@@ -13,7 +13,7 @@ wip - we are building this out now in prep for the real course
 - [x] Create the backend
 - [x] Put a unique constraint on the username field in the db
 - [x] Create the frontend
-- [ ] Set up docker compose for all of the pieces
+- [x] Set up docker compose for all of the pieces
 
 ## Requirements
 
