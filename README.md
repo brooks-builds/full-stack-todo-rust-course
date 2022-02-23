@@ -93,3 +93,12 @@ wip - we are building this out now in prep for the real course
 ## Design
 
 View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-app-course-ldCXDnSxy](https://brookspatton508559.invisionapp.com/freehand/todo-app-course-ldCXDnSxy)
+
+# Course Plan
+
+## Yew
+
+- Installing and setting up Yew
+- Getting the counter example app running
+- Set up a Hello World app
+- Hello World component
