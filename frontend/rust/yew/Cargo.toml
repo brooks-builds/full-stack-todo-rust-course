@@ -1,0 +1,11 @@
+[package]
+name = "yew_todo"
+version = "1.0.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+yew = "0.19"
+stylist = { version = "0.10", features = ["yew_integration"] }
+yew-router = "0.16.0"

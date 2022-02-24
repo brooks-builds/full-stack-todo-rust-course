@@ -102,3 +102,14 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
 - Getting the counter example app running
 - Set up a Hello World app
 - Hello World component
+  - Styling the component
+- Global CSS Setup
+  - reset
+  - dark background color
+- Bring in the router
+- Create view placeholders
+- Create components?
+  - atom
+  - molecule
+  - organisms?
+- Create the top navbar

@@ -11,6 +11,7 @@ services:
     profiles:
       - rust-yew
       - nodejs-express
+      - compare-frontend
     build: ./backend/nodejs/express
     volumes:
       - ./backend/nodejs/express:/code/
@@ -39,6 +40,7 @@ services:
   js-vue:
     profiles:
       - js-vue
+      - compare-frontend
     build: ./frontend/js/vue
     volumes:
       - ./frontend/js/vue:/code/
@@ -53,6 +55,7 @@ services:
   rust-yew:
     profiles:
       - rust-yew
+      - compare-frontend
     build: ./frontend/rust/yew
     volumes:
       - ./frontend/rust/yew:/code/
