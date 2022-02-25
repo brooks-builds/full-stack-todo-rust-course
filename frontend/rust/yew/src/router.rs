@@ -3,7 +3,7 @@ use yew_router::Routable;
 
 use crate::views::home::Home;
 
-#[derive(Clone, Routable, PartialEq)]
+#[derive(Clone, Copy, Routable, PartialEq)]
 pub enum Route {
     #[at("/")]
     Home,

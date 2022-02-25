@@ -107,9 +107,37 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
   - reset
   - dark background color
 - Bring in the router
+  - Note that the links must be in the router, so router will be top level
 - Create view placeholders
 - Create components?
-  - atom
-  - molecule
-  - organisms?
+  - [ ] atom
+    - [ ] link
+      - [x] normal link
+      - [ ] button
+    - [ ] button
+    - [ ] text
+      - [ ] normal
+      - [ ] title
+    - [ ] select form field
+    - [ ] checkbox form field
+    - [ ] input form field
+    - [ ] text field form field
+    - [ ] icon
+      - [ ] checkmark
+      - [ ] x
+  - [ ] molecule
+    - [ ] edit task buttons
+    - [ ] navbar right
+    - [ ] select form field with label
+    - [ ] data table
+    - [ ] checkbox with label
+  - [ ] organism
+    - [ ] navbar
+  - [ ] views
+    - [ ] home (tasks)
+    - [ ] add task
+    - [ ] create account
+    - [ ] log in
+    - [ ] single task
+    - [ ] edit task
 - Create the top navbar
