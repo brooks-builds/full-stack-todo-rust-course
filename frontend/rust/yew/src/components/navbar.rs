@@ -1,5 +1,5 @@
-use stylist::{css, style, yew::styled_component, StyleSource};
-use yew::{function_component, html};
+use stylist::{css, yew::styled_component, StyleSource};
+use yew::html;
 
 // #[function_component(NavBar)]
 #[styled_component(NavBar)]

@@ -111,9 +111,9 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
 - Create view placeholders
 - Create components?
   - [ ] atom
-    - [ ] link
+    - [x] link
       - [x] normal link
-      - [ ] button
+      - [x] button
     - [ ] button
     - [ ] text
       - [ ] normal

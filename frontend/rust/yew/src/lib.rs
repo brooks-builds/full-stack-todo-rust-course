@@ -3,8 +3,6 @@ mod router;
 mod views;
 
 use yew::prelude::*;
-use yew_router::components::Link;
-use yew_router::prelude::*;
 use yew_router::{BrowserRouter, Switch};
 
 use crate::router::{switch, Route};
