@@ -1,6 +1,6 @@
 use crate::Route;
 use stylist::{css, yew::styled_component};
-use yew::{classes, html, Properties};
+use yew::{classes, html, Html, Properties};
 use yew_router::components::Link;
 
 #[derive(Properties, PartialEq)]
@@ -44,17 +44,21 @@ pub fn link_wrapper(props: &LinkWrapperProps) -> Html {
         other_classes.push("button");
     }
 
+    html! {
+      <div class={classes!(stylesheet)}>
+        {create_link(props, other_classes)}
+      </div>
+    }
+}
+
+fn create_link(props: &LinkWrapperProps, other_classes: Vec<&'static str>) -> Html {
     if let Some(to_internal) = props.to_internal {
         html! {
-          <div class={classes!(stylesheet)}>
             <Link<Route> to={to_internal} classes={classes!(other_classes)} >{&props.label}</Link<Route>>
-          </div>
         }
     } else if let Some(to) = &props.to {
         html! {
-          <div class={classes!(stylesheet)}>
             <a href={to.clone()} class={classes!(other_classes)}>{&props.label}</a>
-          </div>
         }
     } else {
         panic!("missing to or internal route property");

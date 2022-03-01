@@ -114,13 +114,13 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
     - [x] link
       - [x] normal link
       - [x] button
+    - [ ] input form field
     - [ ] button
     - [ ] text
       - [ ] normal
       - [ ] title
     - [ ] select form field
     - [ ] checkbox form field
-    - [ ] input form field
     - [ ] text field form field
     - [ ] icon
       - [ ] checkmark
