@@ -109,6 +109,9 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
 - Bring in the router
   - Note that the links must be in the router, so router will be top level
 - Create view placeholders
+- How components talk to each other
+  - Properties
+  - Callbacks
 - Create components?
   - [ ] atom
     - [x] link
