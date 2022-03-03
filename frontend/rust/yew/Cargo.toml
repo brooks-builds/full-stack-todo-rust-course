@@ -12,3 +12,4 @@ yew-router = "0.16.0"
 eyre = "0.6.7"
 gloo = "0.6"
 web-sys = { version = "0.3", features = ["HtmlInputElement", "EventTarget"] }
+yew-agent = "0.1.0"

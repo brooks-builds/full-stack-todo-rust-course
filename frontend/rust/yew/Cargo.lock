@@ -698,6 +698,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "yew-agent"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "616700dc3851945658c44ba4477ede6b77c795462fbbb9b0ad9a8b6273a3ca77"
+dependencies = [
+ "anymap2",
+ "bincode",
+ "gloo-console",
+ "gloo-utils",
+ "js-sys",
+ "serde",
+ "slab",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "yew-macro"
 version = "0.19.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -751,5 +770,6 @@ dependencies = [
  "stylist",
  "web-sys",
  "yew",
+ "yew-agent",
  "yew-router",
 ]

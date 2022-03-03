@@ -2,7 +2,8 @@ use crate::components::atom::{link_wrapper::LinkWrapper, text_input_wrapper::Tex
 use crate::router::Route;
 use gloo::console::log;
 use stylist::yew::styled_component;
-use yew::{html, Callback, Event};
+use yew::{html, use_state, Callback, Event};
+use yew_agent::Dispatcher;
 
 #[styled_component(Home)]
 pub fn home() -> Html {
@@ -12,7 +13,7 @@ pub fn home() -> Html {
       <div>
         <LinkWrapper to_internal={Route::Task} label="home" is_button={true} />
         <LinkWrapper to="http://localhost:8080" label="vue todo" />
-        <TextInputWrapper {on_input_change} />
+        <TextInputWrapper on_change={on_input_change} label="form input" placeholder="I am a form input" />
       </div>
     }
 }
