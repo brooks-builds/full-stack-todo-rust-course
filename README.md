@@ -108,6 +108,13 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
   - dark background color
 - Bring in the router
   - Note that the links must be in the router, so router will be top level
+- State management
+  - Yewdux
+    - struct based components only if you want to access the state
+  - Bounce
+    - either
+      - small stores based on parts of data to store
+      - single state that holds everything, but everything is replaced when a change happens
 - Create view placeholders
 - How components talk to each other
   - Properties
