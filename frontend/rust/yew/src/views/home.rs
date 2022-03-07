@@ -1,3 +1,4 @@
+use crate::components::atom::button::{ButtonColor, ButtonWrapper};
 use crate::components::atom::{link_wrapper::LinkWrapper, text_input_wrapper::TextInputWrapper};
 use crate::router::Route;
 use crate::store::bounce::TextInput;
@@ -26,6 +27,13 @@ pub fn home() -> Html {
         <LinkWrapper to_internal={Route::Bounce} label="Bounce" is_button={true} />
         <LinkWrapper to="http://localhost:8080" label="vue todo!!!" />
         <TextInputWrapper on_change={on_input_change} label="form input" placeholder="I am a form input" />
+        <h1>{"button"}</h1>
+        <ButtonWrapper label="primary" color={ButtonColor::Primary} />
+        <ButtonWrapper label="success" color={ButtonColor::Success} />
+        <ButtonWrapper label="danger" color={ButtonColor::Danger} />
+        <ButtonWrapper label="warning" color={ButtonColor::Warning} />
+        <ButtonWrapper label="info" color={ButtonColor::Info} />
+        <ButtonWrapper label="none" color={ButtonColor::None} />
       </div>
     }
 }

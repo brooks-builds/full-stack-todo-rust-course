@@ -103,6 +103,9 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
 - Set up a Hello World app
 - Hello World component
   - Styling the component
+    - inline
+    - css in rust
+    - separate css file `const STYLE: &'static str = include_str!("style.css");`
 - Global CSS Setup
   - reset
   - dark background color
@@ -124,7 +127,7 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
     - [x] link
       - [x] normal link
       - [x] button
-    - [ ] input form field
+    - [x] input form field
     - [ ] button
     - [ ] text
       - [ ] normal
@@ -151,3 +154,6 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
     - [ ] single task
     - [ ] edit task
 - Create the top navbar
+- Create a snippet for creating a component
+  - atomic
+- Sending http requests
