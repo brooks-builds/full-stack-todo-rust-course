@@ -98,17 +98,24 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
 
 ## Yew
 
-- Installing and setting up Yew
-- Getting the counter example app running
+- Set up Rust
+  - Rustup
+  - VS Code
+  - Installing and setting up Yew
+  - Project repository
+  - Getting the counter example app running
 - Set up a Hello World app
+- Global CSS Setup
+  - reset
+  - dark background color
 - Hello World component
   - Styling the component
     - inline
     - css in rust
     - separate css file `const STYLE: &'static str = include_str!("style.css");`
-- Global CSS Setup
-  - reset
-  - dark background color
+  - How components talk to each other
+    - Properties
+    - Callbacks
 - Bring in the router
   - Note that the links must be in the router, so router will be top level
 - State management
@@ -118,10 +125,7 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
     - either
       - small stores based on parts of data to store
       - single state that holds everything, but everything is replaced when a change happens
-- Create view placeholders
-- How components talk to each other
-  - Properties
-  - Callbacks
+- HTTP requests
 - Create components?
   - [ ] atom
     - [x] link

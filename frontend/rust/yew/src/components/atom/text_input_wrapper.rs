@@ -8,11 +8,27 @@ use web_sys::{
 use yew::{classes, html, use_state, Callback, Properties};
 use yew::{use_context, TargetCast};
 
+#[derive(PartialEq, Clone)]
+pub enum InputType {
+    Text,
+    Password,
+}
+
+impl ToString for InputType {
+    fn to_string(&self) -> String {
+        match self {
+            InputType::Text => "text".to_owned(),
+            InputType::Password => "password".to_owned(),
+        }
+    }
+}
+
 #[derive(Properties, PartialEq, Clone)]
 pub struct TextInputWrapperProps {
     pub on_change: Callback<String>,
     pub label: String,
     pub placeholder: Option<String>,
+    pub input_type: InputType,
 }
 
 #[styled_component(TextInputWrapper)]
@@ -45,7 +61,7 @@ pub fn text_input_wrapper(props: &TextInputWrapperProps) -> Html {
     html! {
       <div class={stylesheet}>
         <label for="input">{props.label.clone()}</label>
-        <input type="text" id="input" placeholder={props.placeholder.clone().unwrap_or_else(|| props.label.clone())} onchange={onchange}/>
+        <input type={props.input_type.to_string()} id="input" placeholder={props.placeholder.clone().unwrap_or_else(|| props.label.clone())} onchange={onchange}/>
       </div>
     }
 }
