@@ -925,6 +925,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "stylist",
+ "wasm-bindgen-futures",
  "web-sys",
  "yew",
  "yew-agent",
