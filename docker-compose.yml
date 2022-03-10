@@ -12,6 +12,7 @@ services:
       - rust-yew
       - nodejs-express
       - compare-frontend
+      - js-vue
     build: ./backend/nodejs/express
     volumes:
       - ./backend/nodejs/express:/code/

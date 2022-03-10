@@ -924,6 +924,7 @@ dependencies = [
  "reqwasm",
  "serde",
  "serde_derive",
+ "serde_json",
  "stylist",
  "wasm-bindgen-futures",
  "web-sys",

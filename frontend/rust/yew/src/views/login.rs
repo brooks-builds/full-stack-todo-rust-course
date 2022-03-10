@@ -7,7 +7,7 @@ use bounce::use_atom;
 use gloo::console::__macro::JsValue;
 use gloo::console::log;
 use reqwasm::http::Request;
-use serde::{Serialize, Deserialize};
+use serde::{Serialize, Deserialize, Serializer};
 use stylist::yew::styled_component;
 use yew::prelude::*;
 
@@ -66,9 +66,11 @@ impl Component for Login {
             ComponentMessage::Password(password) => self.password = Some(password),
             ComponentMessage::FormSubmitted => {
               let user_data = UserData{username: self.username.clone().unwrap(), password: self.password.clone().unwrap()};
+              let user_data_string = serde_json::to_string(&user_data).unwrap();
               wasm_bindgen_futures::spawn_local(async move {
                 let response = Request::post("http://localhost:3000/api/v1/users/login")
-                .body(JsValue::from_serde(&user_data).unwrap())
+                .header("Content-Type", "application/json")
+                .body(JsValue::from_str(&user_data_string))
             .send()
             .await
             .unwrap();
