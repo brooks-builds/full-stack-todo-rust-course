@@ -4,12 +4,14 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const {tasksRouter, usersRouter} = require('./routes');
 const cors = require('cors');
+const morgan = require('morgan');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(morgan("combined"))
 
 app.use("/api/v1/tasks", tasksRouter);
 app.use("/api/v1/users", usersRouter);
