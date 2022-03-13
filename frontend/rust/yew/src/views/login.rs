@@ -22,7 +22,7 @@ pub fn login() -> Html {
     html! {
       <section>
         <h1>{"Login"}</h1>
-        <form onsubmit={handle_form_submit(state.clone())}>
+        <form onsubmit={handle_form_submit(state.clone(), user_store.clone())}>
           <div>
             <TextInputWrapper label="Username" input_type={InputType::Text} on_change={handle_change_username(state.clone())} />
           </div>
@@ -60,7 +60,7 @@ struct ApiResponse {
     data: UserDataResponse,
 }
 
-async fn login_to_server(user: String) {
+async fn login_to_server(user: String) -> UserDataResponse {
     let response = Request::post("http://localhost:3000/api/v1/users/login")
         .body(user)
         .header("Content-Type", "application/json")
@@ -68,7 +68,7 @@ async fn login_to_server(user: String) {
         .await
         .unwrap();
     let body = response.json::<ApiResponse>().await.unwrap();
-    log!(serde_json::to_string(&body).unwrap());
+    body.data
 }
 
 fn handle_change_username(state: UseStateHandle<UserData>) -> Callback<String> {
@@ -87,10 +87,20 @@ fn handle_change_password(state: UseStateHandle<UserData>) -> Callback<String> {
     })
 }
 
-fn handle_form_submit(state: UseStateHandle<UserData>) -> Callback<FocusEvent> {
+fn handle_form_submit(
+    state: UseStateHandle<UserData>,
+    user_store: UseAtomHandle<User>,
+) -> Callback<FocusEvent> {
     Callback::from(move |event: FocusEvent| {
         event.prevent_default();
         let stringified_user = serde_json::to_string(&*state).unwrap();
-        wasm_bindgen_futures::spawn_local(login_to_server(stringified_user));
+        let user_store = user_store.clone();
+        wasm_bindgen_futures::spawn_local(async move {
+            let result = login_to_server(stringified_user).await;
+            user_store.set(User {
+                username: result.username,
+                token: result.token,
+            });
+        });
     })
 }

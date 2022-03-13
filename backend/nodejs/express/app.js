@@ -13,7 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan("dev"))
 
-// app.use("/api/v1/tasks", tasksRouter);
+app.use("/api/v1/tasks", tasksRouter);
 app.use("/api/v1/users", usersRouter);
 
 app.use((error, req, res, next) => {
