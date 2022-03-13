@@ -14,21 +14,6 @@ pub struct TextInput {
 
 #[derive(Default, PartialEq, Atom, Clone, Serialize)]
 pub struct User {
-    pub username: Option<String>,
-    pub password: Option<String>,
-    pub token: Option<String>,
-}
-
-impl User {
-    pub async fn login_to_server(&mut self) {
-        log!("starting to login to server", self.username.clone());
-        let response = Request::post("http://nodejs-express:3000/api/v1/users/login")
-            .body(JsValue::from_serde(self).unwrap())
-            .send()
-            .await
-            .unwrap();
-        log!("finished sending login request");    
-        log!(response.as_raw());
-        self.password = None;
-    }
+    pub username: String,
+    pub token: String,
 }

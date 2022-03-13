@@ -9,11 +9,11 @@ const morgan = require('morgan');
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
 app.use(cors());
-app.use(morgan("combined"))
+app.use(bodyParser.json());
+app.use(morgan("dev"))
 
-app.use("/api/v1/tasks", tasksRouter);
+// app.use("/api/v1/tasks", tasksRouter);
 app.use("/api/v1/users", usersRouter);
 
 app.use((error, req, res, next) => {

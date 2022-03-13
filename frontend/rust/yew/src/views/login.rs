@@ -3,144 +3,94 @@ use std::ops::Deref;
 use crate::components::atom::button::{ButtonColor, ButtonWrapper};
 use crate::components::atom::text_input_wrapper::{InputType, TextInputWrapper};
 use crate::store::bounce::User;
-use bounce::use_atom;
+use bounce::{use_atom, UseAtomHandle};
 use gloo::console::__macro::JsValue;
 use gloo::console::log;
 use reqwasm::http::Request;
-use serde::{Serialize, Deserialize, Serializer};
+use serde::{Deserialize, Serialize, Serializer};
 use stylist::yew::styled_component;
 use yew::prelude::*;
 
-pub enum ComponentMessage {
-  Username(String),
-  Password(String),
-  FormSubmitted
-}
-
-#[derive(Clone, PartialEq)]
-pub struct Login {
-  username: Option<String>,
-  password: Option<String>,
-}
-
-impl Component for Login {
-    type Message = ComponentMessage;
-
-    type Properties = ();
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-          username: None,
-          password: None,
-        }
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-    
+#[function_component(Login)]
+pub fn login() -> Html {
+    let state = use_state(|| UserData {
+        username: "".to_owned(),
+        password: "".to_owned(),
+    });
+    let user_store = use_atom::<User>();
 
     html! {
       <section>
         <h1>{"Login"}</h1>
-        <form onsubmit={ctx.link().callback(|event: FocusEvent| {
-          event.prevent_default();
-          ComponentMessage::FormSubmitted
-        })
-        }>
+        <form onsubmit={handle_form_submit(state.clone())}>
           <div>
-            <TextInputWrapper label="Username" on_change={ctx.link().callback(|username| ComponentMessage::Username(username))} input_type={InputType::Text} />
+            <TextInputWrapper label="Username" input_type={InputType::Text} on_change={handle_change_username(state.clone())} />
           </div>
           <div>
-            <TextInputWrapper label="Password" on_change={ctx.link().callback(|password| ComponentMessage::Password(password))} input_type={InputType::Password} />
+            <TextInputWrapper label="Password" input_type={InputType::Password} on_change={handle_change_password(state.clone())} />
           </div>
           <div>
-            <ButtonWrapper label="Login" color={ButtonColor::Success} />
+            <ButtonWrapper label="Login" color={ButtonColor::Primary} />
           </div>
         </form>
+        <div>
+          <p>{"username:: "}{&state.username}</p>
+          <p>{"username: "}{&state.password}</p>
+          <p>{"token: "}{&user_store.token}</p>
+        </div>
       </section>
     }
-    }
-
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        match msg {
-            ComponentMessage::Username(username) => self.username = Some(username),
-            ComponentMessage::Password(password) => self.password = Some(password),
-            ComponentMessage::FormSubmitted => {
-              let user_data = UserData{username: self.username.clone().unwrap(), password: self.password.clone().unwrap()};
-              let user_data_string = serde_json::to_string(&user_data).unwrap();
-              wasm_bindgen_futures::spawn_local(async move {
-                let response = Request::post("http://localhost:3000/api/v1/users/login")
-                .header("Content-Type", "application/json")
-                .body(JsValue::from_str(&user_data_string))
-            .send()
-            .await
-            .unwrap();
-  log!(response.as_raw());  
-              })
-              // ctx.link().callback_future(|thing| login_to_server(UserData {username: self.username.unwrap(), password: self.password.unwrap()}));
-            },
-        }
-        true
-    }
-
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
-        true
-    }
-
-    fn rendered(&mut self, ctx: &Context<Self>, first_render: bool) {}
-
-    fn destroy(&mut self, ctx: &Context<Self>) {}
 }
-// #[styled_component(Login)]
-// pub fn login() -> Html {
-//     let context = use_context::<yew::Context<Login>>();
-//     let user_store = use_atom::<User>();
-//     let user_store_clone = user_store.clone();
-//     let username_onchange = Callback::from(move |username_value: String| {
-//         let mut user = user_store_clone.deref().clone();
-//         user.username = Some(username_value);
-//         user_store_clone.set(user);
-//     });
-//     let user_store_clone = user_store.clone();
-//     let password_onchange = Callback::from(move |password: String| {
-//         let mut user = user_store_clone.deref().clone();
-//         user.password = Some(password);
-//         user_store_clone.set(user);
-//     });
-//     let form_onsubmit = Callback::from(move |event: FocusEvent| {
-//         event.prevent_default();
-//         log!("about to submit form");
-//         user_store.deref().clone().login_to_server();
-//     });
 
-//     html! {
-//       <section>
-//         <h1>{"Login"}</h1>
-//         <form onsubmit={form_onsubmit}>
-//           <div>
-//             <TextInputWrapper label="Username" on_change={username_onchange} input_type={InputType::Text} />
-//           </div>
-//           <div>
-//             <TextInputWrapper label="Password" on_change={password_onchange} input_type={InputType::Password} />
-//           </div>
-//           <div>
-//             <ButtonWrapper label="Login" color={ButtonColor::Success} />
-//           </div>
-//         </form>
-//       </section>
-//     }
-// }
+#[derive(Serialize, Deserialize, Clone)]
+struct UserData {
+    pub username: String,
+    pub password: String,
+}
 
 #[derive(Serialize, Deserialize)]
-struct UserData {
-  username: String,
-  password: String
+struct UserDataResponse {
+    id: u32,
+    username: String,
+    token: String,
 }
 
-async fn login_to_server(user: UserData) {
-  let response = Request::post("http://localhost:3000/api/v1/users/login")
-            .body(JsValue::from_serde(&user).unwrap())
-            .send()
-            .await
-            .unwrap();
-  log!(response.as_raw());          
+#[derive(Serialize, Deserialize)]
+struct ApiResponse {
+    data: UserDataResponse,
+}
+
+async fn login_to_server(user: String) {
+    let response = Request::post("http://localhost:3000/api/v1/users/login")
+        .body(user)
+        .header("Content-Type", "application/json")
+        .send()
+        .await
+        .unwrap();
+    let body = response.json::<ApiResponse>().await.unwrap();
+    log!(serde_json::to_string(&body).unwrap());
+}
+
+fn handle_change_username(state: UseStateHandle<UserData>) -> Callback<String> {
+    Callback::from(move |changed_username| {
+        let mut user = state.deref().clone();
+        user.username = changed_username;
+        state.set(user);
+    })
+}
+
+fn handle_change_password(state: UseStateHandle<UserData>) -> Callback<String> {
+    Callback::from(move |password| {
+        let mut user = state.deref().clone();
+        user.password = password;
+        state.set(user);
+    })
+}
+
+fn handle_form_submit(state: UseStateHandle<UserData>) -> Callback<FocusEvent> {
+    Callback::from(move |event: FocusEvent| {
+        event.prevent_default();
+        let stringified_user = serde_json::to_string(&*state).unwrap();
+        wasm_bindgen_futures::spawn_local(login_to_server(stringified_user));
+    })
 }

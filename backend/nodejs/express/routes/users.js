@@ -28,17 +28,17 @@ router
     }
   })
 
-router.route('/logout')
-  .all(authenticate)
-  .post(async (req, res) => {
-    try {
-      const token = req.headers["x-auth-token"];
-      const result = await userQueries.findAndRemoveToken(token);
-      res.json({message: "user logged out"});
-    } catch (error) {
-      res.status(500).json({error: error.message});
-    }
-  })
+// router.route('/logout')
+//   .all(authenticate)
+//   .post(async (req, res) => {
+//     try {
+//       const token = req.headers["x-auth-token"];
+//       const result = await userQueries.findAndRemoveToken(token);
+//       res.json({message: "user logged out"});
+//     } catch (error) {
+//       res.status(500).json({error: error.message});
+//     }
+//   })
 
 router.route('/login')
   .post(async (req, res) => {
