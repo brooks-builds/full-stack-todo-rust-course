@@ -98,33 +98,47 @@ View the wireframe at [https://brookspatton508559.invisionapp.com/freehand/todo-
 
 ## Yew
 
-- Set up Rust
-  - Rustup
-  - VS Code
-  - Installing and setting up Yew
-  - Project repository
-  - Getting the counter example app running
-- Set up a Hello World app
-- Global CSS Setup
-  - reset
-  - dark background color
-- Hello World component
-  - Styling the component
-    - inline
-    - css in rust
-    - separate css file `const STYLE: &'static str = include_str!("style.css");`
-  - How components talk to each other
-    - Properties
-    - Callbacks
-- Bring in the router
-  - Note that the links must be in the router, so router will be top level
-- State management
-  - Yewdux
-    - struct based components only if you want to access the state
-  - Bounce
-    - either
-      - small stores based on parts of data to store
-      - single state that holds everything, but everything is replaced when a change happens
+| Video / Lesson Title                | URL | Section           | Description                                                                                                       |
+| ----------------------------------- | --- | ----------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Trailer                             |     |                   |                                                                                                                   |
+| Introduction to the Course          |     | Introduction      |                                                                                                                   |
+| Prequisites                         |     | Introduction      | What you need to know or have to get the most out of this course                                                  |
+| Setting up Rust                     |     | Setting Up        | We're installing rust and some nice Cargo packages                                                                |
+| Setting up VS Code                  |     | Setting Up        | We're using VS Code for this course, so let's set it up for Rust dev                                              |
+| Installing Docker                   |     | Setting Up        | A server and database has been created to help us focus on front end dev, we can use Docker to set that up easily |
+| Intro to Docker                     |     | Setting Up        | A crash course on using Docker and Docker-Dompose                                                                 |
+| Setting up the Course Repo          |     | Setting Up        | Getting the backend up and running and exploring the API                                                          |
+| Hello World in Rust                 |     | First Steps       | Our first Rust program                                                                                            |
+| Hello World in Yew.rs               |     | First Steps       | Now that we have a working Rust program, let's create our first Yew.rs program                                    |
+| A better Hello World architecture   |     | First Steps       | Having everything in main.rs isn't ideal, let's set up a basic architecture that will work with us                |
+| Introduction to stylist             |     | styling           | We will be using a crate called stylist to apply css to our components                                            |
+| global css                          |     | styling           | There are some css rules we want available for everything                                                         |
+| Inline styles                       |     | styling           | The first and simplest of adding styles is to directly style the html                                             |
+| CSS in Rust                         |     | styling           | We can also create style sheets that are scoped to each component similar to Vue.js                               |
+| Separate CSS file                   |     | styling           | We don't have to give up our editors helping with with css, we can use a separate css file!                       |
+| Passing properties into components  |     | properties        | Components that can't receive data are boring                                                                     |
+| enum properties                     |     | properties        | Sometimes we want more advanced properties                                                                        |
+| Callbacks                           |     | properties        | We use callbacks so that we can communicate up to parent components                                               |
+| Optional properties                 |     | properties        | Sometimes we don't always need a property, so having some of them be optional can be helpful                      |
+| use state                           |     | hooks             | React style hooks exist in Yew.rs! this maens we can set and use state in functional components!                  |
+| use effect                          |     | hooks             | We can run code whenever the component has been loaded                                                            |
+| use context                         |     | hooks             | access context state without needing prop drill many levels down                                                  |
+| setting up Yew router               |     | router            | We can set up a frontend router so that we don't have to touch the server when navigating pages                   |
+| creating a form                     |     | handling events   | We'll be creating a form so that we can explore handling DOM events                                               |
+| handling text field events          |     | handling events   | Let's add a event handler to the text field                                                                       |
+| handling form submit events         |     | handling events   | It can be nice to handle form submit events rather than just a click listener on buttons                          |
+| updating local state with form data |     | handling events   | When form fields change we want to store the data in local state, and then do something when we submit the form   |
+| struct components                   |     | struct components | Struct components are similar to Class-based components in React or Vue.js                                        |
+| styling struct componets            |     | struct components | Styling is pretty much the same, the only real difference is where to store the stylesheet                        |
+| receiving properties                |     | struct components | The props are stored in the context object                                                                        |
+| handling events                     |     | struct components | Saving state in a struct component uses message passing                                                           |
+| lifecycle methods                   |     | struct components | These methods are available on the impl of the component struct                                                   |
+| Introduction to centralized stores  |     | stores            | We have two stores we will be using this course, Bounce and Yewdux                                                |
+| Setting up Yewdux                   |     | stores            | Yewdux is very similar to Redux for state management                                                              |
+| Using Yewdux to store form data     |     | stores            | We want to create a form and save it's data to the Yewdux store                                                   |
+| Setting up Bounce                   |     | stores            | Bounce is the authors choice for functional component stores                                                      |
+| Using bounce to store form data     |     | stores            | We want to create a form and save it's data to the Bounce store                                                                                                                  |
+
 - HTTP requests
 - Create components?
   - [ ] atom
