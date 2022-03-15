@@ -6,8 +6,10 @@ use crate::store::bounce::User;
 use bounce::{use_atom, UseAtomHandle};
 use gloo::console::__macro::JsValue;
 use gloo::console::log;
+use gloo::storage::{LocalStorage, Storage};
 use reqwasm::http::Request;
 use serde::{Deserialize, Serialize, Serializer};
+use serde_json::json;
 use stylist::yew::styled_component;
 use yew::prelude::*;
 
@@ -98,9 +100,10 @@ fn handle_form_submit(
         wasm_bindgen_futures::spawn_local(async move {
             let result = login_to_server(stringified_user).await;
             user_store.set(User {
-                username: result.username,
-                token: result.token,
+                username: result.username.clone(),
+                token: result.token.clone(),
             });
+            LocalStorage::set("user_data", result).unwrap();
         });
     })
 }
