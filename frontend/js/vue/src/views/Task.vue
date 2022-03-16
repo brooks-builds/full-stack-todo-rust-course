@@ -33,6 +33,7 @@
         label="Priority"
         :options="priorities"
         v-model="editPriority"
+        data-test-editing-priority
       />
     </div>
     <div class="description" v-if="!isEditMode">

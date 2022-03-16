@@ -118,6 +118,8 @@ describe("todo app", () => {
         .type("!!!")
         .get("[data-test-editing-description]")
         .type("!!!")
+        .get("[data-test-editing-priority] select")
+        .select("B")
         .get("[data-test-submit]")
         .click()
         .get("[data-test-editing-title]")
@@ -140,6 +142,8 @@ describe("todo app", () => {
         .should("contain", "I am a task, you can complete me by checking the box!!!")
         .get("[data-test-description]")
         .should("contain", "This is my description!!!")
+        .dataGet("priority")
+        .should("contain", "B")
     })
 
     it("should be deletable", () => {
