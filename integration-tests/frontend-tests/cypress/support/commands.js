@@ -25,15 +25,26 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add("createAccount", (username, password) => {
     cy.visit('/create-account')
-    .get("[data-test-username]")
-    .type(username)
-    .get("[data-test-password]")
-    .type(password)
-    .get("[data-test-submit]")
-    .click()
+        .get("[data-test-username]")
+        .type(username)
+        .get("[data-test-password]")
+        .type(password)
+        .get("[data-test-submit]")
+        .click()
 })
 
 Cypress.Commands.add("dataGet", (selector) => {
     cy
         .get(`[data-test-${selector}]`)
+})
+
+Cypress.Commands.add("login", (username, password) => {
+    cy
+        .visit("/login")
+        .dataGet("username")
+        .type(username)
+        .dataGet("password")
+        .type(password)
+        .dataGet("submit")
+        .click()
 })

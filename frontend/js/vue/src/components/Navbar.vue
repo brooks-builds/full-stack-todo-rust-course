@@ -18,7 +18,9 @@
     </div>
     <div class="flex">
       <div class="add-task" v-if="$store.getters.loggedIn">
-        <router-link to="/add-task" class="button"> Add Task </router-link>
+        <router-link to="/add-task" class="button" data-test-add-task>
+          Add Task
+        </router-link>
       </div>
       <div v-if="!$store.getters.loggedIn">
         <router-link

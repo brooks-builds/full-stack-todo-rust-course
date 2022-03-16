@@ -24,6 +24,7 @@
             :checked="!!task.completed_at"
             :id="task.id.toString()"
             @checked="handleCompletedToggle(task.id)"
+            data-test-completed
           />
         </template>
         <template v-slot:Task="{ data: task }">
@@ -32,6 +33,9 @@
               task.title
             }}</router-link>
           </span>
+        </template>
+        <template v-slot:Priority="{ data: priority }">
+          <span data-test-priority>{{ priority }}</span>
         </template>
       </data-table>
     </section>

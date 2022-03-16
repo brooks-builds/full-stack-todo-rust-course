@@ -14,7 +14,7 @@
     </div>
     <div>
       <span>Completed: </span>
-      <span v-if="!isEditMode" :class="completedClass">{{
+      <span v-if="!isEditMode" :class="completedClass" data-test-completed>{{
         completedIcon
       }}</span>
       <form-checkbox
