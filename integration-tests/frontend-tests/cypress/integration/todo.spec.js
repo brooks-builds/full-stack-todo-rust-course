@@ -204,4 +204,13 @@ describe("todo app", () => {
         .should("be.checked")
     })
   })
+
+  describe("logged out", () => {
+    it("I should not be able to see any tasks", () => {
+      cy
+        .visit("/")
+        .dataGet("tasklink")
+        .should("have.length", 0)
+    })
+  })
 })
