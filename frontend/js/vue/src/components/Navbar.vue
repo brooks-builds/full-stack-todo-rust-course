@@ -14,6 +14,7 @@
         size="small"
         status="warning"
         @click="handleDeleteTask"
+        data-test-delete
       />
     </div>
     <div class="flex">

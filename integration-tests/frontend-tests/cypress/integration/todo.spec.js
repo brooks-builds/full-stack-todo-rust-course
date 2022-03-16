@@ -141,6 +141,22 @@ describe("todo app", () => {
         .get("[data-test-description]")
         .should("contain", "This is my description!!!")
     })
+
+    it("should be deletable", () => {
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
+
+      cy.createAccount(username, password)
+        .dataGet("tasklink")
+        .should("have.length", 2)
+        .dataGet("tasklink")
+        .first()
+        .click()
+        .dataGet("delete")
+        .click()
+        .dataGet("tasklink")
+        .should("have.length", 1)
+    })
   })
 
   describe("creating a task", () => {
