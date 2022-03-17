@@ -235,7 +235,7 @@ describe("todo app", () => {
   })
 
   describe("home page", () => {
-    it.only("should allow the user to sort by priority", () => {
+    it("should allow the user to sort the tasks", () => {
       const username = faker.internet.userName();
       const password = faker.internet.password();
 
@@ -265,6 +265,35 @@ describe("todo app", () => {
         .dataGet("tasklink")
         .eq(1)
         .should("contain", "ZZZZZZZZZZZZZZ")
+    })
+
+    it.only("should allow users to filter the tasks", () => {
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
+
+      cy
+        .createAccount(username, password)
+        .get("[data-test-completed] input")
+        .first()
+        .click({force: true})
+        .get("[data-test-filter] select")
+        .select("Completed")
+        .dataGet("tasklink")
+        .should("have.length", 1)
+        .dataGet("tasklink")
+        .should("contain", "I am a task, you can complete me by checking the box")
+        .get("[data-test-filter] select")
+        .select("Uncompleted")
+        .dataGet("tasklink")
+        .should("have.length", 1)
+        .dataGet("tasklink")
+        .should("contain", "See my details for by clicking me")
+        .get("[data-test-filter] select")
+        .select("Priority A")
+        .dataGet("tasklink")
+        .should("have.length", 1)
+        .dataGet("tasklink")
+        .should("contain", "I am a task, you can complete me by checking the box")
     })
   })
 })

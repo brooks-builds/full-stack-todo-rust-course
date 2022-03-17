@@ -7,6 +7,7 @@
           label="Filter By"
           :options="filterByOptions"
           v-model="filterBy"
+          data-test-filter
         />
       </div>
       <div class="sort-by" v-if="isLoggedIn">
