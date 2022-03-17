@@ -58,7 +58,7 @@ wip - we are building this out now in prep for the real course
 - [x] As a logged in doer, I want to assign a task a priority √
 - [x] As a logged in doer, I want to sort my tasks by priority √
 - [x] As a logged in doer, I want to sort my tasks by name √
-- [x] As a logged in doer, I want to sort my tasks by created order
+- [x] As a logged in doer, I want to sort my tasks by created order √
 - [x] As a logged in doer, I want to filter my tasks by none
 - [x] As a logged in doer, I want to filter my tasks by completed
 - [x] As a logged in doer, I want to filter my tasks by priority
