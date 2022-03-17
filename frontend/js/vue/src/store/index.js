@@ -47,7 +47,7 @@ export default new Vuex.Store({
       {value: "priorityC", label: "Priority C", default: false},
     ],
     selectedFilterBy: "none",
-    errorMessageTimeout: 60000,
+    errorMessageTimeout: 30000,
     localStorageUser: "user"
   },
   mutations: {

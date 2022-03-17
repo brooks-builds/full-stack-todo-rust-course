@@ -310,4 +310,17 @@ describe("todo app", () => {
         .should("have.length", 2)
     })
   })
+
+  describe("error messages", () => {
+    it.only("should display when I navigate to a single task while logged out", () => {
+      cy
+        .visit("/tasks/1")
+        .dataGet("error")
+        .should("be.visible")
+        .and("contain", "You must be logged in to view tasks")
+        .wait(31000)
+        .dataGet("error")
+        .should("not.be.visible");
+    })
+  })
 })

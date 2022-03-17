@@ -7,7 +7,7 @@
       @deleteTask="handleDeleteTask"
     />
     <main>
-      <div :class="errorActive">{{ errorMessage }}</div>
+      <div :class="errorActive" data-test-error>{{ errorMessage }}</div>
       <router-view
         @usernameSet="handleCreateAccountUsernameSet"
         @passwordSet="handleCreateAccountPasswordSet"
@@ -137,7 +137,7 @@ export default {
 }
 
 .error-active {
-  animation: fade-away 60s linear;
+  animation: fade-away 30s linear;
 }
 
 .error-not-active {
