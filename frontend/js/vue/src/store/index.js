@@ -16,7 +16,7 @@ export default new Vuex.Store({
       id: null,
       title: null,
       completed_at: null,
-      priority: null,
+      priority: "A",
       description: null
     },
     editingOneTask: false,

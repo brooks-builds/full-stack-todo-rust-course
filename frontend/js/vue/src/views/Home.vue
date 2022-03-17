@@ -14,6 +14,7 @@
           label="Sort By"
           :options="sortByOptions"
           v-model="sortBy"
+          data-test-sort
         />
       </div>
     </section>

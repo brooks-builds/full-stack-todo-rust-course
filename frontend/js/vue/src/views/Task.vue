@@ -103,12 +103,7 @@ export default {
     },
     priorities() {
       const prioritiesClone = cloneDeep(this.$store.state.priorities);
-      console.log("cloned priorities", prioritiesClone);
       const prioritiesWithDefaultSet = prioritiesClone.map((priority) => {
-        console.log(
-          "currently edited priority",
-          this.$store.state.editedTask.priority
-        );
         priority.default =
           priority.value == this.$store.state.editedTask.priority;
         return priority;

@@ -233,4 +233,26 @@ describe("todo app", () => {
         .should("have.length", 0)
     })
   })
+
+  describe("home page", () => {
+    it.only("should allow the user to sort by priority", () => {
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
+
+      cy
+        .server()
+        .route("post", "http://localhost:3000/api/v1/users").as("createAccount")
+      .createAccount(username, password)
+      .wait("@createAccount")
+        .createTask({priority: "A"})
+        .dataGet("priority")
+        .eq(1)
+        .should("contain", "B")
+        .get("[data-test-sort] select")
+        .select("priority")
+        .dataGet("priority")
+        .eq(1)
+        .should("contain", "A")
+    })
+  })
 })

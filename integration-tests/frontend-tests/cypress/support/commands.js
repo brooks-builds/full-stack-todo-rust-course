@@ -22,6 +22,9 @@
 //
 //
 // -- This will overwrite an existing command --
+
+const faker = require("faker")
+
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add("createAccount", (username, password) => {
     cy.visit('/create-account')
@@ -45,6 +48,20 @@ Cypress.Commands.add("login", (username, password) => {
         .type(username)
         .dataGet("password")
         .type(password)
+        .dataGet("submit")
+        .click()
+})
+
+Cypress.Commands.add("createTask", ({title = faker.lorem.sentence(), description = faker.lorem.sentences(3), priority = 'B'}) => {
+    cy
+        .dataGet("add-task")
+        .click()
+        .dataGet("title")
+        .type(title)
+        .dataGet("description")
+        .type(description)
+        .get("[data-test=priority]")
+        .select(priority)
         .dataGet("submit")
         .click()
 })
