@@ -267,7 +267,7 @@ describe("todo app", () => {
         .should("contain", "ZZZZZZZZZZZZZZ")
     })
 
-    it.only("should allow users to filter the tasks", () => {
+    it("should allow users to filter the tasks", () => {
       const username = faker.internet.userName();
       const password = faker.internet.password();
 
@@ -294,6 +294,20 @@ describe("todo app", () => {
         .should("have.length", 1)
         .dataGet("tasklink")
         .should("contain", "I am a task, you can complete me by checking the box")
+        .get("[data-test-filter] select")
+        .select("Priority B")
+        .dataGet("tasklink")
+        .should("have.length", 1)
+        .dataGet("tasklink")
+        .should("contain", "See my details for by clicking me")
+        .get("[data-test-filter] select")
+        .select("Priority C")
+        .dataGet("tasklink")
+        .should("have.length", 0)
+        .get("[data-test-filter] select")
+        .select("None")
+        .dataGet("tasklink")
+        .should("have.length", 2)
     })
   })
 })

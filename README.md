@@ -59,9 +59,9 @@ wip - we are building this out now in prep for the real course
 - [x] As a logged in doer, I want to sort my tasks by priority √
 - [x] As a logged in doer, I want to sort my tasks by name √
 - [x] As a logged in doer, I want to sort my tasks by created order √
-- [x] As a logged in doer, I want to filter my tasks by none
-- [x] As a logged in doer, I want to filter my tasks by completed
-- [x] As a logged in doer, I want to filter my tasks by priority
+- [x] As a logged in doer, I want to filter my tasks by none √
+- [x] As a logged in doer, I want to filter my tasks by completed √
+- [x] As a logged in doer, I want to filter my tasks by priority √
 - [x] As a user, when an error occurs I want to see what happened
 - [x] As a logged in doer viewing task details, I want to complete a task
 - [x] As a logged in doer viewing task details, I want to uncomplete a task
