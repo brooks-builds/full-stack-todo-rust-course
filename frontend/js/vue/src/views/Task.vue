@@ -55,6 +55,7 @@
         status="info"
         size="medium"
         @click="handleCancel"
+        data-test-cancel
       />
     </div>
   </section>
@@ -76,6 +77,9 @@ export default {
     FormTextArea,
     FormSelect,
   },
+  data() {return {
+    checkIfLoggedIn: null,
+  }},
   computed: {
     editDescription: {
       get() {
@@ -138,10 +142,17 @@ export default {
   },
   mounted() {
     this.$emit("resetEditedTask");
-    if (!this.$store.getters.loggedIn) {
-      this.$emit("error", "You must be logged in to view tasks");
-    }
+    this.checkIfLoggedIn = setTimeout(() => {
+      if (!this.$store.getters.loggedIn) {
+        this.$emit("error", "You must be logged in to view tasks");
+      }
+    }, 500);
   },
+  beforeDestroy() {
+    if(this.checkIfLoggedIn) {
+      clearTimeout(this.checkIfLoggedIn);
+    }
+  }
 };
 </script>
 

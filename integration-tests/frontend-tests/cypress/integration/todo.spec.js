@@ -120,6 +120,8 @@ describe("todo app", () => {
         .type("!!!")
         .get("[data-test-editing-priority] select")
         .select("B")
+        .get('[data-test="completed"]')
+        .click({force: true})
         .get("[data-test-submit]")
         .click()
         .get("[data-test-editing-title]")
@@ -144,6 +146,20 @@ describe("todo app", () => {
         .should("contain", "This is my description!!!")
         .dataGet("priority")
         .should("contain", "B")
+        .dataGet('completed')
+        .should("contain", "✓")
+        .dataGet('edit')
+        .click()
+        .get('[data-test="completed"]')
+        .click({force: true})
+        .get("[data-test-submit]")
+        .click()
+        .login(username, password)
+        .get("[data-test-tasklink]")
+        .first()
+        .click()
+        .dataGet('completed')
+        .should("contain", "X")
     })
 
     it("should be deletable", () => {
@@ -160,6 +176,25 @@ describe("todo app", () => {
         .click()
         .dataGet("tasklink")
         .should("have.length", 1)
+    })
+
+    it("should be able to cancel editing without saving", () => {
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
+
+      cy
+        .createAccount(username, password)
+        .dataGet("tasklink")
+        .first()
+        .click()
+        .dataGet("edit")
+        .click()
+        .dataGet("editing-title")
+        .type("!!!")
+        .dataGet("cancel")
+        .click()
+        .dataGet("title")
+        .should("not.contain", "!!!")
     })
   })
 
@@ -200,6 +235,22 @@ describe("todo app", () => {
         .should("not.be.checked")
         .dataGet("description")
         .should("contain", description)
+    })
+
+    it.only("should be able to cancel while creating a task", () => {
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
+
+      cy
+        .createAccount(username, password)
+        .dataGet("add-task")
+        .click()
+        .dataGet("title")
+        .type("ZZZZZZ")
+        .dataGet("cancel")
+        .click()
+        .dataGet("tasklink")
+        .should("not.contain", "ZZZZZZ")
     })
   })
 
@@ -312,7 +363,7 @@ describe("todo app", () => {
   })
 
   describe("error messages", () => {
-    it.only("should display when I navigate to a single task while logged out", () => {
+    it("should display when I navigate to a single task while logged out", () => {
       cy
         .visit("/tasks/1")
         .dataGet("error")
