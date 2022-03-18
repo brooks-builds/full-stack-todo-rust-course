@@ -1,12 +1,12 @@
 <template>
   <section class="flex">
-    <router-link to="/" class="title" data-test-logo>My Todo App</router-link>
+    <router-link to="/" class="title" data-test="logo">My Todo App</router-link>
     <div class="edit-task" v-if="inOneTask">
       <form-button
         label="Edit Task"
         size="small"
         status="info"
-        data-test-edit
+        data-test="edit"
         @click="handleEditClicked"
       />
       <form-button
@@ -14,12 +14,12 @@
         size="small"
         status="warning"
         @click="handleDeleteTask"
-        data-test-delete
+        data-test="delete"
       />
     </div>
     <div class="flex">
       <div class="add-task" v-if="$store.getters.loggedIn">
-        <router-link to="/add-task" class="button" data-test-add-task>
+        <router-link to="/add-task" class="button" data-test="add-task">
           Add Task
         </router-link>
       </div>
@@ -27,15 +27,15 @@
         <router-link
           to="/create-account"
           class="button"
-          data-test-create-account
+          data-test="create-account"
           >Create Account</router-link
         >
-        <router-link to="/login" class="button" data-test-login
+        <router-link to="/login" class="button" data-test="login"
           >Login</router-link
         >
       </div>
       <div v-else class="flex">
-        <p data-test-welcome>Welcome, {{ $store.getters.username }}</p>
+        <p data-test="welcome">Welcome, {{ $store.getters.username }}</p>
         <form-button
           label="log out"
           size="small"

@@ -41,27 +41,31 @@ Cypress.Commands.add("dataGet", (selector) => {
         .get(`[data-test-${selector}]`)
 })
 
+Cypress.Commands.add("dget", selector => {
+    cy.get(`[data-test="${selector}"]`)
+})
+
 Cypress.Commands.add("login", (username, password) => {
     cy
         .visit("/login")
-        .dataGet("username")
+        .dget("username")
         .type(username)
-        .dataGet("password")
+        .dget("password")
         .type(password)
-        .dataGet("submit")
+        .dget("submit")
         .click()
 })
 
 Cypress.Commands.add("createTask", ({title = faker.lorem.sentence(), description = faker.lorem.sentences(3), priority = 'B'}) => {
     cy
-        .dataGet("add-task")
+        .dget("add-task")
         .click()
-        .dataGet("title")
+        .dget("title")
         .type(title)
-        .dataGet("description")
+        .dget("description")
         .type(description)
-        .get("[data-test=priority]")
+        .dget("priority")
         .select(priority)
-        .dataGet("submit")
+        .dget("submit")
         .click()
 })

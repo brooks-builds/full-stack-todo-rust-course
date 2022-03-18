@@ -6,6 +6,7 @@
       :placeholder="label"
       :value="value"
       @input="handleChange"
+      :data-test="dataTest"
     />
   </div>
 </template>
@@ -16,6 +17,7 @@ export default {
     label: String,
     value: String,
     type: String,
+    dataTest: String
   },
   methods: {
     handleChange(event) {

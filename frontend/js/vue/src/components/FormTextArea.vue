@@ -1,11 +1,12 @@
 <template>
-  <textarea cols="30" rows="10" :value="value" @input="handleChange"></textarea>
+  <textarea cols="30" rows="10" :value="value" @input="handleChange" :data-test="dataTest"></textarea>
 </template>
 
 <script>
 export default {
   props: {
     value: String,
+    dataTest: String,
   },
   methods: {
     handleChange(event) {

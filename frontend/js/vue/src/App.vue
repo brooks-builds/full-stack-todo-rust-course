@@ -7,7 +7,7 @@
       @deleteTask="handleDeleteTask"
     />
     <main>
-      <div :class="errorActive" data-test-error>{{ errorMessage }}</div>
+      <div :class="errorActive" data-test="error">{{ errorMessage }}</div>
       <router-view
         @usernameSet="handleCreateAccountUsernameSet"
         @passwordSet="handleCreateAccountPasswordSet"

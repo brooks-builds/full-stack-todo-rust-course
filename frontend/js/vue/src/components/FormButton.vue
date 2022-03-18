@@ -1,5 +1,5 @@
 <template>
-  <button :class="classes" :disabled="disabled" @click="handleClick">
+  <button :class="classes" :disabled="disabled" @click="handleClick" :data-test="dataTest">
     {{ label }}
   </button>
 </template>
@@ -11,6 +11,7 @@ export default {
     status: String,
     disabled: Boolean,
     size: String,
+    dataTest: String,
   },
   computed: {
     classes() {
