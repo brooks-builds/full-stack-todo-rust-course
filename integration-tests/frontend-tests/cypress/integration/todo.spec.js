@@ -225,8 +225,7 @@ describe("todo app", () => {
 
     it("can mark the task as complete", () => {
       cy
-        .server()
-        .route("/api/v1/tasks").as("getTasks")
+        .intercept("/api/v1/tasks").as("getTasks")
         .wait("@getTasks")
         .dget("completed")
         .first()
