@@ -8,7 +8,7 @@ describe("todo app", () => {
         .dget("logo")
         .click()
         .url()
-        .should("eq", "http://localhost:8080/");
+        .should("not.contain", "/create-account");
     })
   })
 
@@ -37,17 +37,7 @@ describe("todo app", () => {
 
       cy
         .createAccount(username, password)
-        .visit("/")
-        .dget("login")
-        .click()
-        .url()
-        .should("contain", "/login")
-        .dget("username")
-        .type(username)
-        .dget("password")
-        .type(password)
-        .dget("submit")
-        .click()
+        .login(username, password)
         .url()
         .should("not.contain", "/login")
         .dget("welcome")
@@ -56,12 +46,14 @@ describe("todo app", () => {
   })
 
   describe("default todo items", () => {
-    it("should exist on newly created accounts", () => {
+    beforeEach("create account", () => {
       const username = faker.internet.userName()
       const password = faker.internet.password()
+      cy.createAccount(username, password);
+    })
 
+    it("should exist on newly created accounts", () => {
       cy
-        .createAccount(username, password)
         .dget("tasklink")
         .should("have.length", 2)
         .dget("tasklink")
@@ -72,12 +64,17 @@ describe("todo app", () => {
   })
 
   describe("task details", () => {
-    it("should load the details for a single task", () => {
-      const username = faker.internet.userName();
-      const password = faker.internet.password();
+    let username;
+    let password;
 
+    beforeEach("create account", () => {
+      username = faker.internet.userName()
+      password = faker.internet.password()
+      cy.createAccount(username, password);
+    })
+
+    it("should load the details for a single task", () => {
       cy
-        .createAccount(username, password)
         .dget("tasklink")
         .first()
         .click()
@@ -94,11 +91,7 @@ describe("todo app", () => {
     })
 
     it("should be editable", () => {
-      const username = faker.internet.userName();
-      const password = faker.internet.password();
-
       cy
-        .createAccount(username, password)
         .dget("tasklink")
         .first()
         .click()
@@ -120,13 +113,7 @@ describe("todo app", () => {
         .should("contain", "I am a task, you can complete me by checking the box!!!")
         .dget("description")
         .should("contain", "This is my description!!!")
-        .visit("/login")
-        .dget("username")
-        .type(username)
-        .dget("password")
-        .type(password)
-        .dget("submit")
-        .click()
+        .login(username, password)
         .dget("tasklink")
         .first()
         .click()
@@ -153,10 +140,7 @@ describe("todo app", () => {
     })
 
     it("should be deletable", () => {
-      const username = faker.internet.userName();
-      const password = faker.internet.password();
-
-      cy.createAccount(username, password)
+      cy
         .dget("tasklink")
         .should("have.length", 2)
         .dget("tasklink")
@@ -169,11 +153,7 @@ describe("todo app", () => {
     })
 
     it("should be able to cancel editing without saving", () => {
-      const username = faker.internet.userName();
-      const password = faker.internet.password();
-
       cy
-        .createAccount(username, password)
         .dget("tasklink")
         .first()
         .click()
@@ -189,25 +169,19 @@ describe("todo app", () => {
   })
 
   describe("creating a task", () => {
+    beforeEach("create account", () => {
+      const username = faker.internet.userName()
+      const password = faker.internet.password()
+      cy.createAccount(username, password);
+    })
+
     it("should be able to create a new task", () => {
-      const username = faker.internet.userName();
-      const password = faker.internet.password();
       const title = faker.lorem.sentence();
       const description = faker.lorem.sentences(3);
       const priority = 'B'
 
       cy
-        .createAccount(username, password)
-        .dget("add-task")
-        .click()
-        .dget("title")
-        .type(title)
-        .dget("description")
-        .type(description)
-        .dget("priority")
-        .select(priority)
-        .dget("submit")
-        .click()
+        .createTask({title, description, priority})
         .dget("tasklink")
         .last()
         .should("contain", title)
@@ -228,11 +202,7 @@ describe("todo app", () => {
     })
 
     it("should be able to cancel while creating a task", () => {
-      const username = faker.internet.userName();
-      const password = faker.internet.password();
-
       cy
-        .createAccount(username, password)
         .dget("add-task")
         .click()
         .dget("title")
@@ -245,19 +215,22 @@ describe("todo app", () => {
   })
 
   describe("marking task complete", () => {
+    let username;
+    let password;
+    beforeEach("create account", () => {
+      username = faker.internet.userName()
+      password = faker.internet.password()
+      cy.createAccount(username, password);
+    })
+
     it("can mark the task as complete", () => {
-      const username = faker.internet.userName();
-      const password = faker.internet.password();
       cy
         .server()
         .route("/api/v1/tasks").as("getTasks")
-        .createAccount(username, password)
         .wait("@getTasks")
         .dget("completed")
         .first()
         .should("not.be.checked")
-        .dget("completed")
-        .first()
         .click({ force: true })
         .login(username, password)
         .dget("completed")
@@ -276,15 +249,13 @@ describe("todo app", () => {
   })
 
   describe("home page", () => {
+    beforeEach("create account", () => {
+     const username = faker.internet.userName()
+     const password = faker.internet.password()
+      cy.createAccount(username, password);
+    })
     it("should allow the user to sort the tasks", () => {
-      const username = faker.internet.userName();
-      const password = faker.internet.password();
-
       cy
-        .server()
-        .route("post", "http://localhost:3000/api/v1/users").as("createAccount")
-        .createAccount(username, password)
-        .wait("@createAccount")
         .createTask({priority: "A", title: "ZZZZZZZZZZZZZZ"})
         .dget("priority")
         .eq(1)
@@ -309,11 +280,7 @@ describe("todo app", () => {
     })
 
     it("should allow users to filter the tasks", () => {
-      const username = faker.internet.userName();
-      const password = faker.internet.password();
-
       cy
-        .createAccount(username, password)
         .dget("completed")
         .first()
         .click({force: true})
@@ -353,7 +320,7 @@ describe("todo app", () => {
   })
 
   describe("error messages", () => {
-    it.only("should display when I navigate to a single task while logged out", () => {
+    it("should display when I navigate to a single task while logged out", () => {
       cy
         .visit("/tasks/1")
         .dget("error")

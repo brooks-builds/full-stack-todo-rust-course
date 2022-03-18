@@ -36,11 +36,6 @@ Cypress.Commands.add("createAccount", (username, password) => {
         .click()
 })
 
-Cypress.Commands.add("dataGet", (selector) => {
-    cy
-        .get(`[data-test-${selector}]`)
-})
-
 Cypress.Commands.add("dget", selector => {
     cy.get(`[data-test="${selector}"]`)
 })
