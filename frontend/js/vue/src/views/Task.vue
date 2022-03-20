@@ -1,6 +1,6 @@
 <template>
   <section class="one-task">
-    <h1 data-test-title v-if="!isEditMode">
+    <h1 data-test="title" v-if="!isEditMode">
       {{ task.title }}
     </h1>
     <div v-else>
@@ -9,12 +9,12 @@
         type="text"
         :value="task.title"
         v-model="editTitle"
-        data-test-editing-title
+        dataTest="editing-title"
       />
     </div>
     <div>
       <span>Completed: </span>
-      <span v-if="!isEditMode" :class="completedClass">{{
+      <span v-if="!isEditMode" :class="completedClass" data-test="completed">{{
         completedIcon
       }}</span>
       <form-checkbox
@@ -25,7 +25,7 @@
         @checked="handleEditCompletedToggle"
       />
     </div>
-    <div class="priority" data-test-priority v-if="!isEditMode">
+    <div class="priority" data-test="priority" v-if="!isEditMode">
       Priority: <span>{{ task.priority }}</span>
     </div>
     <div class="priority" v-else>
@@ -33,13 +33,14 @@
         label="Priority"
         :options="priorities"
         v-model="editPriority"
+        data-test="editing-priority"
       />
     </div>
     <div class="description" v-if="!isEditMode">
-      <p data-test-description>{{ task.description }}</p>
+      <p data-test="description">{{ task.description }}</p>
     </div>
     <div class="edit-description" v-else>
-      <form-text-area v-model="editDescription" data-test-editing-description />
+      <form-text-area v-model="editDescription" data-test="editing-description" />
     </div>
     <div class="buttons" v-if="isEditMode">
       <form-button
@@ -47,13 +48,14 @@
         status="ok"
         size="medium"
         @click="handleSave"
-        data-test-submit
+        data-test="submit"
       />
       <form-button
         label="Cancel"
         status="info"
         size="medium"
         @click="handleCancel"
+        data-test="cancel"
       />
     </div>
   </section>
@@ -75,6 +77,9 @@ export default {
     FormTextArea,
     FormSelect,
   },
+  data() {return {
+    checkIfLoggedIn: null,
+  }},
   computed: {
     editDescription: {
       get() {
@@ -102,12 +107,7 @@ export default {
     },
     priorities() {
       const prioritiesClone = cloneDeep(this.$store.state.priorities);
-      console.log("cloned priorities", prioritiesClone);
       const prioritiesWithDefaultSet = prioritiesClone.map((priority) => {
-        console.log(
-          "currently edited priority",
-          this.$store.state.editedTask.priority
-        );
         priority.default =
           priority.value == this.$store.state.editedTask.priority;
         return priority;
@@ -142,10 +142,17 @@ export default {
   },
   mounted() {
     this.$emit("resetEditedTask");
-    if (!this.$store.getters.loggedIn) {
-      this.$emit("error", "You must be logged in to view tasks");
-    }
+    this.checkIfLoggedIn = setTimeout(() => {
+      if (!this.$store.getters.loggedIn) {
+        this.$emit("error", "You must be logged in to view tasks");
+      }
+    }, 500);
   },
+  beforeDestroy() {
+    if(this.checkIfLoggedIn) {
+      clearTimeout(this.checkIfLoggedIn);
+    }
+  }
 };
 </script>
 

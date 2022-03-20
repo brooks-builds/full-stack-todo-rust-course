@@ -5,7 +5,7 @@
         label="Title"
         type="text"
         v-model="taskTitle"
-        data-test-title
+        dataTest="title"
       />
     </div>
     <form-select
@@ -15,7 +15,7 @@
       dataTest="priority"
     />
     <div class="description">
-      <form-text-area v-model="description" data-test-description />
+      <form-text-area v-model="description" dataTest="description" />
     </div>
     <div class="buttons">
       <form-button
@@ -23,14 +23,14 @@
         size="medium"
         status="ok"
         @click="handleCreateTask"
-        data-test-submit
+        dataTest="submit"
       />
       <form-button
         label="Cancel"
         size="medium"
         status="info"
         @click="handleCancel"
-        data-test-cancel
+        dataTest="cancel"
       />
     </div>
   </section>

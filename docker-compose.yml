@@ -8,6 +8,10 @@ services:
     environment:
       - POSTGRES_PASSWORD=keyoarbcat
   nodejs-express:
+    profiles:
+      - nodejs-express
+      - compare-frontend
+      - js-vue
     build: ./backend/nodejs/express
     volumes:
       - ./backend/nodejs/express:/code/
@@ -21,6 +25,8 @@ services:
       - PORT=3000
       - JWT_SECRET=keyboardcat
   api-test:
+    profiles:
+      - nodejs-express
     build: ./integration-tests/backend-tests
     volumes:
       - ./integration-tests/backend-tests:/code/
@@ -32,6 +38,9 @@ services:
       - JWT_SECRET=keyboardcat
       - DB_CONNECTION=postres://postgres:keyoarbcat@database/postgres
   js-vue:
+    profiles:
+      - js-vue
+      - compare-frontend
     build: ./frontend/js/vue
     volumes:
       - ./frontend/js/vue:/code/

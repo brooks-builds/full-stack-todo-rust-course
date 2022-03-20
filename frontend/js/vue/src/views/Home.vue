@@ -7,6 +7,7 @@
           label="Filter By"
           :options="filterByOptions"
           v-model="filterBy"
+          dataTest="filter"
         />
       </div>
       <div class="sort-by" v-if="isLoggedIn">
@@ -14,6 +15,7 @@
           label="Sort By"
           :options="sortByOptions"
           v-model="sortBy"
+          dataTest="sort"
         />
       </div>
     </section>
@@ -24,14 +26,18 @@
             :checked="!!task.completed_at"
             :id="task.id.toString()"
             @checked="handleCompletedToggle(task.id)"
+            dataTest="completed"
           />
         </template>
         <template v-slot:Task="{ data: task }">
           <span class="task-title">
-            <router-link :to="taskLink(task.id)" data-test-tasklink>{{
+            <router-link :to="taskLink(task.id)" data-test="tasklink">{{
               task.title
             }}</router-link>
           </span>
+        </template>
+        <template v-slot:Priority="{ data: priority }">
+          <span data-test="priority">{{ priority }}</span>
         </template>
       </data-table>
     </section>

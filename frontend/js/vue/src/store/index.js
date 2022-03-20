@@ -16,7 +16,7 @@ export default new Vuex.Store({
       id: null,
       title: null,
       completed_at: null,
-      priority: null,
+      priority: "A",
       description: null
     },
     editingOneTask: false,
@@ -47,7 +47,7 @@ export default new Vuex.Store({
       {value: "priorityC", label: "Priority C", default: false},
     ],
     selectedFilterBy: "none",
-    errorMessageTimeout: 60000,
+    errorMessageTimeout: 30000,
     localStorageUser: "user"
   },
   mutations: {
@@ -125,8 +125,15 @@ export default new Vuex.Store({
       Vue.set(state, "selectedFilterBy", filterByOptionValue);
     },
     toggleEditedCompleted(state) {
-      console.log("hitting?");
       Vue.set(state.editedTask, "completed_at", state.editedTask.completed_at ? null : (new Date()).toUTCString());
+    },
+    toggleTaskCompletion(state, taskId) {
+      const clonedTasks = cloneDeep(state.tasks);
+      const task = clonedTasks.find(task => task.id == taskId);
+      if(!task) throw new Error("could not find task when toggling task completion");
+      const now = new Date();
+      task.completed_at = now.toUTCString();
+      Vue.set(state, "tasks", clonedTasks);
     }
   },
   actions: {

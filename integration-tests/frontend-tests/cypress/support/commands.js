@@ -22,18 +22,45 @@
 //
 //
 // -- This will overwrite an existing command --
+
+const faker = require("faker")
+
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add("createAccount", (username, password) => {
     cy.visit('/create-account')
-    .get("[data-test-username]")
-    .type(username)
-    .get("[data-test-password]")
-    .type(password)
-    .get("[data-test-submit]")
-    .click()
+        .get("[data-test-username]")
+        .type(username)
+        .get("[data-test-password]")
+        .type(password)
+        .get("[data-test-submit]")
+        .click()
 })
 
-Cypress.Commands.add("dataGet", (selector) => {
+Cypress.Commands.add("dget", selector => {
+    cy.get(`[data-test="${selector}"]`)
+})
+
+Cypress.Commands.add("login", (username, password) => {
     cy
-        .get(`[data-test-${selector}]`)
+        .visit("/login")
+        .dget("username")
+        .type(username)
+        .dget("password")
+        .type(password)
+        .dget("submit")
+        .click()
+})
+
+Cypress.Commands.add("createTask", ({title = faker.lorem.sentence(), description = faker.lorem.sentences(3), priority = 'B'}) => {
+    cy
+        .dget("add-task")
+        .click()
+        .dget("title")
+        .type(title)
+        .dget("description")
+        .type(description)
+        .dget("priority")
+        .select(priority)
+        .dget("submit")
+        .click()
 })

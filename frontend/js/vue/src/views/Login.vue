@@ -5,20 +5,20 @@
       label="username"
       type="text"
       v-model="username"
-      data-test-username
+      dataTest="username"
     />
     <form-input
       label="password"
       type="password"
       v-model="password"
-      data-test-password
+      dataTest="password"
     />
     <form-button
       label="Login"
       status="ok"
       :disabled="isFormValid"
       @click="handleFormSubmitted"
-      data-test-submit
+      data-test="submit"
     ></form-button>
   </div>
 </template>
