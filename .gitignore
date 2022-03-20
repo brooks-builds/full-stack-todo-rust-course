@@ -3,3 +3,4 @@
 **/integration-tests/**/*.mp4
 **/integration-tests/**/*.png
 **/target
+**/dist
