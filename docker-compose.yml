@@ -9,7 +9,6 @@ services:
       - POSTGRES_PASSWORD=keyoarbcat
   nodejs-express:
     profiles:
-      - rust-yew
       - nodejs-express
       - compare-frontend
       - js-vue
@@ -53,19 +52,6 @@ services:
       - "8080:8080"
     environment:
       - VUE_APP_API_URI=http://localhost:3000
-  rust-yew:
-    profiles:
-      - rust-yew
-      - compare-frontend
-    build: ./frontend/rust/yew
-    volumes:
-      - ./frontend/rust/yew:/code/
-    depends_on:
-      - nodejs-express
-    expose:
-      - "8080"
-    ports:
-      - "8081:8080"
   cypress:
     profiles:
       - cicd
