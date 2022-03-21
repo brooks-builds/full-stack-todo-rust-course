@@ -5,6 +5,7 @@ use yew::prelude::*;
 pub struct Props {
     pub title: String,
     pub color: Color,
+    pub on_load: Callback<String>,
 }
 
 #[derive(PartialEq)]
@@ -42,6 +43,8 @@ pub fn main_title(props: &Props) -> Html {
     "#
     )
     .unwrap();
+
+    props.on_load.emit("I loaded!!!!!".to_owned());
 
     html! {
       <div class={stylesheet}>
