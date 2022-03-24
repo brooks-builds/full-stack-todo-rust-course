@@ -7,6 +7,8 @@ name = "a_better_hello_world_architecture"
 version = "0.1.0"
 dependencies = [
  "gloo 0.6.1",
+ "serde",
+ "serde_json",
  "yew",
 ]
 

@@ -8,3 +8,5 @@ edition = "2021"
 [dependencies]
 yew = "0.19.3"
 gloo = "0.6.1"
+serde = "1.0.136"
+serde_json = "1.0.79"
