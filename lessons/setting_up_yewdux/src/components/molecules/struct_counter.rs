@@ -1,7 +1,7 @@
 use yew::prelude::*;
 use yewdux::prelude::*;
 
-use crate::stores::yewdux::YewduxStore;
+use crate::stores::yewdux::State;
 
 pub enum StructCounterMessage {
     ButtonClicked(u32),
@@ -12,7 +12,7 @@ pub struct StructCounter {}
 impl Component for StructCounter {
     type Message = StructCounterMessage;
 
-    type Properties = DispatchProps<BasicStore<YewduxStore>>;
+    type Properties = DispatchProps<BasicStore<State>>;
 
     fn create(_ctx: &Context<Self>) -> Self {
         Self {}
@@ -31,7 +31,7 @@ impl Component for StructCounter {
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             StructCounterMessage::ButtonClicked(amount) => {
-                YewduxStore::increment_count(ctx.props().dispatch(), 1);
+                State::increment_count(ctx.props().dispatch(), amount);
                 true
             }
         }

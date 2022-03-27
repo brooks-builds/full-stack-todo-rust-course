@@ -1,23 +1,25 @@
 use yew::prelude::*;
 use yewdux::prelude::*;
 
-use crate::{components::organisms::display::Display, stores::yewdux::YewduxStore};
+use crate::stores::yewdux::State;
 
-pub struct DisplayPage;
+pub struct Display;
 
-impl Component for DisplayPage {
+impl Component for Display {
     type Message = ();
 
-    type Properties = DispatchProps<BasicStore<YewduxStore>>;
+    type Properties = DispatchProps<BasicStore<State>>;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
-          <WithDispatch<Display> />
-
+          <div>
+            <h1>{"Count Display"}</h1>
+            <p>{format!("The button was pressed {} times", ctx.props().state().count)}</p>
+          </div>
         }
     }
 }

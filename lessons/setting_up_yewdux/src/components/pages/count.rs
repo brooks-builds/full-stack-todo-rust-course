@@ -2,7 +2,7 @@ use gloo::console::log;
 use yew::prelude::*;
 use yewdux::prelude::*;
 
-use crate::stores::yewdux::YewduxStore;
+use crate::stores::yewdux::State;
 
 pub enum CountMessage {
     ButtonClicked,
@@ -13,9 +13,9 @@ pub struct Count;
 impl Component for Count {
     type Message = CountMessage;
 
-    type Properties = DispatchProps<BasicStore<YewduxStore>>;
+    type Properties = DispatchProps<BasicStore<State>>;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self
     }
 

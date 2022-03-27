@@ -1,6 +1,5 @@
 use crate::components::pages::count::Count;
-use crate::components::pages::display::DisplayPage;
-use crate::components::pages::hello::Hello;
+use crate::components::pages::display::Display;
 use crate::components::pages::home::Home;
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -19,7 +18,7 @@ pub enum Route {
 pub fn switch(route: &Route) -> Html {
     match route {
         Route::Home => html! { <Home /> },
-        Route::Count => html! {<Count />},
-        Route::Display => html! { <DisplayPage /> },
+        Route::Count => html! { <WithDispatch<Count> />},
+        Route::Display => html! { <WithDispatch<Display> /> },
     }
 }
