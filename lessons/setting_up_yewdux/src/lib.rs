@@ -1,38 +1,38 @@
-mod components;
+mod counter;
 mod router;
-mod stores;
 
-use crate::components::molecules::custom_form::Data;
-use crate::router::{switch, Route};
-use crate::stores::yewdux::init_yewdux;
-use components::atoms::main_title::{Color, MainTitle};
-use components::atoms::struct_hello::StructHello;
-use components::molecules::custom_form::CustomForm;
-use components::molecules::struct_counter::StructCounter;
-use gloo::console::log;
-use std::ops::Deref;
-use stores::yewdux::YewduxStore;
-use stylist::yew::styled_component;
 use yew::prelude::*;
-use yew::ContextProvider;
 use yew_router::prelude::*;
 use yewdux::prelude::*;
 
-#[derive(Debug, PartialEq, Clone, Default)]
-pub struct User {
-    pub username: String,
-    pub favorite_language: String,
+use crate::counter::Counter;
+use router::{switch, Route};
+
+#[derive(Clone, Default)]
+pub struct YewduxState {
+    pub count: u32,
 }
 
-#[styled_component(App)]
-pub fn app() -> Html {
-    let state = init_yewdux();
+pub struct App;
 
-    html! {
-        <div>
-            <BrowserRouter>
-                <Switch<Route> render={Switch::render(switch)} />
-            </BrowserRouter>
-        </div>
+impl Component for App {
+    type Message = ();
+
+    type Properties = DispatchProps<BasicStore<YewduxState>>;
+
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
+    }
+
+    fn view(&self, _ctx: &Context<Self>) -> Html {
+        html! {
+            <div>
+                <h1>{"Main App"}</h1>
+                <WithDispatch<Counter> />
+                <BrowserRouter>
+                    <Switch<Route> render={Switch::render(switch)} />
+                </BrowserRouter>
+            </div>
+        }
     }
 }
