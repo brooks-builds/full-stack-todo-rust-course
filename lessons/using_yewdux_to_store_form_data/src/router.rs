@@ -2,7 +2,7 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 use yewdux::prelude::*;
 
-use super::counter::Counter;
+use super::login::Counter;
 
 #[derive(Clone, PartialEq, Routable)]
 pub enum Route {

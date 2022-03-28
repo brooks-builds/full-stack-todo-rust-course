@@ -1,14 +1,11 @@
-mod counter;
 mod display;
-mod router;
+mod login;
 mod store;
 
-use counter::Counter;
-use display::DisplayCount;
-use router::{switch, Route};
+use display::DisplayForm;
+use login::Login;
 use store::{init, YewduxStore};
 use yew::prelude::*;
-use yew_router::prelude::*;
 use yewdux::prelude::*;
 
 pub struct App {
@@ -29,11 +26,8 @@ impl Component for App {
         html! {
             <div>
                 <h1>{"App"}</h1>
-                <WithDispatch<Counter> />
-                <WithDispatch<DisplayCount> />
-                <BrowserRouter>
-                    <Switch<Route> render={Switch::render(switch)} />
-                </BrowserRouter>
+                <WithDispatch<Login> />
+                <WithDispatch<DisplayForm> />
             </div>
         }
     }
