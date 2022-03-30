@@ -24,6 +24,8 @@ services:
     environment:
       - PORT=3000
       - JWT_SECRET=keyboardcat
+      - SALT_ROUNDS=10
+      - DB_CONNECTION=postgresql://postgres:keyoarbcat@database
   api-test:
     profiles:
       - nodejs-express

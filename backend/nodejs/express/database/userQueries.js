@@ -1,19 +1,21 @@
-const db = require('./');
-const bcrypt = require('bcrypt');
+const db = require("./");
+const bcrypt = require("bcrypt");
 
 const saltRounds = Number(process.env.SALT_ROUNDS || 31);
 
 async function createUser(username, password, token) {
   try {
     const hash = await hashPassword(password);
-    const [newUser] = await db("users").insert({username, password: hash, token}).returning(["id", "username", "token"]);
-    return newUser
+    const [newUser] = await db("users")
+      .insert({ username, password: hash, token })
+      .returning(["id", "username", "token"]);
+    return newUser;
   } catch (error) {
     const errors = {
-      "23505": "Username already taken, try again with a different user name"
-    }
+      23505: "Username already taken, try again with a different user name",
+    };
 
-    throw new Error (errors[error.code] || error.message);
+    throw new Error(errors[error.code] || error.message);
   }
 }
 
@@ -23,7 +25,7 @@ function hashPassword(password) {
       if (error) return reject(error);
       return resolve(hash);
     });
-  })
+  });
 }
 
 function getByUsername(username) {
@@ -31,15 +33,19 @@ function getByUsername(username) {
 }
 
 function findAndRemoveToken(token) {
-  return db("users").where("token", token).update({token: null})
+  return db("users").where("token", token).update({ token: null });
 }
 
 function getByToken(token) {
-  return db("users").select(["id", "username", "token"]).where("token", token).andWhere("deleted_at", null).first();
+  return db("users")
+    .select(["id", "username", "token"])
+    .where("token", token)
+    .andWhere("deleted_at", null)
+    .first();
 }
 
 function addTokenToUser(token, userId) {
-  return db("users").update({token}).where({id: userId});
+  return db("users").update({ token }).where({ id: userId });
 }
 
 module.exports = {
@@ -47,5 +53,5 @@ module.exports = {
   getByUsername,
   findAndRemoveToken,
   getByToken,
-  addTokenToUser
-}
+  addTokenToUser,
+};
