@@ -36,7 +36,7 @@ services:
       - nodejs-express
     environment:
       - API_PORT=3000
-      - API_URI=http://express
+      - API_URI=http://nodejs-express
       - JWT_SECRET=keyboardcat
       - DB_CONNECTION=postres://postgres:keyoarbcat@database/postgres
   js-vue:
