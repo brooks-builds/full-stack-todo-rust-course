@@ -12,6 +12,8 @@ services:
       - nodejs-express
       - compare-frontend
       - js-vue
+      - rust-yew
+      - rust-yew-solution
     build: ./backend/nodejs/express
     volumes:
       - ./backend/nodejs/express:/code/
@@ -51,16 +53,8 @@ services:
     expose:
       - "8080"
     ports:
-      - "8080:8080"
+      - "8080"
     environment:
       - VUE_APP_API_URI=http://localhost:3000
-  cypress:
-    profiles:
-      - cicd
-    build: ./integration-tests/frontend-tests
-    volumes:
-      - ./integration-tests/frontend-tests:/code/
-    depends_on:
-      - js-vue
 volumes:
   db-data:
