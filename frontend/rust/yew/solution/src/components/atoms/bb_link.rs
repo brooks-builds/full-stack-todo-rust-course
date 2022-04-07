@@ -16,6 +16,7 @@ pub fn bb_link(props: &Props) -> Html {
         r#"
             color: antiquewhite;
             text-decoration: none;
+            font-size: 36px;
         "#
     );
 
