@@ -1,3 +1,5 @@
+use crate::components::atoms::bb_link::BBLink;
+use crate::router::Route;
 use stylist::{css, yew::styled_component};
 use yew::prelude::*;
 
@@ -11,7 +13,7 @@ pub fn navbar() -> Html {
     );
     html! {
       <section class={stylesheet}>
-        {"navbar"}
+        <BBLink text={"Todo".to_owned()} data_test={"logo".to_owned()} route={Route::Home} />
       </section>
     }
 }

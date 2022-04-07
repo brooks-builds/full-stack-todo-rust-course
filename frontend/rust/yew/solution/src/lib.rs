@@ -10,11 +10,9 @@ use yew_router::prelude::*;
 #[function_component(App)]
 pub fn app() -> Html {
     html! {
-      <>
-        <Navbar />
         <BrowserRouter>
+          <Navbar />
           <Switch<Route> render={Switch::render(switch)} />
         </BrowserRouter>
-      </>
     }
 }
