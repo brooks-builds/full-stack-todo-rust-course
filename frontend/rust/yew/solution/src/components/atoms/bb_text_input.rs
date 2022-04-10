@@ -43,7 +43,7 @@ pub fn bb_text_input(props: &Props) -> Html {
     "#
     );
     let placeholder = props.placeholder.clone().unwrap_or_default();
-    let id = props.label.to_lowercase().replace(" ", "-");
+    let id = props.label.to_lowercase().replace(' ', "-");
     let class = props.class.clone().unwrap_or_default();
     let onchange = {
         let emit_onchange = props.onchange.clone();

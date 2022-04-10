@@ -1,6 +1,8 @@
 use std::ops::Deref;
 
+use crate::api;
 use crate::router::Route;
+use crate::store::login_reducer;
 use crate::{
     components::atoms::{
         bb_button::BBButton,
@@ -8,10 +10,7 @@ use crate::{
     },
     store::Store,
 };
-use gloo::console::log;
-use reqwasm::http::Request;
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 use stylist::yew::styled_component;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
@@ -64,46 +63,24 @@ pub fn create_account() -> Html {
             let store_dispatch = store_dispatch.clone();
 
             spawn_local(async move {
-                let result = Request::post("http://localhost:3000/api/v1/users")
-                    .header("Content-Type", "application/json")
-                    .body(
-                        json!({
-                          "username": *username_state,
-                          "password": *password_state
-                        })
-                        .to_string(),
-                    )
-                    .send()
-                    .await
-                    .unwrap()
-                    .json::<AuthResponse>()
-                    .await
-                    .unwrap();
-                log!(serde_json::to_string_pretty(&result).unwrap());
+                let result = api::create_account(
+                    username_state.deref().to_owned(),
+                    password_state.deref().to_owned(),
+                )
+                .await;
                 history.push(Route::Home);
-                let username = result.data.username.clone();
-                let token = result.data.token;
-                store_dispatch.reduce(move |state| {
-                    state.username = username;
-                    state.token = token;
-                });
+                login_reducer(result, store_dispatch);
             });
         })
     };
 
-    let username_onchange = {
-        let username_state = username_state.clone();
-        Callback::from(move |username: String| {
-            username_state.set(username);
-        })
-    };
+    let username_onchange = Callback::from(move |username: String| {
+        username_state.set(username);
+    });
 
-    let password_onchange = {
-        let password_state = password_state.clone();
-        Callback::from(move |password: String| {
-            password_state.set(password);
-        })
-    };
+    let password_onchange = Callback::from(move |password: String| {
+        password_state.set(password);
+    });
 
     html! {
       <div class={stylesheet}>
