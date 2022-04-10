@@ -564,6 +564,8 @@ dependencies = [
  "web-sys",
  "yew",
  "yew-router",
+ "yewdux",
+ "yewdux-functional",
 ]
 
 [[package]]
@@ -752,6 +754,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "yew-agent"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "616700dc3851945658c44ba4477ede6b77c795462fbbb9b0ad9a8b6273a3ca77"
+dependencies = [
+ "anymap2",
+ "bincode",
+ "gloo-console",
+ "gloo-utils",
+ "js-sys",
+ "serde",
+ "slab",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "yew-macro"
 version = "0.19.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -794,4 +815,27 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "yewdux"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "65cc23608d6e72b0bb3cbf766a73fc169e7d965edcd8f7aced9a9ab15a82a88c"
+dependencies = [
+ "serde",
+ "serde_json",
+ "web-sys",
+ "yew",
+ "yew-agent",
+]
+
+[[package]]
+name = "yewdux-functional"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "64b88b59aac63c9b6f01087b22d1888f8732faac599fe9438523cc781bc49b78"
+dependencies = [
+ "yew",
+ "yewdux",
 ]

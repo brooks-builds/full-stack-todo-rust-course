@@ -1,8 +1,12 @@
 use std::ops::Deref;
 
-use crate::components::atoms::{
-    bb_button::BBButton,
-    bb_text_input::{BBTextInput, InputType},
+use crate::router::Route;
+use crate::{
+    components::atoms::{
+        bb_button::BBButton,
+        bb_text_input::{BBTextInput, InputType},
+    },
+    store::Store,
 };
 use gloo::console::log;
 use reqwasm::http::Request;
@@ -11,6 +15,9 @@ use serde_json::json;
 use stylist::yew::styled_component;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
+use yew_router::{history::History, hooks::use_history};
+use yewdux::prelude::*;
+use yewdux_functional::use_store;
 
 #[derive(Serialize, Deserialize)]
 pub struct AuthResponse {
@@ -41,14 +48,20 @@ pub fn create_account() -> Html {
 
     let username_state = use_state(String::default);
     let password_state = use_state(String::default);
+    let history = use_history().unwrap();
+    let store = use_store::<PersistentStore<Store>>();
+    let store_dispatch = store.dispatch();
 
     let onsubmit = {
         let username_state = username_state.clone();
         let password_state = password_state.clone();
+        let store_dispatch = store_dispatch.clone();
         Callback::from(move |event: FocusEvent| {
             event.prevent_default();
             let username_state = username_state.clone();
             let password_state = password_state.clone();
+            let history = history.clone();
+            let store_dispatch = store_dispatch.clone();
 
             spawn_local(async move {
                 let result = Request::post("http://localhost:3000/api/v1/users")
@@ -67,6 +80,13 @@ pub fn create_account() -> Html {
                     .await
                     .unwrap();
                 log!(serde_json::to_string_pretty(&result).unwrap());
+                history.push(Route::Home);
+                let username = result.data.username.clone();
+                let token = result.data.token;
+                store_dispatch.reduce(move |state| {
+                    state.username = username;
+                    state.token = token;
+                });
             });
         })
     };

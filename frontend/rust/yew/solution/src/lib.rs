@@ -1,6 +1,7 @@
 mod components;
 mod pages;
 mod router;
+mod store;
 
 use components::organisms::navbar::Navbar;
 use router::{switch, Route};
