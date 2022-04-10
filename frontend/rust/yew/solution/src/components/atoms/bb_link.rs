@@ -51,6 +51,7 @@ fn choose_stylesheet(link_type: LinkType) -> StyleSource<'static> {
           padding: 3px;
           color: black;
           border-radius: 3px;
+          margin: 0 10px;
         "#
     );
 

@@ -24,7 +24,10 @@ pub fn navbar() -> Html {
       <section class={stylesheet}>
         <BBLink text={"Todo".to_owned()} data_test={"logo".to_owned()} route={Route::Home} />
         if !is_logged_in(token) {
-          <BBLink text={"Create Account".to_owned()} data_test={"create-account".to_owned()} route={Route::CreateAccount} link_type={LinkType::Button} />
+          <div>
+            <BBLink text={"Create Account".to_owned()} data_test={"create-account".to_owned()} route={Route::CreateAccount} link_type={LinkType::Button} />
+            <BBLink text={"Login".to_owned()} data_test={"login".to_owned()} route={Route::Login} link_type={LinkType::Button} />
+          </div>
         } else {
           <div data-test="welcome">{format!("Welcome, {}", username)}</div>
         }
