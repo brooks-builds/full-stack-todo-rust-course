@@ -37,7 +37,7 @@ pub struct User {
 
 #[styled_component(AccountForm)]
 pub fn account_form(props: &Props) -> Html {
-    let state = use_state(|| User::default());
+    let state = use_state(User::default);
 
     let username_onchange = {
         let state = state.clone();
