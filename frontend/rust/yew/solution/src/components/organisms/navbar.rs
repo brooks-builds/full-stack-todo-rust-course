@@ -1,4 +1,5 @@
 use crate::components::atoms::bb_link::{BBLink, LinkType};
+use crate::components::atoms::bb_text::BBText;
 use crate::router::Route;
 use crate::store::Store;
 use stylist::{css, yew::styled_component};
@@ -29,7 +30,7 @@ pub fn navbar() -> Html {
             <BBLink text={"Login".to_owned()} data_test={"login".to_owned()} route={Route::Login} link_type={LinkType::Button} />
           </div>
         } else {
-          <div data-test="welcome">{format!("Welcome, {}", username)}</div>
+          <BBText data_test="welcome" text={format!("Welcome, {}", username)} />
         }
       </section>
     }

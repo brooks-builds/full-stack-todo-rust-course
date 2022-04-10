@@ -2,6 +2,9 @@ use reqwasm::http::Request;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 
+// TODO refactor url to environment variable
+const BASE_URL: &str = "http://localhost:3000/api/v1";
+
 #[derive(Serialize, Deserialize)]
 pub struct AuthResponse {
     pub data: User,
@@ -15,12 +18,30 @@ pub struct User {
 }
 
 pub async fn create_account(username: String, password: String) -> AuthResponse {
-    Request::post("http://localhost:3000/api/v1/users")
+    Request::post(&format!("{}/users", BASE_URL))
         .header("Content-Type", "application/json")
         .body(
             json!({
               "username": username,
               "password": password
+            })
+            .to_string(),
+        )
+        .send()
+        .await
+        .unwrap()
+        .json::<AuthResponse>()
+        .await
+        .unwrap()
+}
+
+pub async fn login(username: String, password: String) -> AuthResponse {
+    Request::post(&format!("{}/users/login", BASE_URL))
+        .header("content-type", "application/json")
+        .body(
+            json! ({
+                "username": username,
+                "password": password
             })
             .to_string(),
         )
