@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 
 // TODO refactor url to environment variable
-const BASE_URL: &str = "http://localhost:3000/api/v1";
+const BASE_URL: &str = include_str!("api_base_uri.txt");
 
 #[derive(Serialize, Deserialize)]
 pub struct AuthResponse {
