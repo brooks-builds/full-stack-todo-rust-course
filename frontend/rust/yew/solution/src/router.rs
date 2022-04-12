@@ -1,3 +1,4 @@
+use crate::pages::one_task::OneTask;
 use crate::pages::{create_account::CreateAccount, home::Home, login::Login};
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -10,6 +11,8 @@ pub enum Route {
     CreateAccount,
     #[at("/login")]
     Login,
+    #[at("/tasks/:id")]
+    OneTask { id: u32 },
 }
 
 pub fn switch(route: &Route) -> Html {
@@ -17,5 +20,6 @@ pub fn switch(route: &Route) -> Html {
         Route::Home => html! { <Home /> },
         Route::CreateAccount => html! { <CreateAccount /> },
         Route::Login => html! { <Login /> },
+        Route::OneTask { id } => html! { <OneTask id={*id} /> },
     }
 }
