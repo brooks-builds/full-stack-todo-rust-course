@@ -13,6 +13,12 @@ pub struct Store {
     pub tasks: Vec<Task>,
 }
 
+impl Store {
+    pub fn get_task_by_id(&self, id: u32) -> Option<&Task> {
+        self.tasks.iter().find(|task| task.id == id)
+    }
+}
+
 impl Persistent for Store {
     fn key() -> &'static str {
         std::any::type_name::<Self>()
