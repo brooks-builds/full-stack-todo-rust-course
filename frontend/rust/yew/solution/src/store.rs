@@ -14,8 +14,11 @@ pub struct Store {
 }
 
 impl Store {
-    pub fn get_task_by_id(&self, id: u32) -> Option<&Task> {
-        self.tasks.iter().find(|task| task.id == id)
+    pub fn get_task_by_id(&self, id: u32) -> Option<Task> {
+        match self.tasks.iter().find(|task| task.id == id) {
+            Some(task) => Some(task.clone()),
+            None => None,
+        }
     }
 }
 
@@ -34,7 +37,7 @@ pub struct Task {
     pub completed_at: Option<String>,
     pub description: Option<String>,
     pub id: u32,
-    pub priority: Option<char>,
+    pub priority: Option<String>,
     pub title: String,
 }
 
