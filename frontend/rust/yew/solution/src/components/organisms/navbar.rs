@@ -1,9 +1,12 @@
 use crate::components::atoms::bb_link::{BBLink, LinkType};
 use crate::components::atoms::bb_text::BBText;
+use crate::components::molecules::task_edit_buttons::TaskEditButtons;
 use crate::router::Route;
 use crate::store::Store;
+use serde::{Deserialize, Serialize};
 use stylist::{css, yew::styled_component};
 use yew::prelude::*;
+use yew_router::prelude::*;
 use yewdux::prelude::*;
 use yewdux_functional::{use_store, StoreRef};
 
@@ -18,12 +21,18 @@ pub fn navbar() -> Html {
         "#
     );
 
+    let current_route = use_location().unwrap().route::<Route>().unwrap();
     let store = use_store::<PersistentStore<Store>>();
     let (username, token) = get_from_store(store);
 
     html! {
       <section class={stylesheet}>
         <BBLink text={"Todo".to_owned()} data_test={"logo".to_owned()} route={Route::Home} />
+        if matches!(current_route, Route::OneTask { id: _ }) {
+          <div>
+            <TaskEditButtons />
+          </div>
+        }
         if !is_logged_in(token) {
           <div>
             <BBLink text={"Create Account".to_owned()} data_test={"create-account".to_owned()} route={Route::CreateAccount} link_type={LinkType::Button} />

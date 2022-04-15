@@ -56,6 +56,9 @@ pub fn one_task(props: &Props) -> Html {
         <div class="row">
           <BBText text="Priority: " data_test="priority-text" />
           <BBText text={task.priority.unwrap_or_default()} data_test="priority" color={Color::Info} />
+          </div>
+        <div class="row">
+          <BBText text={task.description.unwrap_or_default()} data_test="description" />
         </div>
       </section>
     }
