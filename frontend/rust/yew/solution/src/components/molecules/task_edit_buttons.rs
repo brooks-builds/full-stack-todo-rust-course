@@ -23,7 +23,7 @@ pub fn task_edit_buttons() -> Html {
 
     html! {
       <div class={stylesheet}>
-        <BBLink text="Edit" data_test="edit" route={Route::OneTask { id: task_id }} link_type={LinkType::Button} />
+        <BBLink text="Edit" data_test="edit" route={Route::EditTask { id: task_id }} link_type={LinkType::Button} />
       </div>
     }
 }

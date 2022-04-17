@@ -26,6 +26,7 @@ pub struct Props {
     pub class: Option<String>,
     pub input_type: InputType,
     pub onchange: Callback<String>,
+    pub value: Option<String>,
 }
 
 #[styled_component(BBTextInput)]
@@ -56,6 +57,7 @@ pub fn bb_text_input(props: &Props) -> Html {
             emit_onchange.emit(value);
         })
     };
+    let value = props.value.clone().unwrap_or_default();
 
     html! {
       <div class={classes!(stylesheet, class)}>
@@ -63,7 +65,7 @@ pub fn bb_text_input(props: &Props) -> Html {
           <label for={id.clone()}>{&props.label}</label>
         </div>
         <div>
-          <input type={props.input_type.to_string()} id={id} {placeholder} data-test={props.data_test.clone()} {onchange} />
+          <input type={props.input_type.to_string()} id={id} {placeholder} data-test={props.data_test.clone()} {onchange} {value} />
         </div>
       </div>
     }
