@@ -1,3 +1,6 @@
+use std::ops::Deref;
+
+use gloo::console::log;
 use stylist::yew::styled_component;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
@@ -57,7 +60,10 @@ pub fn bb_text_input(props: &Props) -> Html {
             emit_onchange.emit(value);
         })
     };
-    let value = props.value.clone().unwrap_or_default();
+    let state = {
+        let value = props.value.clone().unwrap_or_default();
+        use_state(move || value)
+    };
 
     html! {
       <div class={classes!(stylesheet, class)}>
@@ -65,7 +71,15 @@ pub fn bb_text_input(props: &Props) -> Html {
           <label for={id.clone()}>{&props.label}</label>
         </div>
         <div>
-          <input type={props.input_type.to_string()} id={id} {placeholder} data-test={props.data_test.clone()} {onchange} {value} />
+          <input
+            type={props.input_type.to_string()}
+            id={id}
+            {placeholder}
+            data-test={props.data_test.clone()}
+            {onchange}
+            value={state.deref().clone()}
+          />
+          {&*state}
         </div>
       </div>
     }

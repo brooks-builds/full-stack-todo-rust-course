@@ -1,3 +1,6 @@
+use std::ops::Deref;
+
+use crate::components::atoms::bb_button::BBButton;
 use crate::components::atoms::bb_checkbox::BBCheckbox;
 use crate::components::atoms::bb_select::{BBSelect, SelectOption};
 use crate::components::atoms::bb_textarea::BBTextarea;
@@ -28,18 +31,50 @@ pub fn edit_task(props: &Props) -> Html {
     "#
     );
 
-    let title_onchange = Callback::from(|title| {
-        log!(title);
-    });
-    let description_onchange = Callback::from(|description| {
-        log!(description);
-    });
-    let priority_onchange = Callback::from(|priority| {
-        log!(priority);
-    });
-    let completed_onchange = Callback::from(|completed| {
-        log!(completed);
-    });
+    let title_state = use_state(|| None);
+    let description_state = use_state(|| None);
+    let priority_state = use_state(|| None);
+    let completed_state = use_state(|| None);
+
+    let title_onchange = {
+        let title_state = title_state.clone();
+        Callback::from(move |title: String| {
+            title_state.set(Some(title));
+        })
+    };
+    let description_onchange = {
+        let description_state = description_state.clone();
+        Callback::from(move |description| {
+            description_state.set(Some(description));
+        })
+    };
+    let priority_onchange = {
+        let priority_state = priority_state.clone();
+        Callback::from(move |priority| {
+            priority_state.set(Some(priority));
+        })
+    };
+    let completed_onchange = {
+        let completed_state = completed_state.clone();
+        Callback::from(move |completed| {
+            completed_state.set(Some(completed));
+        })
+    };
+    let onsubmit = {
+        let title_state = title_state.clone();
+        let description_state = description_state.clone();
+        let priority_state = priority_state.clone();
+        let completed_state = completed_state.clone();
+        Callback::from(move |event: FocusEvent| {
+            event.prevent_default();
+            log!(
+                title_state.deref().clone().unwrap_or_default(),
+                description_state.deref().clone().unwrap_or_default(),
+                priority_state.deref().clone().unwrap_or_default(),
+                completed_state.deref().clone().unwrap_or_default()
+            );
+        })
+    };
 
     let task = use_store::<StoreType>()
         .state()
@@ -49,8 +84,14 @@ pub fn edit_task(props: &Props) -> Html {
 
     html! {
       <section class={stylesheet}>
-        <form>
-          <BBTextInput data_test="editing-title" label="Task Title" input_type={InputType::Text} onchange={title_onchange} value={task.title} />
+        <form {onsubmit}>
+          <BBTextInput
+            data_test="editing-title"
+            label="Task Title"
+            input_type={InputType::Text}
+            onchange={title_onchange}
+            value={task.title.clone()}
+          />
           <BBTextarea
             data_test="editing-description"
             value={task.description}
@@ -72,6 +113,9 @@ pub fn edit_task(props: &Props) -> Html {
             onchange={completed_onchange}
             checked={task.completed_at.is_some()}
           />
+          <div>
+            <BBButton data_test="submit" label="Save" />
+          </div>
         </form>
       </section>
     }
