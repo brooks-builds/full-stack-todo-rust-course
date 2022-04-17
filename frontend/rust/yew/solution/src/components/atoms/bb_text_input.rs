@@ -49,21 +49,37 @@ pub fn bb_text_input(props: &Props) -> Html {
     let placeholder = props.placeholder.clone().unwrap_or_default();
     let id = props.label.to_lowercase().replace(' ', "-");
     let class = props.class.clone().unwrap_or_default();
+    let state = use_state(|| String::new());
+    let initial_load = use_state(|| false);
     let onchange = {
         let emit_onchange = props.onchange.clone();
+        let state = state.clone();
         Callback::from(move |event: Event| {
             let value = event
                 .target()
                 .unwrap()
                 .unchecked_into::<HtmlInputElement>()
                 .value();
-            emit_onchange.emit(value);
+            emit_onchange.emit(value.clone());
+            state.set(value);
         })
     };
-    let state = {
-        let value = props.value.clone().unwrap_or_default();
-        use_state(move || value)
-    };
+
+    {
+        let state = state.clone();
+        let props_value = props.value.clone();
+        let initial_load = initial_load.clone();
+        log!(*initial_load);
+        use_effect(move || {
+            if !*initial_load && props_value.is_some() && !props_value.as_ref().unwrap().is_empty()
+            {
+                state.set(props_value.unwrap());
+                initial_load.set(true);
+            }
+
+            || {}
+        })
+    }
 
     html! {
       <div class={classes!(stylesheet, class)}>
