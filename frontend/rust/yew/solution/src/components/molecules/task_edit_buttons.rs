@@ -1,4 +1,5 @@
 use crate::components::atoms::bb_link::{BBLink, LinkType};
+use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
