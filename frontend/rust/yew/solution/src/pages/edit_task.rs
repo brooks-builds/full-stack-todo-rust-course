@@ -1,3 +1,4 @@
+use crate::components::atoms::bb_checkbox::BBCheckbox;
 use crate::components::atoms::bb_select::{BBSelect, SelectOption};
 use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
@@ -19,7 +20,13 @@ pub struct Props {
 
 #[styled_component(EditTask)]
 pub fn edit_task(props: &Props) -> Html {
-    let stylesheet = css!(r#""#);
+    let stylesheet = css!(
+        r#"
+      form > * {
+        margin-top: 15px;
+      }
+    "#
+    );
 
     let title_onchange = Callback::from(|title| {
         log!(title);
@@ -30,6 +37,10 @@ pub fn edit_task(props: &Props) -> Html {
     let priority_onchange = Callback::from(|priority| {
         log!(priority);
     });
+    let completed_onchange = Callback::from(|completed| {
+        log!(completed);
+    });
+
     let task = use_store::<StoreType>()
         .state()
         .map(|store| store.get_task_by_id(props.id))
@@ -53,6 +64,13 @@ pub fn edit_task(props: &Props) -> Html {
             label="Priority"
             options={create_priority_options(task.priority)}
             onchange={priority_onchange}
+          />
+          <BBCheckbox
+            data_test="completed"
+            label="Completed: "
+            id={format!("completed-{}", props.id)}
+            onchange={completed_onchange}
+            checked={task.completed_at.is_some()}
           />
         </form>
       </section>
