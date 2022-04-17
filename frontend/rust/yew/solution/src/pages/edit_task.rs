@@ -1,5 +1,7 @@
+use crate::components::atoms::bb_select::{BBSelect, SelectOption};
 use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
+use crate::store::Task;
 use crate::{
     components::atoms::bb_text_input::{BBTextInput, InputType},
     store::StoreType,
@@ -25,28 +27,45 @@ pub fn edit_task(props: &Props) -> Html {
     let description_onchange = Callback::from(|description| {
         log!(description);
     });
+    let priority_onchange = Callback::from(|priority| {
+        log!(priority);
+    });
     let task = use_store::<StoreType>()
         .state()
         .map(|store| store.get_task_by_id(props.id))
+        .unwrap_or_default()
         .unwrap_or_default();
-
-    let (task_title, task_description) = match task {
-        Some(task) => (task.title, task.description.unwrap_or_default()),
-        None => (String::new(), String::new()),
-    };
 
     html! {
       <section class={stylesheet}>
         <form>
-          <BBTextInput data_test="editing-title" label="Task Title" input_type={InputType::Text} onchange={title_onchange} value={task_title} />
+          <BBTextInput data_test="editing-title" label="Task Title" input_type={InputType::Text} onchange={title_onchange} value={task.title} />
           <BBTextarea
             data_test="editing-description"
-            value={task_description}
+            value={task.description}
             onchange={description_onchange}
             label="Edit Description"
             id={format!("description-{}", props.id)}
           />
+          <BBSelect
+            data_test="editing-priority"
+            id={format!("priority-{}", props.id)}
+            label="Priority"
+            options={create_priority_options(task.priority)}
+            onchange={priority_onchange}
+          />
         </form>
       </section>
     }
+}
+
+fn create_priority_options(task: Option<String>) -> Vec<SelectOption> {
+    let priority = task.unwrap_or("A".into());
+    let select_options = vec![
+        SelectOption::new("A", "A", "A" == &priority),
+        SelectOption::new("B", "B", "B" == &priority),
+        SelectOption::new("C", "C", "C" == &priority),
+    ];
+
+    select_options
 }

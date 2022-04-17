@@ -1,24 +1,22 @@
-const faker = require('faker');
+const faker = require("faker");
 
 describe("todo app", () => {
   describe("navigation", () => {
     it("can navigate home using the 'logo'", () => {
-      cy
-        .visit("/create-account")
+      cy.visit("/create-account")
         .dget("logo")
         .click()
         .url()
         .should("not.contain", "/create-account");
-    })
-  })
+    });
+  });
 
   describe("creating an account", () => {
     it("should be able to create an account", () => {
       const username = faker.internet.userName();
       const password = faker.internet.password();
 
-      cy
-        .createAccount(username, password)
+      cy.createAccount(username, password)
         .dget("create-account")
         .should("not.exist")
         .dget("login")
@@ -26,8 +24,8 @@ describe("todo app", () => {
         .dget("welcome")
         .should("contain", `Welcome, ${username}`)
         .url()
-        .should("not.contain", "/create-account")
-    })
+        .should("not.contain", "/create-account");
+    });
   });
 
   describe("logging into an account", () => {
@@ -35,64 +33,66 @@ describe("todo app", () => {
       const username = faker.internet.userName();
       const password = faker.internet.password();
 
-      cy
-        .createAccount(username, password)
+      cy.createAccount(username, password)
         .login(username, password)
         .url()
         .should("not.contain", "/login")
         .dget("welcome")
-        .should("contain", `Welcome, ${username}`)
-    })
-  })
+        .should("contain", `Welcome, ${username}`);
+    });
+  });
 
   describe("default todo items", () => {
     beforeEach("create account", () => {
-      const username = faker.internet.userName()
-      const password = faker.internet.password()
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
       cy.createAccount(username, password);
-    })
+    });
 
     it("should exist on newly created accounts", () => {
-      cy
-        .dget("tasklink")
+      cy.dget("tasklink")
         .should("have.length", 2)
         .dget("tasklink")
-        .should("contain", "I am a task, you can complete me by checking the box")
+        .should(
+          "contain",
+          "I am a task, you can complete me by checking the box"
+        )
         .dget("tasklink")
-        .should("contain", "See my details for by clicking me")
-    })
-  })
+        .should("contain", "See my details for by clicking me");
+    });
+  });
 
   describe("task details", () => {
     let username;
     let password;
 
     beforeEach("create account", () => {
-      username = faker.internet.userName()
-      password = faker.internet.password()
+      username = faker.internet.userName();
+      password = faker.internet.password();
       cy.createAccount(username, password);
-    })
+    });
 
     it("should load the details for a single task", () => {
-      cy
-        .dget("tasklink")
+      cy.dget("tasklink")
         .first()
         .click()
         .url()
         .should("contain", "/tasks/")
         .dget("title")
-        .should("contain", "I am a task, you can complete me by checking the box")
+        .should(
+          "contain",
+          "I am a task, you can complete me by checking the box"
+        )
         .dget("completed")
         .should("contain", "X")
         .dget("priority")
         .should("contain", "A")
         .dget("description")
-        .should("contain", "This is my description")
-    })
+        .should("contain", "This is my description");
+    });
 
-    it("should be editable", () => {
-      cy
-        .dget("tasklink")
+    it.only("should be editable", () => {
+      cy.dget("tasklink")
         .first()
         .click()
         .dget("edit")
@@ -104,13 +104,16 @@ describe("todo app", () => {
         .dget("editing-priority")
         .select("B")
         .dget("completed")
-        .click({force: true})
+        .click({ force: true })
         .dget("submit")
         .click()
         .dget("editing-title")
         .should("not.be", "visible")
         .dget("title")
-        .should("contain", "I am a task, you can complete me by checking the box!!!")
+        .should(
+          "contain",
+          "I am a task, you can complete me by checking the box!!!"
+        )
         .dget("description")
         .should("contain", "This is my description!!!")
         .login(username, password)
@@ -118,30 +121,32 @@ describe("todo app", () => {
         .first()
         .click()
         .dget("title")
-        .should("contain", "I am a task, you can complete me by checking the box!!!")
+        .should(
+          "contain",
+          "I am a task, you can complete me by checking the box!!!"
+        )
         .dget("description")
         .should("contain", "This is my description!!!")
         .dget("priority")
         .should("contain", "B")
-        .dget('completed')
+        .dget("completed")
         .should("contain", "✓")
-        .dget('edit')
+        .dget("edit")
         .click()
         .dget("completed")
-        .click({force: true})
+        .click({ force: true })
         .dget("submit")
         .click()
         .login(username, password)
         .dget("tasklink")
         .first()
         .click()
-        .dget('completed')
-        .should("contain", "X")
-    })
+        .dget("completed")
+        .should("contain", "X");
+    });
 
     it("should be deletable", () => {
-      cy
-        .dget("tasklink")
+      cy.dget("tasklink")
         .should("have.length", 2)
         .dget("tasklink")
         .first()
@@ -149,12 +154,11 @@ describe("todo app", () => {
         .dget("delete")
         .click()
         .dget("tasklink")
-        .should("have.length", 1)
-    })
+        .should("have.length", 1);
+    });
 
     it("should be able to cancel editing without saving", () => {
-      cy
-        .dget("tasklink")
+      cy.dget("tasklink")
         .first()
         .click()
         .dget("edit")
@@ -164,24 +168,23 @@ describe("todo app", () => {
         .dget("cancel")
         .click()
         .dget("title")
-        .should("not.contain", "!!!")
-    })
-  })
+        .should("not.contain", "!!!");
+    });
+  });
 
   describe("creating a task", () => {
     beforeEach("create account", () => {
-      const username = faker.internet.userName()
-      const password = faker.internet.password()
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
       cy.createAccount(username, password);
-    })
+    });
 
     it("should be able to create a new task", () => {
       const title = faker.lorem.sentence();
       const description = faker.lorem.sentences(3);
-      const priority = 'B'
+      const priority = "B";
 
-      cy
-        .createTask({title, description, priority})
+      cy.createTask({ title, description, priority })
         .dget("tasklink")
         .last()
         .should("contain", title)
@@ -195,37 +198,36 @@ describe("todo app", () => {
         .should("contain", title)
         .dget("priority")
         .should("contain", priority)
-        .dget('completed')
+        .dget("completed")
         .should("not.be.checked")
         .dget("description")
-        .should("contain", description)
-    })
+        .should("contain", description);
+    });
 
     it("should be able to cancel while creating a task", () => {
-      cy
-        .dget("add-task")
+      cy.dget("add-task")
         .click()
         .dget("title")
         .type("ZZZZZZ")
         .dget("cancel")
         .click()
         .dget("tasklink")
-        .should("not.contain", "ZZZZZZ")
-    })
-  })
+        .should("not.contain", "ZZZZZZ");
+    });
+  });
 
   describe("marking task complete", () => {
     let username;
     let password;
     beforeEach("create account", () => {
-      username = faker.internet.userName()
-      password = faker.internet.password()
+      username = faker.internet.userName();
+      password = faker.internet.password();
       cy.createAccount(username, password);
-    })
+    });
 
     it("can mark the task as complete", () => {
-      cy
-        .intercept("/api/v1/tasks").as("getTasks")
+      cy.intercept("/api/v1/tasks")
+        .as("getTasks")
         .wait("@getTasks")
         .dget("completed")
         .first()
@@ -234,28 +236,24 @@ describe("todo app", () => {
         .login(username, password)
         .dget("completed")
         .first()
-        .should("be.checked")
-    })
-  })
+        .should("be.checked");
+    });
+  });
 
   describe("logged out", () => {
     it("I should not be able to see any tasks", () => {
-      cy
-        .visit("/")
-        .dget("tasklink")
-        .should("have.length", 0)
-    })
-  })
+      cy.visit("/").dget("tasklink").should("have.length", 0);
+    });
+  });
 
   describe("home page", () => {
     beforeEach("create account", () => {
-     const username = faker.internet.userName()
-     const password = faker.internet.password()
+      const username = faker.internet.userName();
+      const password = faker.internet.password();
       cy.createAccount(username, password);
-    })
+    });
     it("should allow the user to sort the tasks", () => {
-      cy
-        .createTask({priority: "A", title: "ZZZZZZZZZZZZZZ"})
+      cy.createTask({ priority: "A", title: "ZZZZZZZZZZZZZZ" })
         .dget("priority")
         .eq(1)
         .should("contain", "B")
@@ -275,20 +273,22 @@ describe("todo app", () => {
         .select("Created Order")
         .dget("tasklink")
         .eq(1)
-        .should("contain", "ZZZZZZZZZZZZZZ")
-    })
+        .should("contain", "ZZZZZZZZZZZZZZ");
+    });
 
     it("should allow users to filter the tasks", () => {
-      cy
-        .dget("completed")
+      cy.dget("completed")
         .first()
-        .click({force: true})
+        .click({ force: true })
         .dget("filter")
         .select("Completed")
         .dget("tasklink")
         .should("have.length", 1)
         .dget("tasklink")
-        .should("contain", "I am a task, you can complete me by checking the box")
+        .should(
+          "contain",
+          "I am a task, you can complete me by checking the box"
+        )
         .dget("filter")
         .select("Uncompleted")
         .dget("tasklink")
@@ -300,7 +300,10 @@ describe("todo app", () => {
         .dget("tasklink")
         .should("have.length", 1)
         .dget("tasklink")
-        .should("contain", "I am a task, you can complete me by checking the box")
+        .should(
+          "contain",
+          "I am a task, you can complete me by checking the box"
+        )
         .dget("filter")
         .select("Priority B")
         .dget("tasklink")
@@ -314,20 +317,19 @@ describe("todo app", () => {
         .dget("filter")
         .select("None")
         .dget("tasklink")
-        .should("have.length", 2)
-    })
-  })
+        .should("have.length", 2);
+    });
+  });
 
   describe("error messages", () => {
     it("should display when I navigate to a single task while logged out", () => {
-      cy
-        .visit("/tasks/1")
+      cy.visit("/tasks/1")
         .dget("error")
         .should("be.visible")
         .and("contain", "You must be logged in to view tasks")
         .wait(31000)
         .dget("error")
         .should("not.be.visible");
-    })
-  })
-})
+    });
+  });
+});
