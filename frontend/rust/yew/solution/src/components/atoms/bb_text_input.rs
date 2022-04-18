@@ -95,7 +95,6 @@ pub fn bb_text_input(props: &Props) -> Html {
             {onchange}
             value={state.deref().clone()}
           />
-          {&*state}
         </div>
       </div>
     }

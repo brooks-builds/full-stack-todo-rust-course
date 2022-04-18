@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use stylist::yew::styled_component;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlTextAreaElement;
@@ -27,18 +29,35 @@ pub fn bb_textarea(props: &Props) -> Html {
       "#
     );
 
-    let value = props.value.clone().unwrap_or_default();
+    let state = use_state(String::new);
+    let has_loaded = use_state(|| false);
     let onchange = {
         let props_onchange = props.onchange.clone();
+        let state = state.clone();
         Callback::from(move |event: Event| {
             let change = event
                 .target()
                 .unwrap()
                 .unchecked_into::<HtmlTextAreaElement>()
                 .value();
-            props_onchange.emit(change);
+            props_onchange.emit(change.clone());
+            state.set(change);
         })
     };
+
+    {
+        let state = state.clone();
+        let has_loaded = has_loaded.clone();
+        let value = props.value.clone();
+        use_effect(move || {
+            if !*has_loaded && state.is_empty() && value.is_some() {
+                state.set(value.unwrap());
+                has_loaded.set(true);
+            }
+
+            || {}
+        })
+    }
 
     html! {
       <div class={stylesheet}>
@@ -46,7 +65,7 @@ pub fn bb_textarea(props: &Props) -> Html {
         <textarea
           data-test={props.data_test.clone()}
           id={props.id.clone()}
-          {value}
+          value={state.deref().clone()}
           {onchange}
         />
       </div>
