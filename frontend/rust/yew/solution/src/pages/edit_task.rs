@@ -111,7 +111,7 @@ pub fn edit_task(props: &Props) -> Html {
             label="Completed: "
             id={format!("completed-{}", props.id)}
             onchange={completed_onchange}
-            checked={task.completed_at.is_some()}
+            checked={is_completed(task.completed_at.as_ref(), *completed_state)}
           />
           <div>
             <BBButton data_test="submit" label="Save" />
@@ -130,4 +130,12 @@ fn create_priority_options(task: Option<String>) -> Vec<SelectOption> {
     ];
 
     select_options
+}
+
+fn is_completed(task_completed_at: Option<&String>, state_completed: Option<bool>) -> bool {
+    if let Some(completed) = state_completed {
+        completed
+    } else {
+        task_completed_at.is_some()
+    }
 }
