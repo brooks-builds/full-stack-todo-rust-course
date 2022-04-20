@@ -53,3 +53,10 @@ pub fn set_tasks(tasks: TaskResponse, dispatch: StoreDispatch) {
         store.tasks = tasks.data;
     })
 }
+
+pub fn logout(dispatch: StoreDispatch) {
+    dispatch.reduce(|store| {
+        store.username = String::new();
+        store.token = String::new();
+    });
+}

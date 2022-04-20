@@ -566,6 +566,7 @@ dependencies = [
  "serde",
  "serde_json",
  "stylist",
+ "thiserror",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",

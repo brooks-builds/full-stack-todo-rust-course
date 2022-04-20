@@ -1,8 +1,12 @@
+pub mod api_errors;
+
 use reqwasm::http::Request;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 
 use crate::store::Task;
+
+use self::api_errors::ApiError;
 
 // TODO refactor url to environment variable
 const BASE_URL: &str = include_str!("api_base_uri.txt");
@@ -60,13 +64,19 @@ pub async fn login(username: String, password: String) -> AuthResponse {
         .unwrap()
 }
 
-pub async fn get_tasks(token: &str) -> TaskResponse {
-    Request::get(&format!("{}/tasks", BASE_URL))
+pub async fn get_tasks(token: &str) -> Result<TaskResponse, ApiError> {
+    let request = Request::get(&format!("{}/tasks", BASE_URL))
         .header("x-auth-token", token)
         .send()
         .await
-        .unwrap()
-        .json::<TaskResponse>()
-        .await
-        .unwrap()
+        .unwrap();
+
+    if request.ok() {
+        Ok(request.json::<TaskResponse>().await.unwrap())
+    } else {
+        match request.status() {
+            401 => Err(ApiError::NotAuthenticated),
+            _ => Err(ApiError::Unknown),
+        }
+    }
 }
