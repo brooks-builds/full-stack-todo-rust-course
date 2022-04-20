@@ -1,5 +1,7 @@
 use std::ops::Deref;
 
+use crate::api::patch_task::PatchTask;
+use crate::api::{self, patch_task};
 use crate::components::atoms::bb_button::BBButton;
 use crate::components::atoms::bb_checkbox::BBCheckbox;
 use crate::components::atoms::bb_select::{BBSelect, SelectOption};
@@ -65,14 +67,25 @@ pub fn edit_task(props: &Props) -> Html {
         let description_state = description_state.clone();
         let priority_state = priority_state.clone();
         let completed_state = completed_state.clone();
+        let token = use_store::<StoreType>()
+            .state()
+            .map(|state| state.token.clone())
+            .unwrap_or_default();
+        let task_id = props.id;
         Callback::from(move |event: FocusEvent| {
             event.prevent_default();
-            log!(
-                title_state.deref().clone().unwrap_or_default(),
-                description_state.deref().clone().unwrap_or_default(),
-                priority_state.deref().clone().unwrap_or_default(),
-                completed_state.deref().clone().unwrap_or_default()
+            let patch_task = PatchTask::new(
+                title_state.deref().clone(),
+                priority_state.deref().clone(),
+                description_state.deref().clone(),
+                completed_state.deref().clone(),
             );
+            let token = token.clone();
+            let task_id = task_id;
+
+            wasm_bindgen_futures::spawn_local(async move {
+                api::update_task(task_id, &token, patch_task).await.unwrap()
+            });
         })
     };
 

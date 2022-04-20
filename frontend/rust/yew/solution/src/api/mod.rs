@@ -1,4 +1,5 @@
 pub mod api_errors;
+pub mod patch_task;
 
 use reqwasm::http::Request;
 use serde::{Deserialize, Serialize};
@@ -6,7 +7,7 @@ use serde_json::json;
 
 use crate::store::Task;
 
-use self::api_errors::ApiError;
+use self::{api_errors::ApiError, patch_task::PatchTask};
 
 // TODO refactor url to environment variable
 const BASE_URL: &str = include_str!("api_base_uri.txt");
@@ -73,6 +74,24 @@ pub async fn get_tasks(token: &str) -> Result<TaskResponse, ApiError> {
 
     if request.ok() {
         Ok(request.json::<TaskResponse>().await.unwrap())
+    } else {
+        match request.status() {
+            401 => Err(ApiError::NotAuthenticated),
+            _ => Err(ApiError::Unknown),
+        }
+    }
+}
+
+pub async fn update_task(task_id: u32, token: &str, task: PatchTask) -> Result<(), ApiError> {
+    let request = Request::patch(&format!("{}/tasks/{}", BASE_URL, task_id))
+        .header("x-auth-token", token)
+        .body(serde_json::to_string(&task).unwrap())
+        .send()
+        .await
+        .unwrap();
+
+    if request.ok() {
+        Ok(())
     } else {
         match request.status() {
             401 => Err(ApiError::NotAuthenticated),
