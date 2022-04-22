@@ -1,10 +1,16 @@
+use js_sys::{Date, JsString};
+
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct PatchTask {
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub title: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub priority: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub completed_at: Option<String>,
 }
 
@@ -18,8 +24,8 @@ impl PatchTask {
         let completed_at = match completed_at {
             Some(completed) => {
                 if completed {
-                    // we need to get the current date
-                    Some(String::from("2022-04-20"))
+                    let now = Date::new_0();
+                    now.to_utc_string().to_string().as_string()
                 } else {
                     None
                 }

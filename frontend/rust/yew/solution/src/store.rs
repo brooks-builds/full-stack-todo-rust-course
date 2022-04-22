@@ -1,7 +1,7 @@
+use crate::api::{patch_task::PatchTask, AuthResponse, TaskResponse};
+use gloo::console;
 use serde::{Deserialize, Serialize};
 use yewdux::prelude::*;
-
-use crate::api::{AuthResponse, TaskResponse};
 
 pub type StoreDispatch = Dispatch<StoreType>;
 pub type StoreType = PersistentStore<Store>;
@@ -59,4 +59,11 @@ pub fn logout(dispatch: StoreDispatch) {
         store.username = String::new();
         store.token = String::new();
     });
+}
+
+pub fn update_task_by_id(dispatch: StoreDispatch, task_id: u32, task: PatchTask) {
+    dispatch.reduce(move |store| {
+        let task = store.tasks.iter_mut().find(|task| task.id == task_id);
+        console::log!(task.unwrap().title.clone());
+    })
 }

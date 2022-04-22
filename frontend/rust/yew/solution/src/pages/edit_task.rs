@@ -7,7 +7,7 @@ use crate::components::atoms::bb_checkbox::BBCheckbox;
 use crate::components::atoms::bb_select::{BBSelect, SelectOption};
 use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
-use crate::store::Task;
+use crate::store::{update_task_by_id, Task};
 use crate::{
     components::atoms::bb_text_input::{BBTextInput, InputType},
     store::StoreType,
@@ -72,6 +72,8 @@ pub fn edit_task(props: &Props) -> Html {
             .map(|state| state.token.clone())
             .unwrap_or_default();
         let task_id = props.id;
+        let history = use_history().unwrap();
+        let dispatch = use_store().dispatch().clone();
         Callback::from(move |event: FocusEvent| {
             event.prevent_default();
             let patch_task = PatchTask::new(
@@ -82,9 +84,15 @@ pub fn edit_task(props: &Props) -> Html {
             );
             let token = token.clone();
             let task_id = task_id;
+            let history = history.clone();
+            let dispatch = dispatch.clone();
 
             wasm_bindgen_futures::spawn_local(async move {
-                api::update_task(task_id, &token, patch_task).await.unwrap()
+                api::update_task(task_id, &token, patch_task.clone())
+                    .await
+                    .unwrap();
+                history.push(Route::OneTask { id: task_id });
+                update_task_by_id(dispatch, task_id, patch_task)
             });
         })
     };

@@ -562,6 +562,7 @@ version = "0.1.0"
 dependencies = [
  "dotenv",
  "gloo 0.6.1",
+ "js-sys",
  "reqwasm",
  "serde",
  "serde_json",

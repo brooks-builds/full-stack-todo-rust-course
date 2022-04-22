@@ -85,6 +85,7 @@ pub async fn get_tasks(token: &str) -> Result<TaskResponse, ApiError> {
 pub async fn update_task(task_id: u32, token: &str, task: PatchTask) -> Result<(), ApiError> {
     let request = Request::patch(&format!("{}/tasks/{}", BASE_URL, task_id))
         .header("x-auth-token", token)
+        .header("content-type", "application/json")
         .body(serde_json::to_string(&task).unwrap())
         .send()
         .await
