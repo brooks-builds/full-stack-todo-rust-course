@@ -2,7 +2,7 @@ use std::ops::Deref;
 
 use crate::api::patch_task::PatchTask;
 use crate::api::{self, patch_task};
-use crate::components::atoms::bb_button::BBButton;
+use crate::components::atoms::bb_button::{BBButton, ButtonColor};
 use crate::components::atoms::bb_checkbox::BBCheckbox;
 use crate::components::atoms::bb_select::{BBSelect, SelectOption};
 use crate::components::atoms::bb_textarea::BBTextarea;
@@ -12,6 +12,7 @@ use crate::{
     components::atoms::bb_text_input::{BBTextInput, InputType},
     store::StoreType,
 };
+use gloo::console;
 use gloo::console::log;
 use stylist::yew::styled_component;
 use yew::prelude::*;
@@ -29,6 +30,10 @@ pub fn edit_task(props: &Props) -> Html {
         r#"
       form > * {
         margin-top: 15px;
+      }
+      
+      .buttons button {
+        margin-right: 10px;
       }
     "#
     );
@@ -103,6 +108,15 @@ pub fn edit_task(props: &Props) -> Html {
         .unwrap_or_default()
         .unwrap_or_default();
 
+    let cancel_onclick = {
+        let history = use_history().unwrap();
+        let task_id = props.id;
+        Callback::from(move |event: MouseEvent| {
+            event.prevent_default();
+            history.push(Route::OneTask { id: task_id })
+        })
+    };
+
     html! {
       <section class={stylesheet}>
         <form {onsubmit}>
@@ -134,8 +148,9 @@ pub fn edit_task(props: &Props) -> Html {
             onchange={completed_onchange}
             checked={is_completed(task.completed_at.as_ref(), *completed_state)}
           />
-          <div>
+          <div class="buttons">
             <BBButton data_test="submit" label="Save" />
+            <BBButton data_test="cancel" label="Cancel" onclick={cancel_onclick} color={ButtonColor::Red} />
           </div>
         </form>
       </section>
