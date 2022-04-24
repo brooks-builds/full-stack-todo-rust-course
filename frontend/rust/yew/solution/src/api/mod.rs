@@ -100,3 +100,20 @@ pub async fn update_task(task_id: u32, token: &str, task: PatchTask) -> Result<(
         }
     }
 }
+
+pub async fn delete_task(task_id: u32, token: &str) -> Result<(), ApiError> {
+    let request = Request::delete(&format!("{}/tasks/{}", BASE_URL, task_id))
+        .header("x-auth-token", token)
+        .send()
+        .await
+        .unwrap();
+
+    if request.ok() {
+        Ok(())
+    } else {
+        match request.status() {
+            401 => Err(ApiError::NotAuthenticated),
+            _ => Err(ApiError::Unknown),
+        }
+    }
+}

@@ -84,3 +84,14 @@ pub fn update_task_by_id(dispatch: StoreDispatch, task_id: u32, patch_task: Patc
         }
     })
 }
+
+pub fn remove_task_by_id(dispatch: StoreDispatch, task_id: u32) {
+    dispatch.reduce(move |store| {
+        let store_tasks = store.tasks.clone();
+        let tasks: Vec<Task> = store_tasks
+            .into_iter()
+            .filter(|task| task.id != task_id)
+            .collect();
+        store.tasks = tasks;
+    })
+}
