@@ -91,7 +91,7 @@ describe("todo app", () => {
         .should("contain", "This is my description");
     });
 
-    it.only("should be editable", () => {
+    it("should be editable", () => {
       cy.dget("tasklink")
         .first()
         .click()

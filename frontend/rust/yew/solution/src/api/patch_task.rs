@@ -11,7 +11,7 @@ pub struct PatchTask {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub completed_at: Option<String>,
+    pub completed_at: Option<Option<String>>,
 }
 
 impl PatchTask {
@@ -25,9 +25,9 @@ impl PatchTask {
             Some(completed) => {
                 if completed {
                     let now = Date::new_0();
-                    now.to_utc_string().to_string().as_string()
+                    Some(now.to_utc_string().to_string().as_string())
                 } else {
-                    None
+                    Some(None)
                 }
             }
             None => None,

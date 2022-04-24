@@ -61,9 +61,26 @@ pub fn logout(dispatch: StoreDispatch) {
     });
 }
 
-pub fn update_task_by_id(dispatch: StoreDispatch, task_id: u32, task: PatchTask) {
+pub fn update_task_by_id(dispatch: StoreDispatch, task_id: u32, patch_task: PatchTask) {
     dispatch.reduce(move |store| {
         let task = store.tasks.iter_mut().find(|task| task.id == task_id);
-        console::log!(task.unwrap().title.clone());
+        let task = if let Some(task) = task {
+            task
+        } else {
+            console::error!("Could not find task in Yewdux store");
+            panic!();
+        };
+        if let Some(title) = patch_task.title {
+            task.title = title;
+        }
+        if let Some(completed_at) = patch_task.completed_at {
+            task.completed_at = completed_at;
+        }
+        if patch_task.priority.is_some() {
+            task.priority = patch_task.priority;
+        }
+        if patch_task.description.is_some() {
+            task.description = patch_task.description;
+        }
     })
 }
