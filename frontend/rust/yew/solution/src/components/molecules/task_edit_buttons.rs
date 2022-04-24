@@ -29,9 +29,9 @@ pub fn task_edit_buttons() -> Html {
 
     let current_route = use_location().unwrap().route::<Route>().unwrap();
     let task_id = match current_route {
-        Route::OneTask { id } => id,
-        Route::EditTask { id } => id,
-        _ => unreachable!(),
+        Route::OneTask { id } => Some(id),
+        Route::EditTask { id } => Some(id),
+        _ => None,
     };
 
     let delete_onclick = {
@@ -45,6 +45,7 @@ pub fn task_edit_buttons() -> Html {
             let token = token.clone();
             let dispatch = dispatch.clone();
             let history = history.clone();
+            let task_id = task_id.unwrap();
             wasm_bindgen_futures::spawn_local(async move {
                 api::delete_task(task_id, &token).await.unwrap();
                 remove_task_by_id(dispatch, task_id);
@@ -55,8 +56,11 @@ pub fn task_edit_buttons() -> Html {
 
     html! {
       <div class={stylesheet}>
-        <BBLink text="Edit" data_test="edit" route={Route::EditTask { id: task_id }} link_type={LinkType::Button} />
-        <BBButton data_test="delete" label="Delete" onclick={delete_onclick} />
+        if task_id.is_some() {
+            <BBLink text="Edit" data_test="edit" route={Route::EditTask { id: task_id.unwrap() }} link_type={LinkType::Button} />
+            <BBButton data_test="delete" label="Delete" onclick={delete_onclick} />
+        }
+        <BBLink text="Add Task" data_test="add-task" route={Route::AddTask} link_type={LinkType::Button} />
       </div>
     }
 }

@@ -95,3 +95,9 @@ pub fn remove_task_by_id(dispatch: StoreDispatch, task_id: u32) {
         store.tasks = tasks;
     })
 }
+
+pub fn add_task(dispatch: StoreDispatch, task: Task) {
+    dispatch.reduce(move |store| {
+        store.tasks.push(task);
+    });
+}

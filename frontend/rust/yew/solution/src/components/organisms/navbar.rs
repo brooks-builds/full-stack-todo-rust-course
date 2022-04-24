@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use crate::components::atoms::bb_link::{BBLink, LinkType};
 use crate::components::atoms::bb_text::BBText;
 use crate::components::molecules::task_edit_buttons::TaskEditButtons;
@@ -28,12 +30,12 @@ pub fn navbar() -> Html {
     html! {
       <section class={stylesheet}>
         <BBLink text={"Todo".to_owned()} data_test={"logo".to_owned()} route={Route::Home} />
-        if matches!(current_route, Route::OneTask { id: _ }) {
+        if is_logged_in(&token) {
           <div>
             <TaskEditButtons />
           </div>
         }
-        if !is_logged_in(token) {
+        if !is_logged_in(&token) {
           <div>
             <BBLink text={"Create Account".to_owned()} data_test={"create-account".to_owned()} route={Route::CreateAccount} link_type={LinkType::Button} />
             <BBLink text={"Login".to_owned()} data_test={"login".to_owned()} route={Route::Login} link_type={LinkType::Button} />
@@ -45,8 +47,8 @@ pub fn navbar() -> Html {
     }
 }
 
-fn is_logged_in(token: String) -> bool {
-    !token.is_empty()
+fn is_logged_in(token: &str) -> bool {
+    !token.deref().is_empty()
 }
 
 fn get_from_store(store: StoreRef<PersistentStore<Store>>) -> (String, String) {

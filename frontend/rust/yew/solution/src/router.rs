@@ -1,3 +1,4 @@
+use crate::pages::add_task::AddTask;
 use crate::pages::edit_task::EditTask;
 use crate::pages::one_task::OneTask;
 use crate::pages::{create_account::CreateAccount, home::Home, login::Login};
@@ -16,6 +17,8 @@ pub enum Route {
     OneTask { id: u32 },
     #[at("/tasks/:id/edit")]
     EditTask { id: u32 },
+    #[at("/tasks/add")]
+    AddTask,
 }
 
 pub fn switch(route: &Route) -> Html {
@@ -25,5 +28,6 @@ pub fn switch(route: &Route) -> Html {
         Route::Login => html! { <Login /> },
         Route::OneTask { id } => html! { <OneTask id={*id} /> },
         Route::EditTask { id } => html! { <EditTask id={*id} />},
+        Route::AddTask => html! { <AddTask /> },
     }
 }

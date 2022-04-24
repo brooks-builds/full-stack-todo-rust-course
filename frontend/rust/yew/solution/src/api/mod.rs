@@ -29,6 +29,11 @@ pub struct TaskResponse {
     pub data: Vec<Task>,
 }
 
+#[derive(Serialize, Deserialize)]
+pub struct SingleTaskResponse {
+    pub data: Task,
+}
+
 pub async fn create_account(username: String, password: String) -> AuthResponse {
     Request::post(&format!("{}/users", BASE_URL))
         .header("Content-Type", "application/json")
@@ -110,6 +115,31 @@ pub async fn delete_task(task_id: u32, token: &str) -> Result<(), ApiError> {
 
     if request.ok() {
         Ok(())
+    } else {
+        match request.status() {
+            401 => Err(ApiError::NotAuthenticated),
+            _ => Err(ApiError::Unknown),
+        }
+    }
+}
+
+pub async fn create_task(
+    token: &str,
+    title: String,
+    description: Option<String>,
+    priority: String,
+) -> Result<SingleTaskResponse, ApiError> {
+    let new_task = PatchTask::new(Some(title), Some(priority), description, None);
+    let request = Request::post(&format!("{}/tasks", BASE_URL))
+        .header("x-auth-token", token)
+        .header("content-type", "application/json")
+        .body(serde_json::to_string(&new_task).unwrap())
+        .send()
+        .await
+        .unwrap();
+
+    if request.ok() {
+        Ok(request.json::<SingleTaskResponse>().await.unwrap())
     } else {
         match request.status() {
             401 => Err(ApiError::NotAuthenticated),
