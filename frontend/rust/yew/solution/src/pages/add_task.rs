@@ -2,7 +2,7 @@ use std::ops::Deref;
 
 use crate::api;
 use crate::api::api_errors::ApiError;
-use crate::components::atoms::bb_button::BBButton;
+use crate::components::atoms::bb_button::{BBButton, ButtonColor};
 use crate::components::atoms::bb_select::{BBSelect, SelectOption};
 use crate::components::atoms::bb_text_input::{BBTextInput, InputType};
 use crate::components::atoms::bb_textarea::BBTextarea;
@@ -23,6 +23,10 @@ pub fn add_task() -> Html {
         r#"
       form > div {
         margin-top: 10px;
+      }
+
+      .submit-buttons button {
+        margin-right: 10px;
       }
     "#
     );
@@ -91,6 +95,14 @@ pub fn add_task() -> Html {
         })
     };
 
+    let cancel_onclick = {
+        let history = use_history().unwrap();
+        Callback::from(move |event: MouseEvent| {
+            event.prevent_default();
+            history.push(Route::Home);
+        })
+    };
+
     html! {
       <section class={stylesheet}>
         <form {onsubmit}>
@@ -120,10 +132,16 @@ pub fn add_task() -> Html {
               onchange={priority_onchange}
             />
           </div>
-          <div>
+          <div class="submit-buttons">
             <BBButton
               data_test="submit"
               label="Create Task"
+            />
+            <BBButton
+              data_test="cancel"
+              label="Cancel"
+              onclick={cancel_onclick}
+              color={ButtonColor::Red}
             />
           </div>
         </form>
