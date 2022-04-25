@@ -3,7 +3,7 @@ use std::ops::Deref;
 use crate::api::patch_task::PatchTask;
 use crate::api::{self, patch_task};
 use crate::components::atoms::bb_button::{BBButton, ButtonColor};
-use crate::components::atoms::bb_checkbox::BBCheckbox;
+use crate::components::atoms::bb_checkbox::{BBCheckbox, OnchangeData};
 use crate::components::atoms::bb_select::{BBSelect, SelectOption};
 use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
@@ -63,8 +63,8 @@ pub fn edit_task(props: &Props) -> Html {
     };
     let completed_onchange = {
         let completed_state = completed_state.clone();
-        Callback::from(move |completed| {
-            completed_state.set(Some(completed));
+        Callback::from(move |completed: OnchangeData| {
+            completed_state.set(Some(completed.selected));
         })
     };
     let onsubmit = {

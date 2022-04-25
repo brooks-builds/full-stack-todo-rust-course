@@ -7,10 +7,16 @@ use yew::prelude::*;
 #[derive(Properties, PartialEq, Clone)]
 pub struct Props {
     pub data_test: String,
-    pub label: String,
+    pub label: Option<String>,
     pub id: String,
-    pub onchange: Callback<bool>,
+    pub onchange: Callback<OnchangeData>,
     pub checked: bool,
+}
+
+#[derive(PartialEq, Clone)]
+pub struct OnchangeData {
+    pub selected: bool,
+    pub id: String,
 }
 
 #[styled_component(BBCheckbox)]
@@ -47,19 +53,25 @@ pub fn bb_checkbox(props: &Props) -> Html {
     );
     let onchange = {
         let props_onchange = props.onchange.clone();
+        let id = props.id.clone();
         Callback::from(move |event: Event| {
             let value = event
                 .target()
                 .unwrap()
                 .unchecked_into::<HtmlInputElement>()
                 .checked();
-            props_onchange.emit(value);
+            props_onchange.emit(OnchangeData {
+                selected: value,
+                id: id.clone(),
+            });
         })
     };
 
     html! {
       <div class={stylesheet}>
-        <span>{&props.label}</span>
+        if props.label.is_some() {
+          <span>{props.label.as_ref().unwrap()}</span>
+        }
         <input
           type="checkbox"
           id={props.id.clone()}

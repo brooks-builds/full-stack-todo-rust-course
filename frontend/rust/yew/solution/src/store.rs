@@ -1,5 +1,6 @@
 use crate::api::{patch_task::PatchTask, AuthResponse, TaskResponse};
 use gloo::console;
+use js_sys::Date;
 use serde::{Deserialize, Serialize};
 use yewdux::prelude::*;
 
@@ -100,4 +101,27 @@ pub fn add_task(dispatch: StoreDispatch, task: Task) {
     dispatch.reduce(move |store| {
         store.tasks.push(task);
     });
+}
+
+pub fn mark_task_completed(dispatch: StoreDispatch, task_id: u32) {
+    dispatch.reduce(move |store| {
+        let task = store.tasks.iter_mut().find(|task| task.id == task_id);
+        if task.is_none() {
+            gloo::console::error!("Error finding task to complete it");
+            panic!();
+        }
+        let now = Date::new_0();
+        task.unwrap().completed_at = now.to_utc_string().to_string().as_string();
+    })
+}
+
+pub fn mark_task_uncompleted(dispatch: StoreDispatch, task_id: u32) {
+    dispatch.reduce(move |store| {
+        let task = store.tasks.iter_mut().find(|task| task.id == task_id);
+        if task.is_none() {
+            gloo::console::error!("Error finding task to complete it");
+            panic!();
+        }
+        task.unwrap().completed_at = None;
+    })
 }

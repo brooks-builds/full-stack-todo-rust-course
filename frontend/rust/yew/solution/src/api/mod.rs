@@ -80,10 +80,7 @@ pub async fn get_tasks(token: &str) -> Result<TaskResponse, ApiError> {
     if request.ok() {
         Ok(request.json::<TaskResponse>().await.unwrap())
     } else {
-        match request.status() {
-            401 => Err(ApiError::NotAuthenticated),
-            _ => Err(ApiError::Unknown),
-        }
+        Err(handle_errors(request.status()))
     }
 }
 
@@ -99,10 +96,7 @@ pub async fn update_task(task_id: u32, token: &str, task: PatchTask) -> Result<(
     if request.ok() {
         Ok(())
     } else {
-        match request.status() {
-            401 => Err(ApiError::NotAuthenticated),
-            _ => Err(ApiError::Unknown),
-        }
+        Err(handle_errors(request.status()))
     }
 }
 
@@ -116,10 +110,7 @@ pub async fn delete_task(task_id: u32, token: &str) -> Result<(), ApiError> {
     if request.ok() {
         Ok(())
     } else {
-        match request.status() {
-            401 => Err(ApiError::NotAuthenticated),
-            _ => Err(ApiError::Unknown),
-        }
+        Err(handle_errors(request.status()))
     }
 }
 
@@ -141,9 +132,41 @@ pub async fn create_task(
     if request.ok() {
         Ok(request.json::<SingleTaskResponse>().await.unwrap())
     } else {
-        match request.status() {
-            401 => Err(ApiError::NotAuthenticated),
-            _ => Err(ApiError::Unknown),
-        }
+        Err(handle_errors(request.status()))
+    }
+}
+
+pub async fn complete_task(task_id: u32, token: &str) -> Result<(), ApiError> {
+    let request = Request::put(&format!("{}/tasks/{}/completed", BASE_URL, task_id))
+        .header("x-auth-token", token)
+        .send()
+        .await
+        .unwrap();
+
+    if request.ok() {
+        Ok(())
+    } else {
+        Err(handle_errors(request.status()))
+    }
+}
+
+pub async fn uncomplete_task(task_id: u32, token: &str) -> Result<(), ApiError> {
+    let request = Request::put(&format!("{}/tasks/{}/uncompleted", BASE_URL, task_id))
+        .header("x-auth-token", token)
+        .send()
+        .await
+        .unwrap();
+
+    if request.ok() {
+        Ok(())
+    } else {
+        Err(handle_errors(request.status()))
+    }
+}
+
+fn handle_errors(status: u16) -> ApiError {
+    match status {
+        401 => ApiError::NotAuthenticated,
+        _ => ApiError::Unknown,
     }
 }
