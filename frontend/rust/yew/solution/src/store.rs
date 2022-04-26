@@ -1,4 +1,7 @@
-use crate::api::{patch_task::PatchTask, AuthResponse, TaskResponse};
+use crate::{
+    api::{patch_task::PatchTask, AuthResponse, TaskResponse},
+    components::atoms::bb_select::SelectOption,
+};
 use gloo::console;
 use js_sys::Date;
 use serde::{Deserialize, Serialize};
@@ -7,11 +10,13 @@ use yewdux::prelude::*;
 pub type StoreDispatch = Dispatch<StoreType>;
 pub type StoreType = PersistentStore<Store>;
 
-#[derive(Clone, Default, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Store {
     pub username: String,
     pub token: String,
     pub tasks: Vec<Task>,
+    pub filter_options: Vec<SelectOption>,
+    pub sort_options: Vec<SelectOption>,
 }
 
 impl Store {
@@ -30,6 +35,29 @@ impl Persistent for Store {
 
     fn area() -> Area {
         Area::Local
+    }
+}
+
+impl Default for Store {
+    fn default() -> Self {
+        Self {
+            username: Default::default(),
+            token: Default::default(),
+            tasks: Default::default(),
+            filter_options: vec![
+                SelectOption::new("none", "None", true),
+                SelectOption::new("completed", "Completed", false),
+                SelectOption::new("uncompleted", "Uncompleted", false),
+                SelectOption::new("priority_a", "Priority A", false),
+                SelectOption::new("priority_b", "Priority B", false),
+                SelectOption::new("priority_c", "Priority C", false),
+            ],
+            sort_options: vec![
+                SelectOption::new("created_order", "Created Order", true),
+                SelectOption::new("priority", "Priority", false),
+                SelectOption::new("name", "Name", false),
+            ],
+        }
     }
 }
 
@@ -123,5 +151,32 @@ pub fn mark_task_uncompleted(dispatch: StoreDispatch, task_id: u32) {
             panic!();
         }
         task.unwrap().completed_at = None;
+    })
+}
+
+pub fn select_filter(dispatch: StoreDispatch, filter_value: String) {
+    dispatch.reduce(move |store| {
+        store
+            .filter_options
+            .iter_mut()
+            .for_each(move |filter_option| {
+                if filter_option.value == filter_value {
+                    filter_option.is_selected = true;
+                } else {
+                    filter_option.is_selected = false;
+                }
+            });
+    })
+}
+
+pub fn select_sort(dispatch: StoreDispatch, sort_value: String) {
+    dispatch.reduce(move |store| {
+        store.sort_options.iter_mut().for_each(move |sort_option| {
+            if sort_option.value == sort_value {
+                sort_option.is_selected = true;
+            } else {
+                sort_option.is_selected = false;
+            }
+        });
     })
 }

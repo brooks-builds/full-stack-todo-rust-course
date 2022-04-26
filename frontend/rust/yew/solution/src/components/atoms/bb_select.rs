@@ -1,10 +1,11 @@
 use gloo::console::log;
+use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlSelectElement;
 use yew::prelude::*;
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, PartialEq, Serialize, Deserialize)]
 pub struct SelectOption {
     pub value: String,
     pub label: String,
@@ -35,11 +36,11 @@ pub fn bb_select(props: &Props) -> Html {
     let stylesheet = css!(
         r#"
           label {
-            font-size: 36px;
+            font-size: 24px;
           }
 
           select {
-            font-size: 36px;
+            font-size: 24px;
             width: 100%;
           }
     "#

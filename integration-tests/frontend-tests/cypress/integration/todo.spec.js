@@ -266,14 +266,14 @@ describe("todo app", () => {
         .select("Name")
         .dget("tasklink")
         .eq(2)
-        .should("contain", "See my details for by clicking me")
+        .should("contain", "ZZZZZZZZZZZZZZ")
         .dget("sort")
         .select("priority")
         .dget("sort")
         .select("Created Order")
         .dget("tasklink")
         .eq(1)
-        .should("contain", "ZZZZZZZZZZZZZZ");
+        .should("contain", "See my details for by clicking me");
     });
 
     it("should allow users to filter the tasks", () => {
