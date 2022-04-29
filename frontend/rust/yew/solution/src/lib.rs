@@ -5,6 +5,7 @@ mod router;
 mod store;
 
 use api::{api_errors::ApiError, get_tasks};
+use components::molecules::error_message::ErrorMessage;
 use components::organisms::navbar::Navbar;
 use gloo::{console, utils::history};
 use router::{switch, Route};
@@ -48,6 +49,7 @@ pub fn app() -> Html {
     html! {
         <BrowserRouter>
           <Navbar />
+          <ErrorMessage />
           <Switch<Route> render={Switch::render(switch)} />
         </BrowserRouter>
     }

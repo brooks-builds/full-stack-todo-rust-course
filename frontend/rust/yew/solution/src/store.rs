@@ -17,6 +17,7 @@ pub struct Store {
     pub tasks: Vec<Task>,
     pub filter_options: Vec<SelectOption>,
     pub sort_options: Vec<SelectOption>,
+    pub error_message: String,
 }
 
 impl Store {
@@ -57,6 +58,7 @@ impl Default for Store {
                 SelectOption::new("priority", "Priority", false),
                 SelectOption::new("name", "Name", false),
             ],
+            error_message: String::from("I am an error"),
         }
     }
 }
@@ -180,4 +182,10 @@ pub fn select_sort(dispatch: StoreDispatch, sort_value: String) {
             }
         });
     })
+}
+
+pub fn reset_error_message(dispatch: StoreDispatch) {
+    dispatch.reduce(|store| {
+        store.error_message = String::new();
+    });
 }
