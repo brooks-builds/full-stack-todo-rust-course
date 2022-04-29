@@ -87,6 +87,7 @@ pub fn logout(dispatch: StoreDispatch) {
     dispatch.reduce(|store| {
         store.username = String::new();
         store.token = String::new();
+        store.tasks = vec![];
     });
 }
 

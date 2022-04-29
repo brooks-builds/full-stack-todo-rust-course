@@ -164,6 +164,19 @@ pub async fn uncomplete_task(task_id: u32, token: &str) -> Result<(), ApiError> 
     }
 }
 
+pub async fn logout(token: &str) -> Result<(), ApiError> {
+    let request = Request::post(&format!("{}/users/logout", BASE_URL))
+        .header("x-auth-token", token)
+        .send()
+        .await
+        .unwrap();
+    if request.ok() {
+        Ok(())
+    } else {
+        Err(handle_errors(request.status()))
+    }
+}
+
 fn handle_errors(status: u16) -> ApiError {
     match status {
         401 => ApiError::NotAuthenticated,

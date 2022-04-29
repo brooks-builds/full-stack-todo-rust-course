@@ -47,29 +47,36 @@ pub fn home() -> Hmtl {
             store::select_sort(dispatch.clone(), sort_value);
         })
     };
+    let token = use_store::<StoreType>()
+        .state()
+        .map(|state| state.token.clone())
+        .unwrap_or_default();
+
     html! {
       <section class={stylesheet}>
-        <div>
-          <div class="filter">
-            <BBSelect
-              data_test="filter"
-              id="filter"
-              label="Filter Tasks"
-              options={filter_options.clone()}
-              onchange={filter_onchange}
-            />
-          </div>
-          <div class="sort">
-            <BBSelect
-              data_test="sort"
-              id="sort"
-              label="Sort Tasks"
-              options={sort_options.clone()}
-              onchange={sort_onchange}
-            />
-          </div>
-        </div>
-        <Tasks tasks={sort_tasks(filter_tasks(tasks, filter_options), sort_options)} />
+        if !token.is_empty() {
+            <div>
+            <div class="filter">
+                <BBSelect
+                data_test="filter"
+                id="filter"
+                label="Filter Tasks"
+                options={filter_options.clone()}
+                onchange={filter_onchange}
+                />
+            </div>
+            <div class="sort">
+                <BBSelect
+                data_test="sort"
+                id="sort"
+                label="Sort Tasks"
+                options={sort_options.clone()}
+                onchange={sort_onchange}
+                />
+            </div>
+            </div>
+            <Tasks tasks={sort_tasks(filter_tasks(tasks, filter_options), sort_options)} />
+        }
       </section>
     }
 }
