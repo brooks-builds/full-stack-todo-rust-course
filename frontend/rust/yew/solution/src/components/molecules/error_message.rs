@@ -13,10 +13,30 @@ pub fn error_message() -> Html {
         .error-message {
           text-align: center;
           background-color: red;
+          animation: 10s fadeinout 2s linear;
+          opacity: 0;
         }
 
         .hide {
           display: none;
+        }
+
+        @keyframes fadeinout {
+          from {
+            opacity: 0;
+          }
+
+          5% {
+            opacity: 100%;
+          }
+
+          95% {
+            opacity: 100%;
+          }
+
+          to {
+            opacity: 0;
+          }
         }
     "#
     );
