@@ -1,14 +1,12 @@
 use crate::api;
 use crate::components::atoms::bb_button::BBButton;
 use crate::components::atoms::bb_link::{BBLink, LinkType};
-use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
 use crate::store::{remove_task_by_id, StoreType};
-use gloo::utils::history;
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yew_router::{history, prelude::*};
+use yew_router::prelude::*;
 use yewdux_functional::use_store;
 
 #[derive(Serialize, Deserialize)]

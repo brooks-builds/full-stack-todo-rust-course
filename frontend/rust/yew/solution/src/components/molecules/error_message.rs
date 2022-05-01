@@ -48,18 +48,17 @@ pub fn error_message() -> Html {
     {
         let message = message.clone();
         let dispatch = use_store::<StoreType>().dispatch().clone();
-        let timer_id = timer_id.clone();
+        let timer_id = timer_id;
         use_effect(move || {
             if !message.is_empty() && timer_id.is_none() {
                 let id = {
                     let dispatch = dispatch.clone();
                     let timer_id = timer_id.clone();
-                    let id = gloo::timers::callback::Timeout::new(10000, move || {
+                    gloo::timers::callback::Timeout::new(10000, move || {
                         store::reset_error_message(dispatch);
                         timer_id.set(None);
                     })
-                    .forget();
-                    id
+                    .forget()
                 };
                 timer_id.set(Some(id));
             }

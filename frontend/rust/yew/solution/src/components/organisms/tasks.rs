@@ -67,10 +67,10 @@ pub fn tasks(props: &Props) -> Html {
     }
 }
 
-fn table_data(tasks: &Vec<Task>, completed_onchange: Callback<OnchangeData>) -> Vec<Html> {
+fn table_data(tasks: &[Task], completed_onchange: Callback<OnchangeData>) -> Vec<Html> {
     let mut result = vec![];
     for task in tasks {
-        let priority = task.priority.clone().unwrap_or("C".to_owned());
+        let priority = task.priority.clone().unwrap_or_else(|| "C".to_owned());
         result.push(html! {
           <tr>
             <td><BBText text={priority} data_test="priority" color={choose_priority_color(&priority)} /></td>

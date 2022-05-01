@@ -1,16 +1,10 @@
-use std::{ops::Deref, rc::Rc};
-
 use crate::{
-    api::{get_tasks, TaskResponse},
     components::atoms::bb_select::BBSelect,
     components::{atoms::bb_select::SelectOption, organisms::tasks::Tasks},
-    store::{self, set_tasks, Store, StoreType, Task},
+    store::{self, StoreType, Task},
 };
-use gloo::console::log;
-use reqwasm::http::Request;
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yewdux::prelude::*;
 use yewdux_functional::use_store;
 
 #[styled_component(Home)]
@@ -111,7 +105,7 @@ fn sort_tasks(mut tasks: Vec<Task>, sort_options: Vec<SelectOption>) -> Vec<Task
             .priority
             .as_ref()
             .unwrap_or(&"A".to_owned())
-            .partial_cmp(&b.priority.as_ref().unwrap_or(&"A".to_owned()))
+            .partial_cmp(b.priority.as_ref().unwrap_or(&"A".to_owned()))
             .unwrap(),
         "name" => a.title.partial_cmp(&b.title).unwrap(),
         _ => a.id.partial_cmp(&b.id).unwrap(),

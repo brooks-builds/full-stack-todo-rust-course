@@ -1,22 +1,20 @@
 use std::ops::Deref;
 
 use crate::api::patch_task::PatchTask;
-use crate::api::{self, patch_task};
+use crate::api::{self};
 use crate::components::atoms::bb_button::{BBButton, ButtonColor};
 use crate::components::atoms::bb_checkbox::{BBCheckbox, OnchangeData};
 use crate::components::atoms::bb_select::{BBSelect, SelectOption};
 use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
-use crate::store::{update_task_by_id, Task};
+use crate::store::update_task_by_id;
 use crate::{
     components::atoms::bb_text_input::{BBTextInput, InputType},
     store::StoreType,
 };
-use gloo::console;
-use gloo::console::log;
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yew_router::{history, prelude::*};
+use yew_router::prelude::*;
 use yewdux_functional::use_store;
 
 #[derive(Clone, Properties, PartialEq)]
@@ -68,9 +66,9 @@ pub fn edit_task(props: &Props) -> Html {
         })
     };
     let onsubmit = {
-        let title_state = title_state.clone();
-        let description_state = description_state.clone();
-        let priority_state = priority_state.clone();
+        let title_state = title_state;
+        let description_state = description_state;
+        let priority_state = priority_state;
         let completed_state = completed_state.clone();
         let token = use_store::<StoreType>()
             .state()
@@ -85,7 +83,7 @@ pub fn edit_task(props: &Props) -> Html {
                 title_state.deref().clone(),
                 priority_state.deref().clone(),
                 description_state.deref().clone(),
-                completed_state.deref().clone(),
+                *completed_state.deref(),
             );
             let token = token.clone();
             let task_id = task_id;
@@ -158,7 +156,7 @@ pub fn edit_task(props: &Props) -> Html {
 }
 
 fn create_priority_options(task: Option<String>) -> Vec<SelectOption> {
-    let priority = task.unwrap_or("A".into());
+    let priority = task.unwrap_or_else(|| "A".into());
     let select_options = vec![
         SelectOption::new("A", "A", "A" == &priority),
         SelectOption::new("B", "B", "B" == &priority),

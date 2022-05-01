@@ -47,12 +47,14 @@ pub fn bb_textarea(props: &Props) -> Html {
 
     {
         let state = state.clone();
-        let has_loaded = has_loaded.clone();
+        let has_loaded = has_loaded;
         let value = props.value.clone();
         use_effect(move || {
-            if !*has_loaded && state.is_empty() && value.is_some() {
-                state.set(value.unwrap());
-                has_loaded.set(true);
+            if let Some(value) = value {
+                if !*has_loaded && state.is_empty() {
+                    state.set(value);
+                    has_loaded.set(true);
+                }
             }
 
             || {}

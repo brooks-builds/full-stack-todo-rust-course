@@ -7,7 +7,6 @@ use crate::components::molecules::task_edit_buttons::TaskEditButtons;
 use crate::router::Route;
 use crate::store::{Store, StoreType};
 use crate::{api, store};
-use serde::{Deserialize, Serialize};
 use stylist::{css, yew::styled_component};
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -35,7 +34,6 @@ pub fn navbar() -> Html {
         "#
     );
 
-    let current_route = use_location().unwrap().route::<Route>().unwrap();
     let store = use_store::<PersistentStore<Store>>();
     let (username, token) = get_from_store(store);
 

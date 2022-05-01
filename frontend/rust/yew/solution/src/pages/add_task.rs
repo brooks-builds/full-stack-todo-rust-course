@@ -8,13 +8,11 @@ use crate::components::atoms::bb_text_input::{BBTextInput, InputType};
 use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
 use crate::store::{add_task, StoreType};
-use gloo::utils::history;
 use stylist::css;
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yew_router::history::{self, History};
+use yew_router::history::History;
 use yew_router::hooks::use_history;
-use yewdux::dispatch;
 use yewdux_functional::use_store;
 
 #[styled_component(AddTask)]
@@ -60,9 +58,9 @@ pub fn add_task() -> Html {
     };
 
     let onsubmit = {
-        let title = title.clone();
-        let description = description.clone();
-        let priority = priority.clone();
+        let title = title;
+        let description = description;
+        let priority = priority;
         let token = use_store::<StoreType>()
             .state()
             .map(|state| state.token.clone())

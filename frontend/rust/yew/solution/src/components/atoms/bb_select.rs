@@ -1,4 +1,3 @@
-use gloo::console::log;
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
 use wasm_bindgen::JsCast;

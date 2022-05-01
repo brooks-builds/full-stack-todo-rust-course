@@ -22,10 +22,7 @@ pub struct Store {
 
 impl Store {
     pub fn get_task_by_id(&self, id: u32) -> Option<Task> {
-        match self.tasks.iter().find(|task| task.id == id) {
-            Some(task) => Some(task.clone()),
-            None => None,
-        }
+        self.tasks.iter().find(|task| task.id == id).cloned()
     }
 }
 

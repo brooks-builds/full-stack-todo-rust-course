@@ -1,4 +1,4 @@
-use js_sys::{Date, JsString};
+use js_sys::Date;
 
 use serde::{Deserialize, Serialize};
 

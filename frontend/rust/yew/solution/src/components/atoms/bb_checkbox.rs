@@ -1,4 +1,3 @@
-use gloo::console::log;
 use stylist::yew::styled_component;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;

@@ -1,16 +1,11 @@
 use crate::components::atoms::bb_text::Color;
-use crate::components::molecules::error_message;
-use crate::router::Route;
-use crate::store::{self, Task};
+use crate::store;
 use crate::{
     components::atoms::bb_text::{BBText, TextType},
     store::StoreType,
 };
-use gloo::console::log;
-use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yew_router::prelude::*;
 use yewdux_functional::use_store;
 
 #[derive(Properties, Clone, PartialEq)]

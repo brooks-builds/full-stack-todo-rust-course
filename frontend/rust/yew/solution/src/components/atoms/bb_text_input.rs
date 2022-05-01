@@ -49,7 +49,7 @@ pub fn bb_text_input(props: &Props) -> Html {
     let placeholder = props.placeholder.clone().unwrap_or_default();
     let id = props.label.to_lowercase().replace(' ', "-");
     let class = props.class.clone().unwrap_or_default();
-    let state = use_state(|| String::new());
+    let state = use_state(String::new);
     let initial_load = use_state(|| false);
     let onchange = {
         let emit_onchange = props.onchange.clone();
@@ -68,13 +68,14 @@ pub fn bb_text_input(props: &Props) -> Html {
     {
         let state = state.clone();
         let props_value = props.value.clone();
-        let initial_load = initial_load.clone();
+        let initial_load = initial_load;
         log!(*initial_load);
         use_effect(move || {
-            if !*initial_load && props_value.is_some() && !props_value.as_ref().unwrap().is_empty()
-            {
-                state.set(props_value.unwrap());
-                initial_load.set(true);
+            if let Some(props_value) = props_value {
+                if !*initial_load && !props_value.is_empty() {
+                    state.set(props_value);
+                    initial_load.set(true);
+                }
             }
 
             || {}

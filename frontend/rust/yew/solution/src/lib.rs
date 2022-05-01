@@ -7,11 +7,11 @@ mod store;
 use api::{api_errors::ApiError, get_tasks};
 use components::molecules::error_message::ErrorMessage;
 use components::organisms::navbar::Navbar;
-use gloo::{console, utils::history};
+use gloo::console;
 use router::{switch, Route};
 use store::{set_tasks, StoreType};
 use yew::prelude::*;
-use yew_router::{history, prelude::*};
+use yew_router::prelude::*;
 use yewdux_functional::use_store;
 
 #[function_component(App)]
