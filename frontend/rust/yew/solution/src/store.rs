@@ -58,7 +58,7 @@ impl Default for Store {
                 SelectOption::new("priority", "Priority", false),
                 SelectOption::new("name", "Name", false),
             ],
-            error_message: String::from("I am an error"),
+            error_message: Default::default(),
         }
     }
 }
@@ -188,4 +188,9 @@ pub fn reset_error_message(dispatch: StoreDispatch) {
     dispatch.reduce(|store| {
         store.error_message = String::new();
     });
+}
+
+pub fn set_error_message(dispatch: StoreDispatch, error_message: &str) {
+    let error_message = error_message.to_owned();
+    dispatch.reduce(move |store| store.error_message = error_message);
 }

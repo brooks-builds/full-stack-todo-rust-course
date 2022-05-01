@@ -10,8 +10,14 @@ use yewdux_functional::use_store;
 pub fn error_message() -> Html {
     let stylesheet = css!(
         r#"
-      text-align: center;
-      background-color: red;
+        .error-message {
+          text-align: center;
+          background-color: red;
+        }
+
+        .hide {
+          display: none;
+        }
     "#
     );
     let message = use_store::<StoreType>()
@@ -40,14 +46,21 @@ pub fn error_message() -> Html {
             || {}
         });
     }
+    let hide_class = if message.is_empty() {
+        Some("hide")
+    } else {
+        None
+    };
+
     html! {
       <div class={stylesheet}>
-        if !message.is_empty() {
+        <div class="error-message">
           <BBText
             text={message}
             data_test="error"
+            class={hide_class}
           />
-        }
+        </div>
       </div>
     }
 }

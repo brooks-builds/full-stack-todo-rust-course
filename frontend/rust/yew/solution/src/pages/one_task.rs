@@ -1,6 +1,7 @@
 use crate::components::atoms::bb_text::Color;
+use crate::components::molecules::error_message;
 use crate::router::Route;
-use crate::store::Task;
+use crate::store::{self, Task};
 use crate::{
     components::atoms::bb_text::{BBText, TextType},
     store::StoreType,
@@ -34,11 +35,32 @@ pub fn one_task(props: &Props) -> Html {
     "#
     );
 
+    let sent_logged_out_error = use_state(|| false);
     let task = use_store::<StoreType>()
         .state()
         .map(|store| store.get_task_by_id(props.id))
         .unwrap_or_default()
         .unwrap_or_default();
+
+    {
+        let is_logged_out = use_store::<StoreType>()
+            .state()
+            .map(|store| store.token.is_empty())
+            .unwrap_or_default();
+        let error_message = use_store::<StoreType>()
+            .state()
+            .map(|store| store.error_message.clone())
+            .unwrap_or_default();
+        let dispatch = use_store::<StoreType>().dispatch().clone();
+
+        use_effect(move || {
+            if !(*sent_logged_out_error) && is_logged_out && error_message.is_empty() {
+                store::set_error_message(dispatch, "You must be logged in to view tasks");
+                sent_logged_out_error.set(true);
+            }
+            || {}
+        })
+    }
 
     html! {
       <section class={stylesheet}>
