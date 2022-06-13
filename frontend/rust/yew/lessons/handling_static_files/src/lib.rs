@@ -41,10 +41,7 @@ pub fn view() -> Html {
 
     html! {
         <div>
-            <h1>{"App"}</h1>
-            if *should_say_hi {
-                <p>{"Hello world"}</p>
-            }
+            <img src="static/xilbe_cool.png" alt="really cool cat" />
         </div>
     }
 }
