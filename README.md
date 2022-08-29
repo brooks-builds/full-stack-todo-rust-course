@@ -91,5 +91,5 @@
 | Next Steps                                          | x        | Conclusion                | Where do you go from here                                                                                                             | https://youtu.be/yw_VcwYd-6E |
 | Deploying The App                                   | x        | Addendum                  | Let's deploy the project to the internet!                                                                                             | https://youtu.be/Grk4_tbBCsc |
 | Handling Static Files                               | x        | Addendum                  | Auto copying CSS, images, or other static assets to the dist folder                                                                   | https://youtu.be/IZodpoPVCQM |
-| Bootstrap CSS                                       | x        |                           |                                                                                                                                       |                              |
+| Bootstrap CSS                                       | x        | Addendum                  |                                                                                                                                       | https://youtu.be/3VJIPLGOPEU |
 
