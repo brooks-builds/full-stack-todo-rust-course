@@ -7,6 +7,12 @@ services:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - POSTGRES_PASSWORD=keyoarbcat
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
   nodejs-express:
     profiles:
       - nodejs-express
@@ -31,14 +37,15 @@ services:
   api-test:
     profiles:
       - nodejs-express
+      - rust-axum
     build: ./integration-tests/backend-tests
     volumes:
       - ./integration-tests/backend-tests:/code/
     depends_on:
-      - nodejs-express
+      - rust-axum
     environment:
       - API_PORT=3000
-      - API_URI=http://nodejs-express
+      - API_URI=http://rust-axum
       - JWT_SECRET=keyboardcat
       - DB_CONNECTION=postres://postgres:keyoarbcat@database/postgres
   js-vue:
@@ -56,5 +63,18 @@ services:
       - "8080"
     environment:
       - VUE_APP_API_URI=http://localhost:3000
+  rust-axum:
+    profiles:
+      - rust-axum
+    build: ./backend/rust/learning_axum
+    volumes:
+      - ./backend/rust/learning_axum:/code
+    depends_on:
+      database:
+        condition: service_healthy
+    expose:
+      - 3000
+    ports:
+      - 3001:3000
 volumes:
   db-data:

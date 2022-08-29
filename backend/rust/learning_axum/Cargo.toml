@@ -1,0 +1,11 @@
+[package]
+name = "learning_axum"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.5.15"
+eyre = "0.6.8"
+tokio = { version = "1.20.1", features = ["macros", "rt-multi-thread"] }
