@@ -42,7 +42,8 @@ services:
     volumes:
       - ./integration-tests/backend-tests:/code/
     depends_on:
-      - rust-axum
+      rust-axum:
+        condition: service_healthy
     environment:
       - API_PORT=3000
       - API_URI=http://rust-axum
@@ -76,5 +77,12 @@ services:
       - 3000
     ports:
       - 3001:3000
+    healthcheck:
+      test: [ "CMD-SHELL", "curl http://localhost:3000/hello_world" ]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 15s
+
 volumes:
   db-data:
