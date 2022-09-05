@@ -8,7 +8,8 @@ async fn main() {
     let port = dotenv!("PORT")
         .parse()
         .expect("unable to parse port into a number");
-    let config = Config::new(jwt_secret, port);
+    let database_uri = dotenv!("DATABASE_URL").to_owned();
+    let config = Config::new(jwt_secret, port, database_uri);
 
     match learning_axum::run(config).await {
         Ok(_) => println!("app running on port 3000"),

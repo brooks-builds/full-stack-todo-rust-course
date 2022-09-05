@@ -1,7 +1,8 @@
 use std::sync::Arc;
 
 use crate::{config::Config, utilities::jwt::create_token};
-use axum::{Extension, Json};
+use axum::{handler::Handler, Extension, Json};
+use diesel::PgConnection;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Default)]
@@ -36,4 +37,10 @@ pub async fn create_user(
     };
 
     Json(user_response)
+}
+
+pub fn create_user_route(
+    connection: &mut PgConnection,
+) -> Box<dyn Handler<Clone + Send + Sized + 'static>> {
+    create_user
 }
