@@ -1,6 +1,10 @@
 use crate::db::tasks::{self, Entity as Tasks};
+use crate::utilities::errors::AppError;
+use crate::utilities::hash_password::hash_password;
 use crate::{config::Config, db::users, utilities::jwt::create_token};
+use axum::http::StatusCode;
 use axum::{Extension, Json};
+use eyre::bail;
 use sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -27,15 +31,28 @@ pub async fn create_user(
     Json(request_user): Json<RequestUser>,
     Extension(config): Extension<Arc<Config>>,
     Extension(db): Extension<DatabaseConnection>,
-) -> Json<UserResponse> {
+) -> Result<Json<UserResponse>, AppError> {
     let token = create_token(&config.jwt_secret, &request_user.username).unwrap();
+    let hash = match hash_password(&request_user.password) {
+        Ok(hash) => hash,
+        Err(error) => return Err(AppError::new(StatusCode::INTERNAL_SERVER_ERROR, error)),
+    };
     let new_user = users::ActiveModel {
         username: Set(request_user.username),
-        password: Set(request_user.password),
+        password: Set(hash),
         token: Set(Some(token)),
         ..Default::default()
     };
-    let user = new_user.insert(&db).await.unwrap();
+    let user = match new_user.insert(&db).await {
+        Ok(user) => user,
+        Err(error) => {
+            let code = match error.clone() {
+                sea_orm::DbErr::Query(_) => StatusCode::BAD_REQUEST,
+                _ => StatusCode::INTERNAL_SERVER_ERROR,
+            };
+            return Err(AppError::new(code, eyre::eyre!(error)));
+        }
+    };
     let default_tasks = Tasks::find()
         .filter(tasks::Column::IsDefault.eq(true))
         .all(&db)
@@ -63,5 +80,6 @@ pub async fn create_user(
         },
     };
 
-    Json(user_response)
+    let result = Json(user_response);
+    Ok(result)
 }
