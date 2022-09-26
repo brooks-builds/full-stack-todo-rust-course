@@ -17,7 +17,7 @@ impl IntoResponse for AppError {
         (
             self.status_code,
             Json(ErrorResponse {
-                error: format!("error: {:?}", self.error),
+                error: format!("{}", self.error),
             }),
         )
             .into_response()

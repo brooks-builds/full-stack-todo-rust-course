@@ -1,4 +1,5 @@
 # Next Steps
 
 - [x] hash the password and save into the database 
-- [ ] Return the correct error message for duplicate username
+- [x] Return the correct error message for duplicate username
+- [ ] id is undefined when logging in 

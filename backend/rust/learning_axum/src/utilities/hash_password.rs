@@ -6,3 +6,8 @@ pub fn hash_password(password: &str) -> Result<String> {
     let hash = bcrypt::hash(password, cost.parse()?)?;
     Ok(hash)
 }
+
+pub fn verify(password: &str, hash: &str) -> Result<bool> {
+    let is_verified = bcrypt::verify(password, hash)?;
+    Ok(is_verified)
+}

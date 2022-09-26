@@ -1,11 +1,13 @@
 use crate::db::tasks::{self, Entity as Tasks};
+use crate::db::users::Entity as Users;
 use crate::utilities::errors::AppError;
-use crate::utilities::hash_password::hash_password;
+use crate::utilities::hash_password::{hash_password, verify};
 use crate::{config::Config, db::users, utilities::jwt::create_token};
 use axum::http::StatusCode;
 use axum::{Extension, Json};
-use eyre::bail;
-use sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set};
+use sea_orm::{
+    ActiveModelTrait, ColumnTrait, DatabaseConnection, DbErr, EntityTrait, QueryFilter, Set,
+};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
@@ -46,11 +48,7 @@ pub async fn create_user(
     let user = match new_user.insert(&db).await {
         Ok(user) => user,
         Err(error) => {
-            let code = match error.clone() {
-                sea_orm::DbErr::Query(_) => StatusCode::BAD_REQUEST,
-                _ => StatusCode::INTERNAL_SERVER_ERROR,
-            };
-            return Err(AppError::new(code, eyre::eyre!(error)));
+            return Err(translate_error(error));
         }
     };
     let default_tasks = Tasks::find()
@@ -82,4 +80,77 @@ pub async fn create_user(
 
     let result = Json(user_response);
     Ok(result)
+}
+
+pub async fn sign_in(
+    Json(request_user): Json<RequestUser>,
+    Extension(db): Extension<DatabaseConnection>,
+    Extension(config): Extension<Arc<Config>>,
+) -> Result<Json<User>, AppError> {
+    let db_user = match Users::find()
+        .filter(users::Column::Username.eq(request_user.username))
+        .one(&db)
+        .await
+    {
+        Ok(Some(user)) => user,
+        _ => {
+            return Err(AppError::new(
+                StatusCode::INTERNAL_SERVER_ERROR,
+                eyre::eyre!("Internal Server error please try again later"),
+            ))
+        }
+    };
+
+    let is_password_correct = match verify(&request_user.password, &db_user.password) {
+        Ok(result) => result,
+        Err(error) => return Err(AppError::new(StatusCode::INTERNAL_SERVER_ERROR, error)),
+    };
+
+    if is_password_correct {
+        let new_token = match create_token(&config.jwt_secret, &db_user.username) {
+            Ok(token) => token,
+            Err(error) => return Err(AppError::new(StatusCode::INTERNAL_SERVER_ERROR, error)),
+        };
+        update_user_token(&new_token, db_user.clone().into(), &db).await?;
+        Ok(Json(User {
+            id: db_user.id,
+            username: db_user.username,
+            token: new_token,
+        }))
+    } else {
+        Err(AppError::new(
+            StatusCode::UNAUTHORIZED,
+            eyre::eyre!("Unauthorized"),
+        ))
+    }
+}
+
+fn translate_error(error: DbErr) -> AppError {
+    if let DbErr::Query(query_error) = error {
+        if query_error.as_str() == "error returned from database: duplicate key value violates unique constraint \"users_username_key\"" {
+            AppError::new(StatusCode::BAD_REQUEST, eyre::eyre!("Username already taken, try again with a different user name"))
+        } else {
+            dbg!("is a query error, but not exactly what we thought", &query_error);
+            AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(query_error))
+        }
+    } else {
+        dbg!("not a query error");
+        AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error))
+    }
+}
+
+async fn update_user_token(
+    token: &str,
+    mut db_user: users::ActiveModel,
+    db: &DatabaseConnection,
+) -> Result<(), AppError> {
+    db_user.token = Set(Some(token.to_owned()));
+    if let Err(error) = db_user.update(db).await {
+        Err(AppError::new(
+            StatusCode::INTERNAL_SERVER_ERROR,
+            eyre::eyre!(error),
+        ))
+    } else {
+        Ok(())
+    }
 }
