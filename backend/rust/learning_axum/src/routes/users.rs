@@ -1,9 +1,9 @@
 use crate::db::tasks::{self, Entity as Tasks};
-use crate::db::users::Entity as Users;
+use crate::db::users::{self, Entity as Users};
 use crate::utilities::errors::AppError;
 use crate::utilities::hash_password::{hash_password, verify};
-use crate::{config::Config, db::users, utilities::jwt::create_token};
-use axum::http::StatusCode;
+use crate::{config::Config, utilities::jwt::create_token};
+use axum::http::{HeaderMap, StatusCode};
 use axum::{Extension, Json};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, DbErr, EntityTrait, QueryFilter, Set,
@@ -129,6 +129,44 @@ pub async fn sign_in(
         Err(AppError::new(
             StatusCode::BAD_REQUEST,
             eyre::eyre!("incorrect username and/or password"),
+        ))
+    }
+}
+
+pub async fn logout(
+    headers: HeaderMap,
+    Extension(db): Extension<DatabaseConnection>,
+) -> Result<(), AppError> {
+    let key = &headers["x-auth-token"];
+    let user = match Users::find()
+        .filter(users::Column::Token.eq(Some(key.to_str().unwrap())))
+        .one(&db)
+        .await
+    {
+        Ok(user) => user,
+        Err(error) => {
+            return Err(AppError::new(
+                StatusCode::INTERNAL_SERVER_ERROR,
+                eyre::eyre!(error),
+            ))
+        }
+    };
+
+    if let Some(user) = user {
+        let mut user: users::ActiveModel = user.into();
+        user.token = Set(None);
+        if let Err(error) = user.save(&db).await {
+            Err(AppError::new(
+                StatusCode::INTERNAL_SERVER_ERROR,
+                eyre::eyre!(error),
+            ))
+        } else {
+            Ok(())
+        }
+    } else {
+        Err(AppError::new(
+            StatusCode::UNAUTHORIZED,
+            eyre::eyre!("not authenticated!"),
         ))
     }
 }
