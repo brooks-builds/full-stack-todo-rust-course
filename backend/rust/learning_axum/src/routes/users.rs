@@ -93,6 +93,12 @@ pub async fn sign_in(
         .await
     {
         Ok(Some(user)) => user,
+        Ok(None) => {
+            return Err(AppError::new(
+                StatusCode::BAD_REQUEST,
+                eyre::eyre!("incorrect username and/or password"),
+            ))
+        }
         _ => {
             return Err(AppError::new(
                 StatusCode::INTERNAL_SERVER_ERROR,
@@ -103,7 +109,7 @@ pub async fn sign_in(
 
     let is_password_correct = match verify(&request_user.password, &db_user.password) {
         Ok(result) => result,
-        Err(error) => return Err(AppError::new(StatusCode::INTERNAL_SERVER_ERROR, error)),
+        Err(error) => return Err(error),
     };
 
     if is_password_correct {
@@ -121,8 +127,8 @@ pub async fn sign_in(
         }))
     } else {
         Err(AppError::new(
-            StatusCode::UNAUTHORIZED,
-            eyre::eyre!("Unauthorized"),
+            StatusCode::BAD_REQUEST,
+            eyre::eyre!("incorrect username and/or password"),
         ))
     }
 }
