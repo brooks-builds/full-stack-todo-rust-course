@@ -86,7 +86,7 @@ pub async fn sign_in(
     Json(request_user): Json<RequestUser>,
     Extension(db): Extension<DatabaseConnection>,
     Extension(config): Extension<Arc<Config>>,
-) -> Result<Json<User>, AppError> {
+) -> Result<Json<UserResponse>, AppError> {
     let db_user = match Users::find()
         .filter(users::Column::Username.eq(request_user.username))
         .one(&db)
@@ -112,10 +112,12 @@ pub async fn sign_in(
             Err(error) => return Err(AppError::new(StatusCode::INTERNAL_SERVER_ERROR, error)),
         };
         update_user_token(&new_token, db_user.clone().into(), &db).await?;
-        Ok(Json(User {
-            id: db_user.id,
-            username: db_user.username,
-            token: new_token,
+        Ok(Json(UserResponse {
+            data: User {
+                id: db_user.id,
+                username: db_user.username,
+                token: new_token,
+            },
         }))
     } else {
         Err(AppError::new(
