@@ -1,6 +1,6 @@
 # Setting up Yewdux
 
-- [ ] Install Yewdux
-- [ ] Create counter store with default value
-- [ ] display counter
+- [x] Install Yewdux
+- [x] Create counter store with default value
+- [x] display counter
 - [ ] Create button to increment count
