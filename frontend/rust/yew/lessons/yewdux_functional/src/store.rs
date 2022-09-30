@@ -6,7 +6,3 @@ pub struct YewduxStore {
     pub password: String,
     pub token: String,
 }
-
-pub fn init() -> Dispatch<BasicStore<YewduxStore>> {
-    Dispatch::<BasicStore<YewduxStore>>::new()
-}

@@ -25,7 +25,16 @@ impl Component for DisplayCount {
         }
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            Msg::State(state) => {
+                self.counter = state;
+                true
+            }
+        }
+    }
+
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <h2>

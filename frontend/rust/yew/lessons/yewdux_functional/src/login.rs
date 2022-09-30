@@ -1,6 +1,3 @@
-use std::ops::Deref;
-
-use gloo::console::log;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
