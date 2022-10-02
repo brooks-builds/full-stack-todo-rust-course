@@ -5,13 +5,13 @@
       label="username"
       type="text"
       v-model="username"
-      dataTest="username"
+      data-test="username"
     />
     <form-input
       label="password"
       type="password"
       v-model="password"
-      dataTest="password"
+      data-test="password"
     />
     <form-button
       label="Login"
