@@ -1,12 +1,5 @@
-use yew::prelude::*;
+use todo_project::App;
 
 fn main() {
     yew::start_app::<App>();
-}
-
-#[function_component(App)]
-fn app() -> Html {
-    html! {
-        <h1>{"Hello World"}</h1>
-    }
 }

@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 yew = "0.19.3"
+stylist = {version = "0.10.1", features = ["yew", "macros"]}
+yew-router = "0.16.0"
