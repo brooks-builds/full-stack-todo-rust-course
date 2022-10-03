@@ -1,9 +1,9 @@
 mod display_count;
-mod increment;
+mod increment_count;
 mod stores;
 
 use display_count::DisplayCount;
-use increment::IncrementCount;
+use increment_count::IncrementCount;
 use yew::prelude::*;
 
 pub struct App {}
@@ -22,9 +22,7 @@ impl Component for App {
             <div>
                 <h1>{"App"}</h1>
                 <DisplayCount />
-                <div>
-                    <IncrementCount />
-                </div>
+                <IncrementCount />
             </div>
         }
     }

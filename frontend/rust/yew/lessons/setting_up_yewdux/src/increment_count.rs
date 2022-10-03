@@ -7,13 +7,14 @@ use crate::stores::counter_store::CounterStore;
 
 pub enum Msg {
     Store(Rc<CounterStore>),
+    ButtonClicked,
 }
 
-pub struct DisplayCount {
-    dispatch: Dispatch<CounterStore>,
+pub struct IncrementCount {
+    pub dispatch: Dispatch<CounterStore>,
 }
 
-impl Component for DisplayCount {
+impl Component for IncrementCount {
     type Message = Msg;
 
     type Properties = ();
@@ -25,18 +26,21 @@ impl Component for DisplayCount {
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            Msg::Store(_) => true,
+            Msg::Store(_store) => false,
+            Msg::ButtonClicked => {
+                self.dispatch.reduce_mut(|store| {
+                    store.count += 1;
+                });
+                false
+            }
         }
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        let count = self.dispatch.get().count;
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let onclick = ctx.link().callback(|_| Msg::ButtonClicked);
 
         html! {
-            <div>
-                <h2>{"Count"}</h2>
-                <div>{count}</div>
-            </div>
+            <button {onclick}>{"Increment Count"}</button>
         }
     }
 }

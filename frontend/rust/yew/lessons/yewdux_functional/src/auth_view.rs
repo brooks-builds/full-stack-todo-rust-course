@@ -5,7 +5,7 @@ use crate::stores::auth_store::AuthStore;
 
 #[function_component(AuthView)]
 pub fn auth_view() -> Html {
-    let (store, dispatch) = use_store::<AuthStore>();
+    let (store, _dispatch) = use_store::<AuthStore>();
     html! {
         <div>
             <h2>{"Auth Info"}</h2>

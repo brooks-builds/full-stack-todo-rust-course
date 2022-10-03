@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 yew = "0.19.3"
-yewdux = "0.8.2"
 gloo = "0.8.0"
+yewdux = "0.8.2"
