@@ -1,33 +1,28 @@
-mod display;
-mod login;
-mod store;
+mod auth_form;
+mod display_auth;
+mod stores;
 
-use display::DisplayForm;
-use login::Login;
-use store::{init, YewduxStore};
+use auth_form::AuthForm;
+use display_auth::DisplayAuth;
 use yew::prelude::*;
-use yewdux::prelude::*;
 
-pub struct App {
-    _dispatch: Dispatch<BasicStore<YewduxStore>>,
-}
+pub struct App;
 
 impl Component for App {
     type Message = ();
 
-    type Properties = DispatchProps<BasicStore<YewduxStore>>;
+    type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        let _dispatch = init();
-        Self { _dispatch }
+        Self
     }
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
             <div>
                 <h1>{"App"}</h1>
-                <WithDispatch<Login> />
-                <WithDispatch<DisplayForm> />
+                <AuthForm />
+                <DisplayAuth />
             </div>
         }
     }

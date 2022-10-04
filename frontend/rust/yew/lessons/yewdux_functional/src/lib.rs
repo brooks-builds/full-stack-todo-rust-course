@@ -1,9 +1,9 @@
-mod display;
-mod login;
+mod display_auth;
+mod login_form;
 mod store;
 
-use display::Display;
-use login::Login;
+use display_auth::DisplayAuth;
+use login_form::LoginForm;
 use yew::prelude::*;
 
 #[function_component(App)]
@@ -11,8 +11,8 @@ pub fn view() -> Html {
     html! {
         <div>
             <h1>{"App"}</h1>
-            <Login />
-            <Display />
+            <LoginForm />
+            <DisplayAuth />
         </div>
     }
 }

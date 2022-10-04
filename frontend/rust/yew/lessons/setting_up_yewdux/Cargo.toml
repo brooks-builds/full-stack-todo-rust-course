@@ -7,9 +7,5 @@ edition = "2021"
 
 [dependencies]
 yew = "0.19.3"
-stylist = { version = "0.10.0", features = ["yew"]}
-gloo = "0.6.1"
-wasm-bindgen = "0.2.79"
-web-sys = { version = "0.3.56", features = ["HtmlInputElement"] }
-yew-router = "0.16.0"
-yewdux = "0.7.0"
+gloo = "0.8.0"
+yewdux = "0.8.2"
