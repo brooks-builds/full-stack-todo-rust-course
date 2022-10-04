@@ -7,7 +7,6 @@ edition = "2021"
 
 [dependencies]
 yew = "0.19.3"
-stylist = "0.10.1"
 gloo = "0.8.0"
 wasm-bindgen = "0.2.79"
 web-sys = { version = "0.3.56", features = ["HtmlInputElement"] }

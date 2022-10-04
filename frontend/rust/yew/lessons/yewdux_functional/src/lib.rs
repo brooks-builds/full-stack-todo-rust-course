@@ -1,8 +1,8 @@
-mod auth_view;
+mod display_auth;
 mod login_form;
-mod stores;
+mod store;
 
-use auth_view::AuthView;
+use display_auth::DisplayAuth;
 use login_form::LoginForm;
 use yew::prelude::*;
 
@@ -12,7 +12,7 @@ pub fn view() -> Html {
         <div>
             <h1>{"App"}</h1>
             <LoginForm />
-            <AuthView />
+            <DisplayAuth />
         </div>
     }
 }
