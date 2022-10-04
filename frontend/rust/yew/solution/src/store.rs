@@ -5,12 +5,13 @@ use crate::{
 use gloo::console;
 use js_sys::Date;
 use serde::{Deserialize, Serialize};
-use yewdux::prelude::*;
+use yewdux::{prelude::*, store};
 
 pub type StoreDispatch = Dispatch<StoreType>;
-pub type StoreType = PersistentStore<Store>;
+pub type StoreType = Store;
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Store, PartialEq)]
+#[store(storage = "local")]
 pub struct Store {
     pub username: String,
     pub token: String,
@@ -23,16 +24,6 @@ pub struct Store {
 impl Store {
     pub fn get_task_by_id(&self, id: u32) -> Option<Task> {
         self.tasks.iter().find(|task| task.id == id).cloned()
-    }
-}
-
-impl Persistent for Store {
-    fn key() -> &'static str {
-        std::any::type_name::<Self>()
-    }
-
-    fn area() -> Area {
-        Area::Local
     }
 }
 
@@ -70,20 +61,20 @@ pub struct Task {
 }
 
 pub fn login_reducer(auth_response: AuthResponse, dispatch: StoreDispatch) {
-    dispatch.reduce(move |store| {
+    dispatch.reduce_mut(move |store| {
         store.username = auth_response.data.username;
         store.token = auth_response.data.token;
     });
 }
 
 pub fn set_tasks(tasks: TaskResponse, dispatch: StoreDispatch) {
-    dispatch.reduce(move |store| {
+    dispatch.reduce_mut(move |store| {
         store.tasks = tasks.data;
     })
 }
 
 pub fn logout(dispatch: StoreDispatch) {
-    dispatch.reduce(|store| {
+    dispatch.reduce_mut(|store| {
         store.username = String::new();
         store.token = String::new();
         store.tasks = vec![];
@@ -91,7 +82,7 @@ pub fn logout(dispatch: StoreDispatch) {
 }
 
 pub fn update_task_by_id(dispatch: StoreDispatch, task_id: u32, patch_task: PatchTask) {
-    dispatch.reduce(move |store| {
+    dispatch.reduce_mut(move |store| {
         let task = store.tasks.iter_mut().find(|task| task.id == task_id);
         let task = if let Some(task) = task {
             task
@@ -115,7 +106,7 @@ pub fn update_task_by_id(dispatch: StoreDispatch, task_id: u32, patch_task: Patc
 }
 
 pub fn remove_task_by_id(dispatch: StoreDispatch, task_id: u32) {
-    dispatch.reduce(move |store| {
+    dispatch.reduce_mut(move |store| {
         let store_tasks = store.tasks.clone();
         let tasks: Vec<Task> = store_tasks
             .into_iter()
@@ -126,13 +117,13 @@ pub fn remove_task_by_id(dispatch: StoreDispatch, task_id: u32) {
 }
 
 pub fn add_task(dispatch: StoreDispatch, task: Task) {
-    dispatch.reduce(move |store| {
+    dispatch.reduce_mut(move |store| {
         store.tasks.push(task);
     });
 }
 
 pub fn mark_task_completed(dispatch: StoreDispatch, task_id: u32) {
-    dispatch.reduce(move |store| {
+    dispatch.reduce_mut(move |store| {
         let task = store.tasks.iter_mut().find(|task| task.id == task_id);
         if task.is_none() {
             gloo::console::error!("Error finding task to complete it");
@@ -144,7 +135,7 @@ pub fn mark_task_completed(dispatch: StoreDispatch, task_id: u32) {
 }
 
 pub fn mark_task_uncompleted(dispatch: StoreDispatch, task_id: u32) {
-    dispatch.reduce(move |store| {
+    dispatch.reduce_mut(move |store| {
         let task = store.tasks.iter_mut().find(|task| task.id == task_id);
         if task.is_none() {
             gloo::console::error!("Error finding task to complete it");
@@ -155,7 +146,7 @@ pub fn mark_task_uncompleted(dispatch: StoreDispatch, task_id: u32) {
 }
 
 pub fn select_filter(dispatch: StoreDispatch, filter_value: String) {
-    dispatch.reduce(move |store| {
+    dispatch.reduce_mut(move |store| {
         store
             .filter_options
             .iter_mut()
@@ -170,7 +161,7 @@ pub fn select_filter(dispatch: StoreDispatch, filter_value: String) {
 }
 
 pub fn select_sort(dispatch: StoreDispatch, sort_value: String) {
-    dispatch.reduce(move |store| {
+    dispatch.reduce_mut(move |store| {
         store.sort_options.iter_mut().for_each(move |sort_option| {
             if sort_option.value == sort_value {
                 sort_option.is_selected = true;
@@ -182,12 +173,12 @@ pub fn select_sort(dispatch: StoreDispatch, sort_value: String) {
 }
 
 pub fn reset_error_message(dispatch: StoreDispatch) {
-    dispatch.reduce(|store| {
+    dispatch.reduce_mut(|store| {
         store.error_message = String::new();
     });
 }
 
 pub fn set_error_message(dispatch: StoreDispatch, error_message: &str) {
     let error_message = error_message.to_owned();
-    dispatch.reduce(move |store| store.error_message = error_message);
+    dispatch.reduce_mut(move |store| store.error_message = error_message);
 }
