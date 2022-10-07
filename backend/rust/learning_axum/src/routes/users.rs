@@ -137,7 +137,9 @@ pub async fn logout(
     headers: HeaderMap,
     Extension(db): Extension<DatabaseConnection>,
 ) -> Result<(), AppError> {
-    let key = &headers["x-auth-token"];
+    let key = headers.get("x-auth-token").ok_or_else(|| {
+        AppError::new(StatusCode::UNAUTHORIZED, eyre::eyre!("not authenticated!"))
+    })?;
     let user = match Users::find()
         .filter(users::Column::Token.eq(Some(key.to_str().unwrap())))
         .one(&db)
