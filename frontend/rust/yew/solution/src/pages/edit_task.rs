@@ -10,12 +10,12 @@ use crate::router::Route;
 use crate::store::update_task_by_id;
 use crate::{
     components::atoms::bb_text_input::{BBTextInput, InputType},
-    store::StoreType,
+    store::Store,
 };
 use stylist::yew::styled_component;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use yewdux_functional::use_store;
+use yewdux::prelude::*;
 
 #[derive(Clone, Properties, PartialEq)]
 pub struct Props {
@@ -65,18 +65,17 @@ pub fn edit_task(props: &Props) -> Html {
             completed_state.set(Some(completed.selected));
         })
     };
+    let (store, dispatch) = use_store::<Store>();
+
     let onsubmit = {
         let title_state = title_state;
         let description_state = description_state;
         let priority_state = priority_state;
         let completed_state = completed_state.clone();
-        let token = use_store::<StoreType>()
-            .state()
-            .map(|state| state.token.clone())
-            .unwrap_or_default();
+        let token = store.token.clone();
         let task_id = props.id;
         let history = use_history().unwrap();
-        let dispatch = use_store().dispatch().clone();
+        let dispatch = dispatch.clone();
         Callback::from(move |event: FocusEvent| {
             event.prevent_default();
             let patch_task = PatchTask::new(
@@ -100,11 +99,7 @@ pub fn edit_task(props: &Props) -> Html {
         })
     };
 
-    let task = use_store::<StoreType>()
-        .state()
-        .map(|store| store.get_task_by_id(props.id))
-        .unwrap_or_default()
-        .unwrap_or_default();
+    let task = store.get_task_by_id(props.id).unwrap_or_default();
 
     let cancel_onclick = {
         let history = use_history().unwrap();

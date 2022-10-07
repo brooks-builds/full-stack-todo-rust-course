@@ -8,7 +8,6 @@ use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
 use yew_router::{history::History, hooks::use_history};
 use yewdux::prelude::*;
-use yewdux_functional::use_store;
 
 #[styled_component(Login)]
 pub fn login() -> Html {
@@ -26,8 +25,7 @@ pub fn login() -> Html {
     );
 
     let history = use_history().unwrap();
-    let store = use_store::<PersistentStore<Store>>();
-    let store_dispatch = store.dispatch();
+    let (_store, store_dispatch) = use_store::<Store>();
 
     let onsubmit = {
         let store_dispatch = store_dispatch.clone();

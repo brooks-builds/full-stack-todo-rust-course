@@ -3,11 +3,11 @@ use crate::components::atoms::bb_checkbox::{BBCheckbox, OnchangeData};
 use crate::components::atoms::bb_link::BBLink;
 use crate::components::atoms::bb_text::{BBText, Color};
 use crate::router::Route;
-use crate::store::{StoreType, Task};
+use crate::store::{Store, Task};
 use crate::{api, store};
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yewdux_functional::use_store;
+use yewdux::prelude::*;
 
 #[derive(Properties, Clone, PartialEq)]
 pub struct Props {
@@ -23,12 +23,10 @@ pub fn tasks(props: &Props) -> Html {
   "#
     );
 
+    let (store, dispatch) = use_store::<Store>();
+
     let completed_onchange = {
-        let token = use_store::<StoreType>()
-            .state()
-            .map(|state| state.token.clone())
-            .unwrap_or_default();
-        let dispatch = use_store().dispatch().clone();
+        let token = store.token.clone();
         Callback::from(move |data: OnchangeData| {
             let token = token.clone();
             let task_id = data.id.parse().unwrap();
