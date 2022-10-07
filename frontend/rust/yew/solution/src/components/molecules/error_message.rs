@@ -1,10 +1,10 @@
 use crate::{
     components::atoms::bb_text::BBText,
-    store::{self, StoreType},
+    store::{reset_error_message, Store},
 };
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yewdux_functional::use_store;
+use yewdux::prelude::*;
 
 #[styled_component(ErrorMessage)]
 pub fn error_message() -> Html {
@@ -40,14 +40,11 @@ pub fn error_message() -> Html {
         }
     "#
     );
-    let message = use_store::<StoreType>()
-        .state()
-        .map(|state| state.error_message.clone())
-        .unwrap_or_default();
+    let (store, dispatch) = use_store::<Store>();
+    let message = store.error_message.clone();
     let timer_id = use_state(|| None);
     {
         let message = message.clone();
-        let dispatch = use_store::<StoreType>().dispatch().clone();
         let timer_id = timer_id;
         use_effect(move || {
             if !message.is_empty() && timer_id.is_none() {
@@ -55,7 +52,7 @@ pub fn error_message() -> Html {
                     let dispatch = dispatch.clone();
                     let timer_id = timer_id.clone();
                     gloo::timers::callback::Timeout::new(10000, move || {
-                        store::reset_error_message(dispatch);
+                        reset_error_message(dispatch);
                         timer_id.set(None);
                     })
                     .forget()

@@ -9,19 +9,16 @@ use components::molecules::error_message::ErrorMessage;
 use components::organisms::navbar::Navbar;
 use gloo::console;
 use router::{switch, Route};
-use store::{set_tasks, StoreType};
+use store::{set_tasks, Store};
 use yew::prelude::*;
 use yew_router::prelude::*;
-use yewdux_functional::use_store;
+use yewdux::prelude::*;
 
 #[function_component(App)]
 pub fn app() -> Html {
-    let token: String = use_store::<StoreType>()
-        .state()
-        .map(|store| store.token.clone())
-        .unwrap_or_default();
+    let (store, dispatch) = use_store::<Store>();
+    let token = store.token.clone();
     let is_loaded = use_state(|| false);
-    let dispatch = use_store::<StoreType>().dispatch().clone();
     use_effect(move || {
         if !token.is_empty() && !*is_loaded {
             let dispatch = dispatch.clone();

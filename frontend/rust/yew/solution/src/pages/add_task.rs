@@ -7,13 +7,13 @@ use crate::components::atoms::bb_select::{BBSelect, SelectOption};
 use crate::components::atoms::bb_text_input::{BBTextInput, InputType};
 use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
-use crate::store::{add_task, StoreType};
+use crate::store::{add_task, Store};
 use stylist::css;
 use stylist::yew::styled_component;
 use yew::prelude::*;
 use yew_router::history::History;
 use yew_router::hooks::use_history;
-use yewdux_functional::use_store;
+use yewdux::prelude::*;
 
 #[styled_component(AddTask)]
 pub fn add_task() -> Html {
@@ -57,16 +57,14 @@ pub fn add_task() -> Html {
         })
     };
 
+    let (store, dispatch) = use_store::<Store>();
+
     let onsubmit = {
         let title = title;
         let description = description;
         let priority = priority;
-        let token = use_store::<StoreType>()
-            .state()
-            .map(|state| state.token.clone())
-            .unwrap_or_default();
+        let token = store.token.clone();
         let history = use_history().unwrap();
-        let dispatch = use_store().dispatch().clone();
         Callback::from(move |event: FocusEvent| {
             event.prevent_default();
             let token = token.clone();

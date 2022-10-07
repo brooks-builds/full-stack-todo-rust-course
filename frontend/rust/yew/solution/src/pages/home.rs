@@ -1,11 +1,11 @@
 use crate::{
     components::atoms::bb_select::BBSelect,
     components::{atoms::bb_select::SelectOption, organisms::tasks::Tasks},
-    store::{self, StoreType, Task},
+    store::{self, Store, Task},
 };
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yewdux_functional::use_store;
+use yewdux::prelude::*;
 
 #[styled_component(Home)]
 pub fn home() -> Hmtl {
@@ -17,34 +17,24 @@ pub fn home() -> Hmtl {
         "#
     );
 
-    let tasks = use_store::<StoreType>()
-        .state()
-        .map(|store| store.tasks.clone())
-        .unwrap_or_default();
-    let filter_options = use_store::<StoreType>()
-        .state()
-        .map(|state| state.filter_options.clone())
-        .unwrap_or_default();
-    let sort_options = use_store::<StoreType>()
-        .state()
-        .map(|state| state.sort_options.clone())
-        .unwrap_or_default();
+    let (store, dispatch) = use_store::<Store>();
+
+    let tasks = store.tasks.clone();
+    let filter_options = store.filter_options.clone();
+    let sort_options = store.sort_options.clone();
     let filter_onchange = {
-        let dispatch = use_store::<StoreType>().dispatch().clone();
+        let dispatch = dispatch.clone();
         Callback::from(move |filter_value| {
             store::select_filter(dispatch.clone(), filter_value);
         })
     };
     let sort_onchange = {
-        let dispatch = use_store::<StoreType>().dispatch().clone();
+        let dispatch = dispatch.clone();
         Callback::from(move |sort_value| {
             store::select_sort(dispatch.clone(), sort_value);
         })
     };
-    let token = use_store::<StoreType>()
-        .state()
-        .map(|state| state.token.clone())
-        .unwrap_or_default();
+    let token = store.token.clone();
 
     html! {
       <section class={stylesheet}>

@@ -2,11 +2,11 @@ use crate::components::atoms::bb_text::Color;
 use crate::store;
 use crate::{
     components::atoms::bb_text::{BBText, TextType},
-    store::StoreType,
+    store::Store,
 };
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yewdux_functional::use_store;
+use yewdux::prelude::*;
 
 #[derive(Properties, Clone, PartialEq)]
 pub struct Props {
@@ -31,22 +31,13 @@ pub fn one_task(props: &Props) -> Html {
     );
 
     let sent_logged_out_error = use_state(|| false);
-    let task = use_store::<StoreType>()
-        .state()
-        .map(|store| store.get_task_by_id(props.id))
-        .unwrap_or_default()
-        .unwrap_or_default();
+    let (store, dispatch) = use_store::<Store>();
+    let task = store.get_task_by_id(props.id).unwrap_or_default();
 
     {
-        let is_logged_out = use_store::<StoreType>()
-            .state()
-            .map(|store| store.token.is_empty())
-            .unwrap_or_default();
-        let error_message = use_store::<StoreType>()
-            .state()
-            .map(|store| store.error_message.clone())
-            .unwrap_or_default();
-        let dispatch = use_store::<StoreType>().dispatch().clone();
+        let is_logged_out = store.token.is_empty();
+        let error_message = store.error_message.clone();
+        let dispatch = dispatch.clone();
 
         use_effect(move || {
             if !(*sent_logged_out_error) && is_logged_out && error_message.is_empty() {

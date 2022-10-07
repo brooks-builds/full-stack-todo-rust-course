@@ -2,12 +2,12 @@ use crate::api;
 use crate::components::atoms::bb_button::BBButton;
 use crate::components::atoms::bb_link::{BBLink, LinkType};
 use crate::router::Route;
-use crate::store::{remove_task_by_id, StoreType};
+use crate::store::{remove_task_by_id, Store};
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
 use yew::prelude::*;
 use yew_router::prelude::*;
-use yewdux_functional::use_store;
+use yewdux::prelude::*;
 
 #[derive(Serialize, Deserialize)]
 pub struct NavId {
@@ -32,12 +32,10 @@ pub fn task_edit_buttons() -> Html {
         _ => None,
     };
 
+    let (store, dispatch) = use_store::<Store>();
+
     let delete_onclick = {
-        let token = use_store::<StoreType>()
-            .state()
-            .map(|state| state.token.clone())
-            .unwrap_or_default();
-        let dispatch = use_store::<StoreType>().dispatch().clone();
+        let token = store.token.clone();
         let history = use_history().unwrap();
         Callback::from(move |_| {
             let token = token.clone();

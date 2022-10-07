@@ -5,13 +5,12 @@ use crate::components::atoms::bb_link::{BBLink, LinkType};
 use crate::components::atoms::bb_text::BBText;
 use crate::components::molecules::task_edit_buttons::TaskEditButtons;
 use crate::router::Route;
-use crate::store::{Store, StoreType};
+use crate::store::Store;
 use crate::{api, store};
 use stylist::{css, yew::styled_component};
 use yew::prelude::*;
 use yew_router::prelude::*;
 use yewdux::prelude::*;
-use yewdux_functional::{use_store, StoreRef};
 
 #[styled_component(Navbar)]
 pub fn navbar() -> Html {
@@ -34,15 +33,12 @@ pub fn navbar() -> Html {
         "#
     );
 
-    let store = use_store::<PersistentStore<Store>>();
-    let (username, token) = get_from_store(store);
+    let (store, dispatch) = use_store::<Store>();
+    let username = store.username.clone();
+    let token = store.token.clone();
 
     let logout_onclick = {
-        let token = use_store::<StoreType>()
-            .state()
-            .map(|state| state.token.clone())
-            .unwrap_or_default();
-        let dispatch = use_store::<StoreType>().dispatch().clone();
+        let token = store.token.clone();
         let history = use_history().unwrap();
         Callback::from(move |_event: MouseEvent| {
             let token = token.clone();
@@ -92,17 +88,4 @@ pub fn navbar() -> Html {
 
 fn is_logged_in(token: &str) -> bool {
     !token.deref().is_empty()
-}
-
-fn get_from_store(store: StoreRef<PersistentStore<Store>>) -> (String, String) {
-    let username = store
-        .state()
-        .map(|store| store.username.clone())
-        .unwrap_or_default();
-    let token = store
-        .state()
-        .map(|store| store.token.clone())
-        .unwrap_or_default();
-
-    (username, token)
 }
