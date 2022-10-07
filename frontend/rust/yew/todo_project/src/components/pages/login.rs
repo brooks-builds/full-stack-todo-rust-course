@@ -14,7 +14,7 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 use yewdux::prelude::*;
 
-#[function_component(CreateAccount)]
+#[function_component(Login)]
 pub fn create_account() -> Html {
     let (store, dispatch) = use_store::<AuthStore>();
 
@@ -33,6 +33,7 @@ pub fn create_account() -> Html {
     let history = use_history().unwrap();
 
     let onsubmit = {
+        let session_dispatch = session_dispatch.clone();
         let store = store.clone();
         Callback::from(move |event: FocusEvent| {
             event.prevent_default();
@@ -41,7 +42,7 @@ pub fn create_account() -> Html {
             let history = history.clone();
             spawn_local(async move {
                 let response =
-                    AuthService::register(store.username.clone(), store.password.clone()).await;
+                    AuthService::login(store.username.clone(), store.password.clone()).await;
                 match response {
                     Ok(auth) => {
                         session_dispatch.clone().reduce(|_| {
@@ -51,7 +52,7 @@ pub fn create_account() -> Html {
                         });
                         history.push(Route::Home)
                     }
-                    Err(error) => log!(format!("account creation failed, details: {}", error)),
+                    Err(error) => log!(format!("login failed, details: {}", error)),
                 }
             });
         })
@@ -61,10 +62,10 @@ pub fn create_account() -> Html {
 
     html! {
         <form class={style} {onsubmit}>
-            <h2 class={Color::Info.into_style("color")}>{"Create account"}</h2>
+            <h2 class={Color::Info.into_style("color")}>{"Login"}</h2>
             <TextInput id={"username"} onchange={onchange.clone()} label={"Your username"} placeholder={"enter username.."} data_test={"username"}/>
             <TextInput id={"password"} {onchange} label={"Your password"} input_type={"password"} placeholder={"enter password.."} data_test={"password"}/>
-            <Button label={"Create account!"} data_test={"submit"}/>
+            <Button label={"Log in!"} data_test={"submit"}/>
         </form>
     }
 }

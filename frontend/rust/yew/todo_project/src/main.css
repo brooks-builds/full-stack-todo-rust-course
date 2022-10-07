@@ -1,0 +1,48 @@
+:root {
+    --primary: #8ECAE6;
+    --secondary: #023047;
+    --info: #219EBC;
+    --highlight: #FFB703;
+    --error: #FB8500;
+}
+
+html, body {
+    background-color: var(--secondary);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--highlight);
+}
+
+label, p, a {
+    color: var(--primary);
+}
+
+h1 {
+    font-size: 72px;
+}
+
+h2 {
+    font-size: 64px;
+}
+
+h3 {
+    font-size: 58px;
+}
+
+h4 {
+    font-size: 46px;
+}
+
+h5 {
+    font-size: 38px;
+}
+
+h6, label {
+    font-size: 34px;
+}
+
+p, input, a {
+    font-size: 28px;
+}

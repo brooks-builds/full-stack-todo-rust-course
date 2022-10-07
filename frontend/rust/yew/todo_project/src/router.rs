@@ -1,4 +1,4 @@
-use crate::components::pages::{create_account::CreateAccount, home::Home};
+use crate::components::pages::{create_account::CreateAccount, home::Home, login::Login};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -8,11 +8,14 @@ pub enum Route {
     Home,
     #[at("/create-account")]
     CreateAccount,
+    #[at("/login")]
+    Login,
 }
 
 pub fn switch(route: &Route) -> Html {
     match route {
         Route::Home => html! {<Home />},
         Route::CreateAccount => html! {<CreateAccount />},
+        Route::Login => html! {<Login />},
     }
 }
