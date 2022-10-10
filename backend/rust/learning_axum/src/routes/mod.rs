@@ -14,7 +14,10 @@ use users::create_user;
 
 use crate::config::Config;
 
-use self::users::{logout, sign_in};
+use self::{
+    tasks::create_task,
+    users::{logout, sign_in},
+};
 
 pub fn create_router(config: Arc<Config>, db: DatabaseConnection) -> Router {
     Router::new()
@@ -23,6 +26,7 @@ pub fn create_router(config: Arc<Config>, db: DatabaseConnection) -> Router {
         .route("/api/v1/users/login", post(sign_in))
         .route("/api/v1/users/logout", post(logout))
         .route("/api/v1/tasks", get(tasks::get_all_tasks))
+        .route("/api/v1/tasks", post(create_task))
         .layer(Extension(config))
         .layer(Extension(db))
 }
