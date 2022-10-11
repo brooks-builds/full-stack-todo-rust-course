@@ -1,5 +1,5 @@
 use crate::db::tasks::{self, Entity as Tasks};
-use crate::db::users::{self, Entity as Users};
+use crate::db::users::{self, Entity as Users, Model};
 use crate::utilities::errors::AppError;
 use crate::utilities::hash_password::{hash_password, verify};
 use crate::{config::Config, utilities::jwt::create_token};
@@ -134,42 +134,17 @@ pub async fn sign_in(
 }
 
 pub async fn logout(
-    headers: HeaderMap,
     Extension(db): Extension<DatabaseConnection>,
+    Extension(user): Extension<Model>,
 ) -> Result<(), AppError> {
-    let key = headers.get("x-auth-token").ok_or_else(|| {
-        AppError::new(StatusCode::UNAUTHORIZED, eyre::eyre!("not authenticated!"))
-    })?;
-    let user = match Users::find()
-        .filter(users::Column::Token.eq(Some(key.to_str().unwrap())))
-        .one(&db)
-        .await
-    {
-        Ok(user) => user,
-        Err(error) => {
-            return Err(AppError::new(
-                StatusCode::INTERNAL_SERVER_ERROR,
-                eyre::eyre!(error),
-            ))
-        }
-    };
-
-    if let Some(user) = user {
-        let mut user: users::ActiveModel = user.into();
-        user.token = Set(None);
-        if let Err(error) = user.save(&db).await {
-            Err(AppError::new(
-                StatusCode::INTERNAL_SERVER_ERROR,
-                eyre::eyre!(error),
-            ))
-        } else {
-            Ok(())
-        }
-    } else {
-        Err(AppError::new(
-            StatusCode::UNAUTHORIZED,
-            eyre::eyre!("not authenticated!"),
-        ))
+    let mut user: users::ActiveModel = user.into();
+    user.token = Set(None);
+    match user.save(&db).await {
+        Err(error) => Err(AppError::new(
+            StatusCode::INTERNAL_SERVER_ERROR,
+            eyre::eyre!(error),
+        )),
+        Ok(_) => Ok(()),
     }
 }
 

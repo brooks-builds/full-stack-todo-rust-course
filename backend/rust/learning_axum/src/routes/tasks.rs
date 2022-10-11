@@ -1,5 +1,5 @@
 use crate::db;
-use crate::db::users::{self, Entity as Users};
+use crate::db::users::{self, Entity as Users, Model};
 use crate::{
     db::tasks::{self, Entity as Tasks},
     utilities::errors::AppError,
@@ -41,32 +41,9 @@ pub async fn get_all_tasks(
 
 pub async fn create_task(
     Json(request_task): Json<RequestTask>,
-    headers: HeaderMap,
     Extension(db): Extension<DatabaseConnection>,
+    Extension(user): Extension<Model>,
 ) -> Result<Json<ResponseOneTask>, AppError> {
-    let key = headers.get("x-auth-token").ok_or_else(|| {
-        AppError::new(StatusCode::UNAUTHORIZED, eyre::eyre!("not authenticated!"))
-    })?;
-    let user = match Users::find()
-        .filter(users::Column::Token.eq(Some(key.to_str().unwrap())))
-        .one(&db)
-        .await
-    {
-        Ok(Some(user)) => user,
-        Ok(None) => {
-            return Err(AppError::new(
-                StatusCode::UNAUTHORIZED,
-                eyre::eyre!("Could not find user"),
-            ));
-        }
-        Err(error) => {
-            return Err(AppError::new(
-                StatusCode::INTERNAL_SERVER_ERROR,
-                eyre::eyre!(error),
-            ));
-        }
-    };
-
     let new_task = tasks::ActiveModel {
         priority: Set(request_task.priority),
         title: Set(request_task.title),

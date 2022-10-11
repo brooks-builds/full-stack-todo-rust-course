@@ -1,4 +1,3 @@
-use crate::db;
 use crate::db::users::{self, Entity as Users};
 use crate::utilities::errors::AppError;
 use axum::{
@@ -8,7 +7,10 @@ use axum::{
 };
 use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
 
-pub async fn auth_required<T>(request: Request<T>, next: Next<T>) -> Result<Response, AppError> {
+pub async fn auth_required<T>(
+    mut request: Request<T>,
+    next: Next<T>,
+) -> Result<Response, AppError> {
     let key = request.headers().get("x-auth-token").ok_or_else(|| {
         AppError::new(StatusCode::UNAUTHORIZED, eyre::eyre!("not authenticated!"))
     })?;
@@ -26,11 +28,14 @@ pub async fn auth_required<T>(request: Request<T>, next: Next<T>) -> Result<Resp
         .one(db)
         .await
     {
-        Ok(Some(user)) => Ok(next.run(request).await),
+        Ok(Some(user)) => {
+            request.extensions_mut().insert(user);
+            Ok(next.run(request).await)
+        }
         Ok(None) => {
             return Err(AppError::new(
                 StatusCode::UNAUTHORIZED,
-                eyre::eyre!("Could not find user"),
+                eyre::eyre!("not authenticated!"),
             ));
         }
         Err(error) => {
