@@ -1,3 +1,4 @@
+use lazy_static::__Deref;
 use stylist::yew::styled_component;
 use yew::prelude::*;
 use yewdux::prelude::use_store;
@@ -17,8 +18,14 @@ pub struct NavbarProperties {
 
 #[styled_component(Navbar)]
 pub fn navbar(props: &NavbarProperties) -> Html {
-    let (store, _) = use_store::<SessionStore>();
+    let (store, dispatch) = use_store::<SessionStore>();
     let (style, div_style) = Styles::get_navbar_styles(props.fore_color.clone(), props.back_color.clone());
+
+    let logout = dispatch.reduce_callback(|store| {
+        let mut store = store.deref().clone();
+        store.user = None;
+        store
+    });
 
     html! {
         <section class={style}>
@@ -46,6 +53,19 @@ pub fn navbar(props: &NavbarProperties) -> Html {
                         back_color={props.back_color.clone()}
                         hover_color={Color::Highlight2}/>
                 </div>
+            }
+            else {
+                <div class={div_style}>
+                    <RouteLink
+                        text={"Log out"}
+                        link={Route::Home}
+                        onclick={logout}
+                        data_test={"log-out"}
+                        fore_color={Color::Error}
+                        back_color={props.back_color.clone()}
+                        hover_color={Color::Error2}/>
+                </div>
+
             }
         </section>
     }
