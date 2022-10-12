@@ -105,7 +105,10 @@ pub fn new_task() -> Html {
     let create_task = 
     {
         let history = history.clone();
-        let token = session_store.user.clone().unwrap().token;
+        let token = match session_store.user.clone() {
+            Some(user) => Some(user.token.clone()),
+            None => None
+        };
         let task = task_store.task.clone();
 
         let session_dispatch = session_dispatch.clone();
@@ -114,8 +117,13 @@ pub fn new_task() -> Html {
             let session_dispatch = session_dispatch.clone();
             let token = token.clone();
             let task = task.clone();
+
+            if let None = token {
+                return;
+            }
+
             spawn_local(async move {
-                let response = TasksService::create_task(token.clone(), task.clone()).await;
+                let response = TasksService::create_task(token.clone().unwrap(), task.clone()).await;
                 match response {
                     Ok(_) => {
                         history.push(Route::Home);
@@ -137,7 +145,7 @@ pub fn new_task() -> Html {
             <TextInput data_test={"title"} id={"title"} label={"Title"} onchange={onchange.clone()}/>
             <Dropdown data_test={"priority"} id={"priority"} label={"Priority"} options={get_priority_options()} selected_option={get_selected_value(None)} onchange={onchange.clone()}/>
             <TextInput data_test={"description"} id={"description"} label={"Description"} control_type={ControlType::Textarea} rows={3} onchange={onchange.clone()}/>
-            <Checkbox data_test={"completed"} enabled={true} id={"completed"} label={"Completed?"} checked={false} onchange={onchange.clone()}/>
+            <Checkbox data_test={"completed"} enabled={true} id={"completed"} label={"Completed?"} checked={task_store.task.completed()} onchange={onchange.clone()}/>
             <div class={button_style}>
                 <Button
                     label={"Cancel"}

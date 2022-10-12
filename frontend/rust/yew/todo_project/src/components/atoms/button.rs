@@ -28,6 +28,7 @@ pub fn button(props: &ButtonProperties) -> Html {
         text-align: center;
         border: 1px solid transparent;
         padding: 10px;
+        cursor: pointer;
         :hover {{
             background-color: {hover_color};
         }}
