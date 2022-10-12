@@ -5,6 +5,99 @@ use super::color::Color;
 pub struct Styles;
 
 impl Styles {
+    pub fn get_table_style() -> (Style, Style) {
+        let style = Style::new(format!(
+            r#"
+            margin-top: 20px;
+            font-size: 24px;
+    
+            a {{
+                font-size: 24px;
+            }}
+
+            th {{
+                color: white;
+                background-color: {info};
+                font-weight: bold;
+                border-bottom: 15px solid;
+                border-color: {secondary};
+            }}
+    
+            table {{
+                width: 100%;
+                margin: auto;
+                color: white;
+                background-color: {info};
+            }}
+    
+            tr {{
+                color: black;
+                background-color: {primary};
+                border-bottom: 3px solid;
+                border-top: 3px solid;
+                border-color: {secondary};
+            }}
+    
+            th, td {{
+                padding: 5px;
+                text-align: center;
+                vertical-align: middle;
+            }}
+
+            div {{
+                justify-content: center;
+            }}
+            "#,
+            info = Color::Info.get_css_color(),
+            primary = Color::Primary.get_css_color(),
+            secondary = Color::Secondary.get_css_color(),
+        ))
+        .unwrap();
+
+        let div_style = style!(
+            r#"
+            display: flex;
+            justify-content: end;
+
+            button {
+                font-size: 24px;
+                margin: 5px;
+            }
+            "#).unwrap();
+
+        (style, div_style)
+    }
+
+    pub fn get_link_style(fore_color: Option<Color>, back_color: Option<Color>, hover_color: Option<Color>) -> Style {
+        let fore_color = match fore_color.clone() {
+            Some(color) => color.clone().get_css_color(),
+            None => Color::Primary.get_css_color()
+        };
+    
+        let hover_color = match hover_color.clone() {
+            Some(color) => color.clone().get_css_color(),
+            None => fore_color.clone()
+        };
+    
+        let mut style_string = format!(
+            r#"
+            padding: 0 0 0 15px;
+            text-decoration: none;
+            color: {};
+            :hover {{
+                color: {};
+                text-decoration: underline;
+            }}
+            "#,
+            fore_color, hover_color);
+    
+        if let Some(color) = back_color.clone() {
+            style_string = format!("{}background-color: {};", style_string, color.clone().get_css_color());
+        }
+
+        Style::new(style_string).unwrap()
+    }
+
     pub fn get_home_style() -> Style {
         style!(
             r#"
@@ -12,7 +105,7 @@ impl Styles {
             margin: auto;
             display: flex;
             flex-direction: column;
-            width: 650px;
+            width: 850px;
             h2 {
                 margin-bottom: 20px;
             }
@@ -36,7 +129,6 @@ impl Styles {
                 width: 40%;
                 min-width: 150px;
                 margin: auto;
-                height: 36px;
                 font-size: 24px;
             }
             "#

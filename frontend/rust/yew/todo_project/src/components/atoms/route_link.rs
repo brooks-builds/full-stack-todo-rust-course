@@ -1,51 +1,41 @@
-use stylist::{yew::styled_component, Style};
+use stylist::yew::styled_component;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::{router::Route, styles::color::Color};
+use crate::{
+    router::Route,
+    styles::{color::Color, styles::Styles},
+};
 
 #[derive(Properties, PartialEq)]
-pub struct LinkProperties {
+pub struct RouteLinkProperties {
     pub text: String,
-    pub link: Route,
+    pub link: Option<Route>,
+    pub onclick: Option<Callback<MouseEvent>>,
     pub data_test: Option<String>,
     pub fore_color: Option<Color>,
     pub back_color: Option<Color>,
-    pub hover_color: Option<Color>
+    pub hover_color: Option<Color>,
 }
 
 #[styled_component(RouteLink)]
-pub fn link(props: &LinkProperties) -> Html {
-    let fore_color = match props.fore_color.clone() {
-        Some(color) => color.clone().get_css_color(),
-        None => Color::Primary.get_css_color()
-    };
-
-    let hover_color = match props.hover_color.clone() {
-        Some(color) => color.clone().get_css_color(),
-        None => Color::Info.get_css_color()
-    };
-
-    let mut style_string = format!(
-        r#"
-        padding: 0 0 0 15px;
-        text-decoration: none;
-        color: {};
-        :hover {{
-            color: {};
-        }}
-        "#,
-        fore_color, hover_color);
-
-    if let Some(color) = props.back_color.clone() {
-        style_string = format!("{}background-color: {};", style_string, color.clone().get_css_color());
-    }
-
-    let classes = classes!(Style::new(style_string).unwrap());
+pub fn link(props: &RouteLinkProperties) -> Html {
+    let classes = classes!(Styles::get_link_style(
+        props.fore_color.clone(),
+        props.back_color.clone(),
+        props.hover_color.clone()
+    ));
 
     html! {
-        <a data-test={props.data_test.clone()}>
-            <Link<Route> to={props.link.clone()} {classes}>{&props.text}</Link<Route>>
-        </a>
+        if let Some(route) = props.link.clone() {
+            <a data-test={props.data_test.clone()} onclick={props.onclick.clone()}>
+                <Link<Route> to={route} {classes}>{&props.text}</Link<Route>>
+            </a>
+        }
+        else {
+            <a class={classes} data-test={props.data_test.clone()} onclick={props.onclick.clone()}>
+                {&props.text}
+            </a>
+        }
     }
 }

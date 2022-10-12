@@ -12,11 +12,11 @@ const USERS_URI: &str = "/users";
 
 impl AuthService {
     pub async fn login(username: String, password: String) -> Result<Auth, String> {
-        let response: Result<Result<AuthResponse, ApiError>, Error> = ApiClient::send(
+        let response: Result<Result<AuthResponse, ApiError>, Error> = ApiClient::send_json(
             LOGIN_URI,
             Method::POST,
         Some(AuthService::get_auth_body(username, password)),
-        Some(get_headers())).await;
+        Some(AuthService::get_headers())).await;
 
         return match response {
             Ok(ok) => match ok {
@@ -28,11 +28,11 @@ impl AuthService {
     }
 
     pub async fn register(username: String, password: String) -> Result<Auth, String> {
-        let response: Result<Result<AuthResponse, ApiError>, Error> = ApiClient::send(
+        let response: Result<Result<AuthResponse, ApiError>, Error> = ApiClient::send_json(
             USERS_URI,
             Method::POST,
             Some(AuthService::get_auth_body(username, password)),
-            Some(get_headers()),
+            Some(AuthService::get_headers()),
         )
         .await;
 
@@ -45,7 +45,7 @@ impl AuthService {
         }
     }
 
-    pub fn get_auth_body(username: String, password: String) -> String {
+    fn get_auth_body(username: String, password: String) -> String {
         json! {
             {
                 "username": username,
@@ -54,10 +54,11 @@ impl AuthService {
         }
         .to_string()
     }
+
+    fn get_headers() -> Headers {
+        let headers = Headers::default();
+        headers.append("content-type", "application/json");
+        headers
 }
 
-fn get_headers() -> Headers {
-    let headers = Headers::default();
-    headers.append("content-type", "application/json");
-    headers
 }

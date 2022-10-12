@@ -1,4 +1,4 @@
-use api::auth::auth::Auth;
+use api::{auth::auth::Auth, tasks::task::Task};
 use yew::prelude::*;
 use yew_router::prelude::*;
 use stylist::yew::{styled_component, Global};
@@ -16,7 +16,9 @@ const MAIN_STYLESHEET: &str = include_str!("main.css");
 
 #[derive(Store, Default, PartialEq, Clone, Debug)]
 pub struct SessionStore{
-    user: Option<Auth>
+    user: Option<Auth>,
+    tasks: Option<Vec<Task>>,
+    tasks_valid: bool,
 }
 
 #[styled_component(App)]

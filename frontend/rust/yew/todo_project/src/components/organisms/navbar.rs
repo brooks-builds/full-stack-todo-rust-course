@@ -44,7 +44,7 @@ pub fn navbar(props: &NavbarProperties) -> Html {
                         data_test={"create-account"}
                         fore_color={Color::Highlight}
                         back_color={props.back_color.clone()}
-                        hover_color={Color::Error}/>
+                        hover_color={Color::Highlight2}/>
                 </div>
             }
         </section>

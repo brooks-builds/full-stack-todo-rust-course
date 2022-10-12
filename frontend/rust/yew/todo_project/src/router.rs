@@ -1,4 +1,7 @@
-use crate::components::pages::{create_account::CreateAccount, home::Home, login::Login};
+use crate::components::pages::{
+    create_account::CreateAccount, home::Home, login::Login, new_task::NewTask,
+    task_details::TaskDetails,
+};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -10,6 +13,10 @@ pub enum Route {
     CreateAccount,
     #[at("/login")]
     Login,
+    #[at("/tasks/:id")]
+    TaskDetails { id: i32 },
+    #[at("/tasks/new")]
+    NewTask,
 }
 
 pub fn switch(route: &Route) -> Html {
@@ -17,5 +24,7 @@ pub fn switch(route: &Route) -> Html {
         Route::Home => html! {<Home />},
         Route::CreateAccount => html! {<CreateAccount />},
         Route::Login => html! {<Login />},
+        Route::TaskDetails { id } => html! { <TaskDetails task_id={*id}/>},
+        Route::NewTask => html! { <NewTask /> },
     }
 }

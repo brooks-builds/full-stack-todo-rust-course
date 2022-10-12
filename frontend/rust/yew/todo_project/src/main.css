@@ -3,12 +3,15 @@
     --secondary: #023047;
     --info: #219EBC;
     --highlight: #FFB703;
-    --error: #FB8500;
+    --highlight2: #FB8500;
+    --error: #9E2A2B;
+    --error2: #D52F31;
 }
 
 html, body {
+    line-height: initial;
     background-color: var(--secondary);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -43,6 +46,6 @@ h6, label {
     font-size: 34px;
 }
 
-p, input, a {
+p, input, a, textarea, select, option {
     font-size: 28px;
 }

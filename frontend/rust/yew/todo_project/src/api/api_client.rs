@@ -17,7 +17,25 @@ struct ApiConfig {
 pub struct ApiClient;
 
 impl ApiClient {
-    pub async fn send<T, E>(uri: &str, method: Method, body: Option<impl Into<JsValue>>, headers: Option<Headers>) -> Result<Result<T, E>, Error>
+    pub async fn send_text(uri: &str, method: Method, body: Option<impl Into<JsValue>>, headers: Option<impl Into<Headers>>) -> Result<String, Error> {
+        let mut request = Request::new(&format!("{}{}", API_CONFIG.api_uri, uri)).method(method);
+            
+        if let Some(body) = body {
+            request = request.body(body);
+        }
+
+        if let Some(headers) = headers {
+            request = request.headers(headers.into());
+        }
+
+        return match request.send().await {
+            Ok(response) => Ok(response.text().await.unwrap()),
+            Err(error) => Err(error),
+        };
+    }
+
+
+    pub async fn send_json<T, E>(uri: &str, method: Method, body: Option<impl Into<JsValue>>, headers: Option<impl Into<Headers>>) -> Result<Result<T, E>, Error>
     where 
         T: DeserializeOwned,
         E: DeserializeOwned {
@@ -28,7 +46,7 @@ impl ApiClient {
         }
 
         if let Some(headers) = headers {
-            request = request.headers(headers);
+            request = request.headers(headers.into());
         }
 
         return match request.send().await {

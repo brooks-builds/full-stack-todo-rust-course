@@ -8,6 +8,7 @@ use crate::{
     styles::{color::Color, styles::Styles}, SessionStore,
 };
 use gloo::console::log;
+use lazy_static::__Deref;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
@@ -45,10 +46,10 @@ pub fn create_account() -> Html {
                     AuthService::login(store.username.clone(), store.password.clone()).await;
                 match response {
                     Ok(auth) => {
-                        session_dispatch.clone().reduce(|_| {
-                            SessionStore {
-                                user: Some(auth)
-                            }
+                        session_dispatch.clone().reduce(|store| {
+                            let mut store = store.deref().clone();
+                            store.user = Some(auth);
+                            store
                         });
                         history.push(Route::Home)
                     }
