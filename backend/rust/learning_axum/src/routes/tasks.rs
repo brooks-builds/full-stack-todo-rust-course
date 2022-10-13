@@ -90,6 +90,7 @@ pub async fn get_all_tasks(
 ) -> Result<Json<TaskResponse<Vec<Task>>>, AppError> {
     let all_tasks = Tasks::find()
         .filter(tasks::Column::UserId.eq(Some(user.id)))
+        .filter(tasks::Column::DeletedAt.is_null())
         .all(&db)
         .await
         .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
