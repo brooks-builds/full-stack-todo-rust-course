@@ -5,7 +5,7 @@ use crate::{
     utilities::errors::AppError,
 };
 use axum::body::HttpBody;
-use axum::extract::FromRequest;
+use axum::extract::{FromRequest, Path};
 use axum::http::Request;
 use axum::middleware::Next;
 use axum::response::Response;
@@ -141,6 +141,30 @@ pub async fn create_task(
                 .unwrap()
                 .map(|completed_at| completed_at.to_string()),
             description: created_task.description.unwrap(),
+        },
+    }))
+}
+
+pub async fn get_one_task(
+    Extension(user): Extension<Model>,
+    Extension(db): Extension<DatabaseConnection>,
+    Path(task_id): Path<i32>,
+) -> Result<Json<TaskResponse<Task>>, AppError> {
+    let db_task = Tasks::find_by_id(task_id)
+        .filter(tasks::Column::UserId.eq(user.id))
+        .one(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
+        .ok_or_else(|| AppError::new(StatusCode::NOT_FOUND, eyre::eyre!("not found")))?;
+    Ok(Json(TaskResponse {
+        data: Task {
+            id: db_task.id,
+            priority: db_task.priority,
+            title: db_task.title,
+            completed_at: db_task
+                .completed_at
+                .map(|completed_at| completed_at.to_string()),
+            description: db_task.description,
         },
     }))
 }
