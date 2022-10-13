@@ -1,7 +1,7 @@
 use std::{fmt::Display, str::FromStr};
 use serde::{Serialize, Deserialize};
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, PartialOrd)]
 pub enum Priority {
     A,
     B,

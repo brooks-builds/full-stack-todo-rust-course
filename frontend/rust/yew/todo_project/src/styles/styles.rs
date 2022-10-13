@@ -57,11 +57,15 @@ impl Styles {
         let div_style = style!(
             r#"
             display: flex;
-            justify-content: end;
+            justify-content: space-between;
 
+            div {
+                margin-right: 5%;
+            }
+    
             button {
+                margin-left: auto;
                 font-size: 24px;
-                margin: 5px;
             }
             "#).unwrap();
 

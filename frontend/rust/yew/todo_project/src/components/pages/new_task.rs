@@ -133,7 +133,7 @@ pub fn new_task() -> Html {
                             store
                         })
                     },
-                    Err(error) => log!(format!("task deletion failed, details: {}", error)),
+                    Err(error) => log!(format!("task creation failed, details: {}", error)),
                 }
             })
         })
