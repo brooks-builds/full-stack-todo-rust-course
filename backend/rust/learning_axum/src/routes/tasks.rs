@@ -1,20 +1,17 @@
-use crate::db;
-use crate::db::users::{self, Entity as Users, Model};
+use crate::db::users::Model;
 use crate::{
     db::tasks::{self, Entity as Tasks},
     utilities::errors::AppError,
 };
 use axum::body::HttpBody;
 use axum::extract::{FromRequest, Path};
-use axum::http::Request;
-use axum::middleware::Next;
-use axum::response::Response;
 use axum::BoxError;
-use axum::{
-    http::{HeaderMap, StatusCode},
-    Extension, Json,
+use axum::{http::StatusCode, Extension, Json};
+use sea_orm::prelude::{ChronoDateTime, ChronoDateTimeUtc, DateTimeUtc, TimeDate};
+use sea_orm::{
+    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
+    Set,
 };
-use sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
@@ -167,4 +164,20 @@ pub async fn get_one_task(
             description: db_task.description,
         },
     }))
+}
+
+pub async fn mark_completed(
+    Extension(db): Extension<DatabaseConnection>,
+    Path(task_id): Path<i32>,
+) -> Result<(), AppError> {
+    let task = Tasks::find_by_id(task_id)
+        .one(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
+        .ok_or_else(|| AppError::new(StatusCode::NOT_FOUND, eyre::eyre!("not found")))?
+        .into_active_model();
+    // pull in chrono crate
+    // use the Utc::now().naive_utc() method to create datetime
+    // task.completed_at = Set(Some())
+    Ok(())
 }

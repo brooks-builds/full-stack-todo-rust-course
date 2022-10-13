@@ -3,7 +3,7 @@ use crate::db::users::{self, Entity as Users, Model};
 use crate::utilities::errors::AppError;
 use crate::utilities::hash_password::{hash_password, verify};
 use crate::{config::Config, utilities::jwt::create_token};
-use axum::http::{HeaderMap, StatusCode};
+use axum::http::StatusCode;
 use axum::{Extension, Json};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, DbErr, EntityTrait, QueryFilter, Set,
