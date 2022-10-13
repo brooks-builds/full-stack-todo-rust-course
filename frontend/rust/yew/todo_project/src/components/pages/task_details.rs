@@ -1,7 +1,7 @@
 use std::rc::Rc;
 
 use chrono::Local;
-use gloo::console::log;
+use gloo::{console::log, timers::callback::Timeout};
 use lazy_static::__Deref;
 use stylist::style;
 use wasm_bindgen_futures::spawn_local;
@@ -11,15 +11,26 @@ use yew_router::prelude::*;
 use yewdux::{prelude::use_store, store::Store};
 
 use crate::{
-    api::tasks::{task::{Task, Priority}, tasks_service::TasksService},
-    components::{atoms::{
-        button::Button,
-        text_display::TextDisplay,
-        text_input::{ControlType, TextInput},
-        dropdown::{Dropdown, DropdownOption}, checkbox::Checkbox
-    }, organisms::tasks::{update_tasks_in_store, delete_task_callback}},
+    api::tasks::{
+        task::{Priority, Task},
+        tasks_service::TasksService,
+    },
+    components::{
+        atoms::{
+            button::Button,
+            checkbox::Checkbox,
+            dropdown::{Dropdown, DropdownOption},
+            text_display::TextDisplay,
+            text_input::{ControlType, TextInput},
+        },
+        organisms::{
+            error_message::ErrorMessage,
+            tasks::{delete_task_callback, update_tasks_in_store},
+        },
+    },
+    router::Route,
     styles::color::Color,
-    SessionStore, router::Route,
+    SessionStore,
 };
 
 #[derive(Properties, PartialEq)]
@@ -29,7 +40,7 @@ pub struct TaskDetailsProperties {
 
 #[derive(Store, PartialEq, Clone, Default, Debug)]
 pub struct TaskStore {
-    pub task: Task
+    pub task: Task,
 }
 
 #[function_component(TaskDetails)]
@@ -79,24 +90,26 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
         let mut store = store.deref().clone();
         match target_element.id().as_str() {
             "title" => store.task.title = value.clone(),
-            "priority" => store.task.priority = match value.parse() {
+            "priority" => {
+                store.task.priority = match value.parse() {
                     Ok(priority) => Some(priority),
-                    Err(_) => None
-                },
-            "description" => store.task.description = 
-                if value == "" {
-                    None
+                    Err(_) => None,
                 }
-                else {
+            }
+            "description" => {
+                store.task.description = if value == "" {
+                    None
+                } else {
                     Some(value.clone())
-                },
-            "completed" => store.task.completed_at = 
-                if store.task.completed() {
-                    None
                 }
-                else {
+            }
+            "completed" => {
+                store.task.completed_at = if store.task.completed() {
+                    None
+                } else {
                     Some(Local::now().to_string())
-                },
+                }
+            }
             _ => (),
         };
         store
@@ -111,14 +124,12 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
     let edit_state = use_state(|| false);
     let task = match *edit_state {
         true => Some(task_store.task.clone()),
-        false => get_task_by_id(props.task_id, session_store.clone())
+        false => get_task_by_id(props.task_id, session_store.clone()),
     };
 
     if let None = task {
         return html! {
-            <div class={style}>
-                <h5>{"Unable to find task!"}</h5>
-            </div>
+            <ErrorMessage message={"You must be logged in to view tasks"} data_test={"error"}/>
         };
     }
 
@@ -160,14 +171,16 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
                 let response = TasksService::update_task(token.clone(), task.clone()).await;
                 match response {
                     Ok(()) => {
-                        history.push(Route::TaskDetails { id: task.id.clone() });
+                        history.push(Route::TaskDetails {
+                            id: task.id.clone(),
+                        });
                         session_dispatch.reduce(|store| {
                             edit_state.set(false);
                             let mut store = store.deref().clone();
                             store.tasks_valid = false;
                             store
                         })
-                    },
+                    }
                     Err(error) => log!(format!("task deletion failed, details: {}", error)),
                 }
             })
@@ -179,7 +192,7 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
         let history = history.clone();
         Callback::from(move |_| history.push(Route::Home))
     };
-    
+
     let session_dispatch = session_dispatch.clone();
     let session_store = session_store.clone();
     let delete_task = {
@@ -187,10 +200,17 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
         let history = history.clone();
         let session_dispatch = session_dispatch.clone();
         let session_store = session_store.clone();
-        delete_task_callback(task.clone(), session_dispatch.clone(), session_store.user.clone().unwrap().token.clone(), move || history.push(Route::Home))
+        delete_task_callback(
+            task.clone(),
+            session_dispatch.clone(),
+            session_store.user.clone().unwrap().token.clone(),
+            move || history.push(Route::Home),
+        )
     };
 
-    let session_title = get_task_by_id(props.task_id, session_store.clone()).unwrap_or_default().title;
+    let session_title = get_task_by_id(props.task_id, session_store.clone())
+        .unwrap_or_default()
+        .title;
 
     html! {
         <div class={style}>
@@ -216,7 +236,7 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
             else {
                 <TextDisplay label={"ID"} text={task.id.to_string()}/>
                 <TextDisplay data_test={"title"} label={"Title"} text={task.title.clone()}/>
-                <TextDisplay 
+                <TextDisplay
                     data_test={"priority"}
                     label={"Priority"}
                     text={match task.priority.clone() {
@@ -242,22 +262,12 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
     }
 }
 
-// fn get_task_from_DOM() -> Task {
-//     let id = document().get_element_by_id("id").unwrap().value_of().as_string().unwrap().parse().unwrap_or_default();
-//     let title = document().get_element_by_id("title").unwrap().value_of().as_string().unwrap();
-//     let priority = Some(document().get_element_by_id("priority").unwrap().value_of().as_string().unwrap().parse().unwrap());
-//     let description = document().get_element_by_id("description").unwrap().value_of().as_string();
-//     let completed_at = document().get_element_by_id("completed-at").unwrap().value_of().as_string();
-
-//     Task { id, title, priority, description, completed_at }
-// }
-
 fn get_task_by_id(id: i32, store: Rc<SessionStore>) -> Option<Task> {
     let tasks = store.tasks.clone();
     if let None = tasks {
         return None;
     }
-    
+
     tasks.clone().unwrap().iter().find_map(|task| {
         if task.id == id {
             Some(task.clone())
@@ -269,47 +279,29 @@ fn get_task_by_id(id: i32, store: Rc<SessionStore>) -> Option<Task> {
 
 pub fn get_selected_value(priority: Option<Priority>) -> DropdownOption {
     DropdownOption {
-            value: match priority {
-                Some(p) => p.to_string(),
-                None => "-".to_string()
-            },
-            label: None
-        }
+        value: match priority {
+            Some(p) => p.to_string(),
+            None => "-".to_string(),
+        },
+        label: None,
+    }
 }
 
 pub fn get_priority_options() -> Vec<DropdownOption> {
-    let priorities = vec![
-        Priority::A,
-        Priority::B,
-        Priority::C,
-    ];
+    let priorities = vec![Priority::A, Priority::B, Priority::C];
 
-    let mut result = vec![
-        DropdownOption {
-            value: "-".to_string(),
-            label: None
-        }
-    ];
+    let mut result = vec![DropdownOption {
+        value: "-".to_string(),
+        label: None,
+    }];
 
     for priority in priorities.iter() {
         let priority = priority.to_string();
-        result.push(
-            DropdownOption {
-                value: priority.clone(),
-                label: None
+        result.push(DropdownOption {
+            value: priority.clone(),
+            label: None,
         });
     }
 
     result
-
-    // priorities
-    // .iter()
-    // .map(|priority| {
-    //     let priority = priority.to_string();
-    //     DropdownOption {
-    //         value: priority.clone(),
-    //         label: None
-    //     }
-    // })
-    // .collect();
 }
