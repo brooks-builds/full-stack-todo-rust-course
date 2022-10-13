@@ -41,20 +41,17 @@ services:
       - API_URI=http://nodejs-express
       - JWT_SECRET=keyboardcat
       - DB_CONNECTION=postres://postgres:keyoarbcat@database/postgres
-  js-vue:
+  rust-yew:
     profiles:
-      - js-vue
-      - compare-frontend
-    build: ./frontend/js/vue
+      - rust-yew
+    build: ./frontend/rust/yew
     volumes:
-      - ./frontend/js/vue:/code/
+      - ./frontend/rust/yew:/code/
     depends_on:
       - nodejs-express
     expose:
       - "8080"
     ports:
       - "8080"
-    environment:
-      - VUE_APP_API_URI=http://localhost:3000
 volumes:
   db-data:

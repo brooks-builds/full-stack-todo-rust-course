@@ -4,4 +4,4 @@ RUN cargo install trunk
 VOLUME /code
 WORKDIR /code
 EXPOSE 8080
-CMD trunk serve
+CMD trunk serve --release
