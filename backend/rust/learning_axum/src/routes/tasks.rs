@@ -71,8 +71,8 @@ where
 }
 
 #[derive(Deserialize, Serialize)]
-pub struct ResponseOneTask {
-    pub data: Task,
+pub struct TaskResponse<T> {
+    pub data: T,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -86,16 +86,33 @@ pub struct Task {
 
 pub async fn get_all_tasks(
     Extension(db): Extension<DatabaseConnection>,
-) -> Json<Vec<crate::db::tasks::Model>> {
-    let all_tasks = Tasks::find().all(&db).await.unwrap();
-    Json(all_tasks)
+    Extension(user): Extension<Model>,
+) -> Result<Json<TaskResponse<Vec<Task>>>, AppError> {
+    let all_tasks = Tasks::find()
+        .filter(tasks::Column::UserId.eq(Some(user.id)))
+        .all(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
+        .into_iter()
+        .map(|db_task| Task {
+            id: db_task.id,
+            priority: db_task.priority,
+            title: db_task.title,
+            completed_at: db_task
+                .completed_at
+                .map(|completed_at| completed_at.to_string()),
+            description: db_task.description,
+        })
+        .collect::<Vec<Task>>();
+
+    Ok(Json(TaskResponse { data: all_tasks }))
 }
 
 pub async fn create_task(
     request_task: RequestTask,
     Extension(db): Extension<DatabaseConnection>,
     Extension(user): Extension<Model>,
-) -> Result<Json<ResponseOneTask>, AppError> {
+) -> Result<Json<TaskResponse<Task>>, AppError> {
     let new_task = tasks::ActiveModel {
         priority: Set(request_task.priority),
         title: Set(request_task.title),
@@ -113,7 +130,7 @@ pub async fn create_task(
             ));
         }
     };
-    Ok(Json(ResponseOneTask {
+    Ok(Json(TaskResponse {
         data: Task {
             id: created_task.id.unwrap(),
             priority: created_task.priority.unwrap(),
