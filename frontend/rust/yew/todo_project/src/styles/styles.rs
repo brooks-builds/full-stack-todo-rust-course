@@ -5,6 +5,47 @@ use super::color::Color;
 pub struct Styles;
 
 impl Styles {
+    pub fn get_editable_details_style() -> (Style, Style) {
+        let style = style!(
+            r#"
+            padding: 10px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            width: 850px;
+    
+            h2 {
+                margin-bottom: 20px;
+            }
+    
+            div {
+                margin: auto;
+                width: 80%;
+                margin-bottom: 10px;
+            }
+            "#
+        )
+        .unwrap();
+    
+        let button_style = style!(
+            r#"
+            display: flex;
+            justify-content: space-between;
+            margin-left: 10%;
+            margin-right: 10%;
+    
+            button {
+                width: 20%;
+                font-size: 24px;
+            }
+            "#
+        )
+        .unwrap();
+
+        (style, button_style)
+
+    }
+
     pub fn get_table_style() -> (Style, Style) {
         let style = Style::new(format!(
             r#"
@@ -16,7 +57,7 @@ impl Styles {
             }}
 
             th {{
-                color: white;
+                color: {secondary};
                 background-color: {info};
                 font-weight: bold;
                 border-bottom: 15px solid;
@@ -26,7 +67,6 @@ impl Styles {
             table {{
                 width: 100%;
                 margin: auto;
-                color: white;
                 background-color: {info};
             }}
     

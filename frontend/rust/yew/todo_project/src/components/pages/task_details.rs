@@ -1,9 +1,7 @@
 use std::rc::Rc;
-
 use chrono::Local;
-use gloo::{console::log, timers::callback::Timeout};
+use gloo::console::log;
 use lazy_static::__Deref;
-use stylist::style;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
@@ -29,7 +27,7 @@ use crate::{
         },
     },
     router::Route,
-    styles::color::Color,
+    styles::{color::Color, styles::Styles},
     SessionStore,
 };
 
@@ -45,41 +43,8 @@ pub struct TaskStore {
 
 #[function_component(TaskDetails)]
 pub fn task_details(props: &TaskDetailsProperties) -> Html {
-    let style = style!(
-        r#"
-        padding: 10px;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        width: 850px;
-
-        h2 {
-            margin-bottom: 20px;
-        }
-
-        div {
-            margin: auto;
-            width: 80%;
-            margin-bottom: 10px;
-        }
-        "#
-    )
-    .unwrap();
-
-    let button_style = style!(
-        r#"
-        display: flex;
-        justify-content: space-between;
-        margin-left: 10%;
-        margin-right: 10%;
-
-        button {
-            width: 20%;
-            font-size: 24px;
-        }
-        "#
-    )
-    .unwrap();
+    let (style, button_style) = Styles::get_editable_details_style();
+    
     let (session_store, session_dispatch) = use_store::<SessionStore>();
 
     let (task_store, task_dispatch) = use_store::<TaskStore>();
@@ -147,6 +112,7 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
             store
         })
     };
+
     let history = use_history().unwrap();
 
     let save_changes = {
@@ -221,11 +187,11 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
                 <TextInput data_test={"editing-title"} id={"title"} label={"Title"} text={task.title.clone()} onchange={onchange.clone()}/>
                 <Dropdown data_test={"editing-priority"} id={"priority"} label={"Priority"} options={get_priority_options()} selected_option={get_selected_value(task.priority)} onchange={onchange.clone()}/>
                 <TextInput data_test={"editing-description"} id={"description"} label={"Description"} control_type={ControlType::Textarea} rows={3} text={task.description.clone()} onchange={onchange.clone()}/>
-                <Checkbox data_test={"completed"} enabled={true} id={"completed"} label={"Completed?"} checked={task.completed_at.is_some()} onchange={onchange.clone()}/>
+                <Checkbox data_test={"completed"} id={"completed"} label={"Completed?"} checked={task.completed_at.is_some()} onchange={onchange.clone()}/>
                 <div class={button_style}>
                     <Button
                         label={"Discard changes"}
-                        fore_color={Color::Custom("white".to_string())}
+                        fore_color={Color::CustomStr("white".to_string())}
                         back_color={Color::Error}
                         hover_color={Color::Error2}
                         data_test={"cancel"}
@@ -251,7 +217,7 @@ pub fn task_details(props: &TaskDetailsProperties) -> Html {
                     <Button
                         data_test={"delete"}
                         label={"Delete task"}
-                        fore_color={Color::Custom("white".to_string())}
+                        fore_color={Color::CustomStr("white".to_string())}
                         back_color={Color::Error}
                         hover_color={Color::Error2}
                         onclick={delete_task.clone()}/>

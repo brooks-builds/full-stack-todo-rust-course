@@ -1,7 +1,7 @@
 use chrono::Local;
 use gloo::console::log;
 use lazy_static::__Deref;
-use stylist::{yew::styled_component, style};
+use stylist::yew::styled_component;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
@@ -14,7 +14,7 @@ use crate::{
         text_input::{ControlType, TextInput},
         dropdown::Dropdown, checkbox::Checkbox
     }, pages::task_details::{get_priority_options, get_selected_value}},
-    styles::color::Color,
+    styles::{color::Color, styles::Styles},
     SessionStore, router::Route,
 };
 
@@ -26,41 +26,7 @@ pub struct TaskStore {
 
 #[styled_component(NewTask)]
 pub fn new_task() -> Html {
-    let style = style!(
-        r#"
-        padding: 10px;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        width: 850px;
-
-        h2 {
-            margin-bottom: 20px;
-        }
-
-        div {
-            margin: auto;
-            width: 80%;
-            margin-bottom: 10px;
-        }
-        "#
-    )
-    .unwrap();
-
-    let button_style = style!(
-        r#"
-        display: flex;
-        justify-content: space-between;
-        margin-left: 10%;
-        margin-right: 10%;
-
-        button {
-            width: 20%;
-            font-size: 24px;
-        }
-        "#
-    )
-    .unwrap();
+    let (style, button_style) = Styles::get_editable_details_style();
 
     let history = use_history().unwrap();
     let history = history.clone();
@@ -145,11 +111,11 @@ pub fn new_task() -> Html {
             <TextInput data_test={"title"} id={"title"} label={"Title"} onchange={onchange.clone()}/>
             <Dropdown data_test={"priority"} id={"priority"} label={"Priority"} options={get_priority_options()} selected_option={get_selected_value(None)} onchange={onchange.clone()}/>
             <TextInput data_test={"description"} id={"description"} label={"Description"} control_type={ControlType::Textarea} rows={3} onchange={onchange.clone()}/>
-            <Checkbox data_test={"completed"} enabled={true} id={"completed"} label={"Completed?"} checked={task_store.task.completed()} onchange={onchange.clone()}/>
+            <Checkbox data_test={"completed"} id={"completed"} label={"Completed?"} checked={task_store.task.completed()} onchange={onchange.clone()}/>
             <div class={button_style}>
                 <Button
                     label={"Cancel"}
-                    fore_color={Color::Custom("white".to_string())}
+                    fore_color={Color::CustomStr("white".to_string())}
                     back_color={Color::Error}
                     hover_color={Color::Error2}
                     data_test={"cancel"}

@@ -83,10 +83,10 @@ pub fn tasks() -> Html {
                     }
                 </td>
                 <td>
-                    <Checkbox data_test={"completed"} enabled={false} checked={task.completed()} onclick={toggle_completed}/>
+                    <Checkbox data_test={"completed"} checked={task.completed()} onclick={toggle_completed}/>
                 </td>
                 <td>
-                    <RouteLink data_test={"tasklink"} link={Route::TaskDetails { id: task.id }} text={task.title.clone()} fore_color={Color::Custom("black".to_string())} />
+                    <RouteLink data_test={"tasklink"} link={Route::TaskDetails { id: task.id }} text={task.title.clone()} fore_color={Color::CustomStr("black".to_string())} />
                 </td>
                 <td>
                     <RouteLink data_test={"delete"} link={Route::Home} onclick={remove_onclick} text={"Remove"} fore_color={Color::Error} />
@@ -312,7 +312,8 @@ fn toggle_completed_callback(
     }
     let session_dispatch = session_dispatch.clone();
     let token = token.clone();
-    Callback::from(move |_| {
+    Callback::from(move |event: MouseEvent| {
+        event.prevent_default(); // lets the form to update checked status
         let token = token.clone();
         let task = task.clone();
         let session_dispatch = session_dispatch.clone();

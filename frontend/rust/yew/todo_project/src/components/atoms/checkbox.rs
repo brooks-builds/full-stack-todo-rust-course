@@ -6,7 +6,6 @@ use crate::styles::color::Color;
 #[derive(Properties, PartialEq)]
 pub struct CheckboxProperties {
     pub checked: bool,
-    pub enabled: bool,
     pub label: Option<String>,
     pub onchange: Option<Callback<Event>>,
     pub onclick: Option<Callback<MouseEvent>>,
@@ -40,17 +39,9 @@ pub fn checkbox(props: &CheckboxProperties) -> Html {
         background-color: {back_color};
         height: 32px;
         width: 32px;
-        {enable}
         "#,
         color = Color::Highlight.get_css_color(),
-        back_color = Color::Secondary.get_css_color(),
-        enable = ""
-            // if !props.enabled {
-            //     "pointer-events: none;"
-            // }
-            // else {
-            //     ""
-            // }
+        back_color = Color::Secondary.get_css_color()
     ))
     .unwrap();
 

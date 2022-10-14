@@ -6,7 +6,6 @@ use crate::styles::color::Color;
 #[derive(Properties, PartialEq)]
 pub struct ButtonProperties {
     pub label: String,
-    // pub link: Option<Route>,
     pub fore_color: Option<Color>,
     pub back_color: Option<Color>,
     pub hover_color: Option<Color>,
@@ -41,24 +40,10 @@ pub fn button(props: &ButtonProperties) -> Html {
     let style = Style::new(style_string).unwrap();
 
     let data_test = props.data_test.clone().unwrap_or_default();
-
-    // let goto_route = match props.link.clone() {
-    //     Some(route) => {
-
-    //     },
-    //     None => None
-    // };
     
     html! {
-        // if let Some(route) = props.link.clone() {
-        //     <button data-test={data_test} onclick={props.onclick.clone()}>
-        //         <Link<Route> to={route} classes={classes!(style)}>{&props.label}</Link<Route>>
-        //     </button>
-        // }
-        // else {
-            <button class={style} data-test={data_test} onclick={props.onclick.clone()}>
-                {&props.label}
-            </button>
-        // }
+        <button class={style} data-test={data_test} onclick={props.onclick.clone()}>
+            {&props.label}
+        </button>
     }
 }

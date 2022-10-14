@@ -51,7 +51,7 @@ pub fn text_input(props: &TextInputProperties) -> Html {
         border-bottom: 1px solid #DDD;
         box-shadow: inset 0 1px 2px rgba({secondary},.39), 0 -1px 1px {secondary}, 0 1px 0 {secondary};
     "#,
-        light_gray = Color::Custom("#DDD".to_owned()).get_css_color(),
+        light_gray = Color::CustomStr("#DDD".to_owned()).get_css_color(),
         secondary = Color::Secondary.get_css_color(),
         info = Color::Info.get_css_color()
     );
