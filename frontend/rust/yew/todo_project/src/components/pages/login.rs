@@ -2,13 +2,16 @@ use crate::{
     api::auth::auth_service::AuthService,
     components::{
         atoms::{button::Button, text_input::TextInput},
-        stores::auth_store::AuthStore,
+        organisms::error_message::{ErrorMessage, DEFAULT_TIMEOUT_MS},
+        stores::{auth_store::AuthStore, error_store::ErrorStore, },
     },
     router::Route,
-    styles::{color::Color, styles::Styles}, SessionStore,
+    styles::{color::Color, styles::Styles},
+    SessionStore,
 };
-use gloo::console::log;
+use gloo::timers::callback::Timeout;
 use lazy_static::__Deref;
+use uuid::Uuid;
 use wasm_bindgen_futures::spawn_local;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
@@ -30,17 +33,24 @@ pub fn create_account() -> Html {
             }
         });
 
+    let dispatch = dispatch.clone();
+    use_effect(move || {
+        move || dispatch.reduce(|_| {AuthStore::default()})
+    });
+    
+    let (error_store, error_dispatch) = use_store::<ErrorStore>();
+
     let (_, session_dispatch) = use_store::<SessionStore>();
     let history = use_history().unwrap();
 
     let onsubmit = {
-        let session_dispatch = session_dispatch.clone();
-        let store = store.clone();
+        let error_dispatch = error_dispatch.clone();
         Callback::from(move |event: FocusEvent| {
             event.prevent_default();
-            let session_dispatch = session_dispatch.clone();
             let store = store.clone();
+            let session_dispatch = session_dispatch.clone();
             let history = history.clone();
+            let error_dispatch = error_dispatch.clone();
             spawn_local(async move {
                 let response =
                     AuthService::login(store.username.clone(), store.password.clone()).await;
@@ -53,7 +63,31 @@ pub fn create_account() -> Html {
                         });
                         history.push(Route::Home)
                     }
-                    Err(error) => log!(format!("login failed, details: {}", error)),
+                    Err(error) => {
+                        let error_uuid = Uuid::new_v4();
+                        {
+                            let error_dispatch = error_dispatch.clone();
+                            Timeout::new(DEFAULT_TIMEOUT_MS, move || {
+                                error_dispatch
+                                    .clone()
+                                    .reduce(|store| {
+                                        if store.uuid == error_uuid {
+                                            ErrorStore::new(String::new(), false, error_uuid).into()
+                                        }
+                                        else {
+                                            store
+                                        }
+                                    })
+                            }).forget();
+                        }
+                        error_dispatch
+                            .clone()
+                            .reduce(|_| ErrorStore::new(String::new(), false, error_uuid));
+
+                        error_dispatch
+                            .clone()
+                            .reduce(|_| ErrorStore::new(error, true, error_uuid));
+                    }
                 }
             });
         })
@@ -62,11 +96,16 @@ pub fn create_account() -> Html {
     let style = Styles::get_form_style();
 
     html! {
+        <>
+        if error_store.display {
+            <ErrorMessage message={error_store.message.clone()}/>
+        }
         <form class={style} {onsubmit}>
             <h2 class={Color::Info.into_style("color")}>{"Login"}</h2>
             <TextInput id={"username"} onchange={onchange.clone()} label={"Your username"} placeholder={"enter username.."} data_test={"username"}/>
             <TextInput id={"password"} {onchange} label={"Your password"} input_type={"password"} placeholder={"enter password.."} data_test={"password"}/>
             <Button label={"Log in!"} data_test={"submit"}/>
         </form>
+        </>
     }
 }
