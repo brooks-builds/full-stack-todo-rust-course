@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 axum = "0.5.15"
 bcrypt = "0.13.0"
+chrono = { version = "0.4.22", features = ["serde"] }
 dotenvy = "0.15.3"
 dotenvy_macro = "0.15.1"
 eyre = "0.6.8"

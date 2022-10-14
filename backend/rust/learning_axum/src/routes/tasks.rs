@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use crate::db::users::Model;
 use crate::{
     db::tasks::{self, Entity as Tasks},
@@ -7,7 +9,11 @@ use axum::body::HttpBody;
 use axum::extract::{FromRequest, Path};
 use axum::BoxError;
 use axum::{http::StatusCode, Extension, Json};
-use sea_orm::prelude::{ChronoDateTime, ChronoDateTimeUtc, DateTimeUtc, TimeDate};
+use chrono::{DateTime, FixedOffset, ParseError, Utc};
+use sea_orm::prelude::{
+    ChronoDateTime, ChronoDateTimeUtc, ChronoDateTimeWithTimeZone, DateTimeUtc,
+    DateTimeWithTimeZone, TimeDate,
+};
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
     Set,
@@ -79,6 +85,14 @@ pub struct Task {
     pub title: String,
     pub completed_at: Option<String>,
     pub description: Option<String>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct RequestUpdateTask {
+    pub priority: Option<String>,
+    pub title: Option<String>,
+    pub description: Option<String>,
+    completed_at: Option<String>,
 }
 
 pub async fn get_all_tasks(
@@ -170,14 +184,76 @@ pub async fn mark_completed(
     Extension(db): Extension<DatabaseConnection>,
     Path(task_id): Path<i32>,
 ) -> Result<(), AppError> {
-    let task = Tasks::find_by_id(task_id)
+    let mut task = Tasks::find_by_id(task_id)
         .one(&db)
         .await
         .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
         .ok_or_else(|| AppError::new(StatusCode::NOT_FOUND, eyre::eyre!("not found")))?
         .into_active_model();
-    // pull in chrono crate
-    // use the Utc::now().naive_utc() method to create datetime
-    // task.completed_at = Set(Some())
+    let now = chrono::Local::now();
+    let now = chrono::DateTime::<FixedOffset>::from(now);
+    task.completed_at = Set(Some(now));
+
+    task.save(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?;
+
+    Ok(())
+}
+
+pub async fn mark_uncompleted(
+    Extension(db): Extension<DatabaseConnection>,
+    Path(task_id): Path<i32>,
+) -> Result<(), AppError> {
+    let mut task = Tasks::find_by_id(task_id)
+        .one(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
+        .ok_or_else(|| AppError::new(StatusCode::NOT_FOUND, eyre::eyre!("not found")))?
+        .into_active_model();
+    task.completed_at = Set(None);
+
+    task.save(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?;
+
+    Ok(())
+}
+
+pub async fn update(
+    Extension(db): Extension<DatabaseConnection>,
+    Path(task_id): Path<i32>,
+    Json(request_task): Json<RequestUpdateTask>,
+) -> Result<(), AppError> {
+    let mut task = Tasks::find_by_id(task_id)
+        .one(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
+        .ok_or_else(|| AppError::new(StatusCode::NOT_FOUND, eyre::eyre!("not found!")))?
+        .into_active_model();
+
+    if let Some(completed_at) = request_task.completed_at {
+        let date = DateTimeWithTimeZone::from_str(&completed_at).map_err(|error: ParseError| {
+            AppError::new(StatusCode::UNPROCESSABLE_ENTITY, eyre::eyre!(error))
+        })?;
+        task.completed_at = Set(Some(date));
+    }
+
+    if let Some(description) = request_task.description {
+        task.description = Set(Some(description));
+    }
+
+    if let Some(priority) = request_task.priority {
+        task.priority = Set(Some(priority));
+    }
+
+    if let Some(title) = request_task.title {
+        task.title = Set(title);
+    }
+
+    task.save(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?;
+
     Ok(())
 }

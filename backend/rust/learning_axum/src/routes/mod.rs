@@ -4,12 +4,12 @@ mod tasks;
 mod users;
 
 use self::{
-    tasks::{create_task, get_one_task, mark_completed},
+    tasks::{create_task, get_one_task, mark_completed, mark_uncompleted, update},
     users::{logout, sign_in},
 };
 use crate::config::Config;
 use axum::{
-    routing::{get, post, put},
+    routing::{get, patch, post, put},
     Extension, Router,
 };
 use middleware::auth_required;
@@ -24,6 +24,8 @@ pub fn create_router(config: Arc<Config>, db: DatabaseConnection) -> Router {
         .route("/api/v1/tasks", post(create_task))
         .route("/api/v1/tasks/:task_id", get(get_one_task))
         .route("/api/v1/tasks/:task_id/completed", put(mark_completed))
+        .route("/api/v1/tasks/:task_id/uncompleted", put(mark_uncompleted))
+        .route("/api/v1/tasks/:task_id", patch(update))
         .layer(axum::middleware::from_fn(auth_required))
         .route("/hello_world", get(hello_world::hello_world))
         .route("/api/v1/users", post(create_user))

@@ -315,7 +315,7 @@ describe("todo api", () => {
         expect(dbTask.completed_at).not.toBe(null);
       });
 
-      test("should be able to mark a test as not completed", async () => {
+      test("should be able to mark a task as not completed", async () => {
         const [user, headers] = await createUser();
         const taskResponse = await createTask(headers, { title: "new task" });
         const task = taskResponse.data.data;
@@ -351,7 +351,7 @@ describe("todo api", () => {
           priority: "B",
           title: "Create YouTube Video",
           description: "Meant to create a YouTube video instead",
-          completed_at: now.toUTCString(),
+          completed_at: now.toISOString(),
         };
         await axios.patch(`${baseUrl}/tasks/${createdTask.id}`, updateTask, {
           headers,
@@ -364,6 +364,8 @@ describe("todo api", () => {
         expect(dbTask.priority).toBe(updateTask.priority);
         expect(dbTask.title).toBe(updateTask.title);
         expect(dbTask.description).toBe(updateTask.description);
+        let completed_at = new Date(dbTask.completed_at);
+        expect(completed_at.toUTCString()).toBe(now.toUTCString());
       });
 
       test("can update some of the task without losing data", async () => {
