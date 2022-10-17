@@ -1,10 +1,12 @@
 pub mod hello_world;
 mod middleware;
-mod tasks;
+pub mod tasks;
 mod users;
 
 use self::{
-    tasks::{create_task, get_one_task, mark_completed, mark_uncompleted, update},
+    tasks::routes::{
+        create_task, get_all_tasks, get_one_task, mark_completed, mark_uncompleted, update,
+    },
     users::{logout, sign_in},
 };
 use crate::config::Config;
@@ -20,7 +22,7 @@ use users::create_user;
 pub fn create_router(config: Arc<Config>, db: DatabaseConnection) -> Router {
     Router::new()
         .route("/api/v1/users/logout", post(logout))
-        .route("/api/v1/tasks", get(tasks::get_all_tasks))
+        .route("/api/v1/tasks", get(get_all_tasks))
         .route("/api/v1/tasks", post(create_task))
         .route("/api/v1/tasks/:task_id", get(get_one_task))
         .route("/api/v1/tasks/:task_id/completed", put(mark_completed))

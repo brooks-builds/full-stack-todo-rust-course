@@ -357,10 +357,10 @@ describe("todo api", () => {
           headers,
         });
         const dbTask = await db
-          .select()
-          .from("tasks")
-          .where({ id: createdTask.id })
-          .first();
+        .select()
+        .from("tasks")
+        .where({ id: createdTask.id })
+        .first();
         expect(dbTask.priority).toBe(updateTask.priority);
         expect(dbTask.title).toBe(updateTask.title);
         expect(dbTask.description).toBe(updateTask.description);
@@ -368,7 +368,7 @@ describe("todo api", () => {
         expect(completed_at.toUTCString()).toBe(now.toUTCString());
       });
 
-      test("can update some of the task without losing data", async () => {
+      test("can_update_some_of_the_task_without_losing_data", async () => {
         const [user, headers] = await createUser();
         const initialTask = {
           priority: "A",
@@ -379,8 +379,10 @@ describe("todo api", () => {
           `${baseUrl}/tasks`,
           initialTask,
           { headers }
-        );
-        const createdTask = createdTaskResponse.data.data;
+          );
+          const createdTask = createdTaskResponse.data.data;
+          let completedUri = `${baseUrl}/tasks/${createdTask.id}/completed`;
+          await axios.put(completedUri, {}, { headers });
         const updateTask = {
           description: "Meant to create a LinkedIn video instead",
         };
@@ -395,6 +397,40 @@ describe("todo api", () => {
         expect(dbTask.priority).toBe(initialTask.priority);
         expect(dbTask.title).toBe(initialTask.title);
         expect(dbTask.description).toBe(updateTask.description);
+        expect(dbTask.completed_at).not.toBe(null);
+      });
+
+      test("can uncomplete a task with an update", async () => {
+        const [user, headers] = await createUser();
+        const initialTask = {
+          priority: "A",
+          title: "Stream",
+          description: "Stream something on Twitch",
+        };
+        const createdTaskResponse = await axios.post(
+          `${baseUrl}/tasks`,
+          initialTask,
+          { headers }
+        );
+        const createdTask = createdTaskResponse.data.data;
+        let completedUri = `${baseUrl}/tasks/${createdTask.id}/completed`;
+          await axios.put(completedUri, {}, { headers });
+        const updateTask = {
+          description: "Meant to create a LinkedIn video instead",
+          completed_at: null,
+        };
+        await axios.patch(`${baseUrl}/tasks/${createdTask.id}`, updateTask, {
+          headers,
+        });
+        const dbTask = await db
+          .select()
+          .from("tasks")
+          .where({ id: createdTask.id })
+          .first();
+        expect(dbTask.priority).toBe(initialTask.priority);
+        expect(dbTask.title).toBe(initialTask.title);
+        expect(dbTask.description).toBe(updateTask.description);
+        expect(dbTask.completed_at).toBe(null);
       });
 
       test("should not be able to mark other users tasks as completed", async () => {
