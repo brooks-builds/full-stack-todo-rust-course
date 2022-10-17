@@ -439,11 +439,18 @@ describe("todo api", () => {
         const createdTaskResponse = await createTask(headers1, {
           title: "user 1 task",
         });
-        await axios.put(
-          `${baseUrl}/tasks/${createdTaskResponse.data.data.id}/completed`,
-          {},
-          { headers: headers2 }
-        );
+        let gotError = false;
+        try {
+           await axios.put(
+            `${baseUrl}/tasks/${createdTaskResponse.data.data.id}/completed`,
+            {},
+            { headers: headers2 }
+            );
+          } catch(error) {
+            expect(error.response.status).toBe(404);
+            gotError = true;
+        }
+        expect(gotError).toBe(true);
         const dbTask = await db
           .select()
           .from("tasks")
@@ -458,11 +465,18 @@ describe("todo api", () => {
         const createdTaskResponse = await createTask(headers1, {
           title: "user 1 task",
         });
-        await axios.patch(
-          `${baseUrl}/tasks/${createdTaskResponse.data.data.id}`,
-          { title: "user 2 task" },
-          { headers: headers2 }
-        );
+        let gotError = false;
+        try {
+          await axios.patch(
+            `${baseUrl}/tasks/${createdTaskResponse.data.data.id}`,
+            { title: "user 2 task" },
+            { headers: headers2 }
+          );
+        } catch(error) {
+          expect(error.response.status).toBe(404);
+          gotError = true;
+        }
+        expect(gotError).toBe(true);
         const dbTask = await db
           .select()
           .from("tasks")

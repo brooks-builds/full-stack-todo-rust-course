@@ -1,26 +1,16 @@
-use std::str::FromStr;
-
+use super::{RequestTask, RequestUpdateTask, Task, TaskResponse};
 use crate::db::users::Model;
 use crate::{
     db::tasks::{self, Entity as Tasks},
     utilities::errors::AppError,
 };
-use axum::body::HttpBody;
-use axum::extract::{FromRequest, Path};
-use axum::BoxError;
+use axum::extract::Path;
 use axum::{http::StatusCode, Extension, Json};
-use chrono::{DateTime, FixedOffset, ParseError, Utc};
-use sea_orm::prelude::{
-    ChronoDateTime, ChronoDateTimeUtc, ChronoDateTimeWithTimeZone, DateTimeUtc,
-    DateTimeWithTimeZone, TimeDate,
-};
+use chrono::FixedOffset;
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
     Set,
 };
-use serde::{Deserialize, Serialize};
-
-use super::{RequestTask, RequestUpdateTask, Task, TaskResponse};
 
 pub async fn get_all_tasks(
     Extension(db): Extension<DatabaseConnection>,
@@ -110,8 +100,10 @@ pub async fn get_one_task(
 pub async fn mark_completed(
     Extension(db): Extension<DatabaseConnection>,
     Path(task_id): Path<i32>,
+    Extension(user): Extension<Model>,
 ) -> Result<(), AppError> {
     let mut task = Tasks::find_by_id(task_id)
+        .filter(tasks::Column::UserId.eq(user.id))
         .one(&db)
         .await
         .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
@@ -151,8 +143,10 @@ pub async fn update(
     Extension(db): Extension<DatabaseConnection>,
     Path(task_id): Path<i32>,
     Json(request_task): Json<RequestUpdateTask>,
+    Extension(user): Extension<Model>,
 ) -> Result<(), AppError> {
     let mut task = Tasks::find_by_id(task_id)
+        .filter(tasks::Column::UserId.eq(user.id))
         .one(&db)
         .await
         .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
