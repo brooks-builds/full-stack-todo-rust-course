@@ -123,8 +123,10 @@ pub async fn mark_completed(
 pub async fn mark_uncompleted(
     Extension(db): Extension<DatabaseConnection>,
     Path(task_id): Path<i32>,
+    Extension(user): Extension<Model>,
 ) -> Result<(), AppError> {
     let mut task = Tasks::find_by_id(task_id)
+        .filter(tasks::Column::UserId.eq(user.id))
         .one(&db)
         .await
         .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?

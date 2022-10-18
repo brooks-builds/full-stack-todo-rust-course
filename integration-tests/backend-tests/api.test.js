@@ -459,6 +459,38 @@ describe("todo api", () => {
         expect(dbTask.completed_at).toBe(null);
       });
 
+      test("should not be able to mark other users tasks as not completed", async () => {
+        const [user1, headers1] = await createUser();
+        const [user2, headers2] = await createUser();
+        const createdTaskResponse = await createTask(headers1, {
+          title: "user 1 task",
+        });
+        let gotError = false;
+        try {
+           await axios.put(
+            `${baseUrl}/tasks/${createdTaskResponse.data.data.id}/completed`,
+            {},
+            { headers: headers1 }
+            );
+
+            await axios.put(
+            `${baseUrl}/tasks/${createdTaskResponse.data.data.id}/uncompleted`,
+            {},
+            { headers: headers2 }
+            );
+          } catch(error) {
+            expect(error.response.status).toBe(404);
+            gotError = true;
+        }
+        expect(gotError).toBe(true);
+        const dbTask = await db
+          .select()
+          .from("tasks")
+          .where({ id: createdTaskResponse.data.data.id })
+          .first();
+        expect(dbTask.completed_at).not.toBe(null);
+      });
+
       test("should not be able to update other users tasks", async () => {
         const [user1, headers1] = await createUser();
         const [user2, headers2] = await createUser();
