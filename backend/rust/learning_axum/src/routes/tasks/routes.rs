@@ -175,3 +175,26 @@ pub async fn update(
 
     Ok(())
 }
+
+pub async fn delete_task(
+    Extension(user): Extension<Model>,
+    Extension(db): Extension<DatabaseConnection>,
+    Path(task_id): Path<i32>,
+) -> Result<(), AppError> {
+    let mut task = Tasks::find_by_id(task_id)
+        .filter(tasks::Column::UserId.eq(user.id))
+        .one(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?
+        .ok_or_else(|| AppError::new(StatusCode::NOT_FOUND, eyre::eyre!("not found!")))?
+        .into_active_model();
+
+    let now = chrono::DateTime::<FixedOffset>::from(chrono::Local::now());
+    task.deleted_at = Set(Some(now));
+
+    task.save(&db)
+        .await
+        .map_err(|error| AppError::new(StatusCode::INTERNAL_SERVER_ERROR, eyre::eyre!(error)))?;
+
+    Ok(())
+}

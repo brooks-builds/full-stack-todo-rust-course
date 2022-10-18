@@ -509,9 +509,16 @@ describe("todo api", () => {
         const newTaskResponse = await createTask(headers, {
           title: "am I deleted?",
         });
-        await axios.delete(`${baseUrl}/tasks/${newTaskResponse.data.data.id}`, {
-          headers: headers2,
-        });
+        let gotError = false;
+        try {
+          await axios.delete(`${baseUrl}/tasks/${newTaskResponse.data.data.id}`, {
+            headers: headers2,
+          });
+        } catch (error) {
+          gotError = true;
+          expect(error.response.status).toBe(404);
+        }
+        expect(gotError).toBe(true);
         const dbTask = await db
           .select()
           .from("tasks")
