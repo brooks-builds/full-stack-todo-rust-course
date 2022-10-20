@@ -1,0 +1,20 @@
+[package]
+name = "learning_axum"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.5.15"
+bcrypt = "0.13.0"
+chrono = { version = "0.4.22", features = ["serde"] }
+dotenvy = "0.15.3"
+dotenvy_macro = "0.15.1"
+eyre = "0.6.8"
+jsonwebtoken = "8.1.1"
+sea-orm = { version = "0.9.2", features = ["sqlx-postgres", "runtime-tokio", "runtime-tokio-rustls", "debug-print", "sqlx"] }
+serde = { version = "1.0.144", features = ["derive"] }
+serde_json = "1.0.85"
+serde_with = "2.0.1"
+tokio = { version = "1.20.1", features = ["macros", "rt-multi-thread"] }

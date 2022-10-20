@@ -1,18 +1,18 @@
 {
-  "devDependencies": {
-    "axios": "^0.24.0",
-    "dotenv": "^10.0.0",
-    "jest": "^27.4.7",
-    "jsonwebtoken": "^8.5.1",
-    "knex": "^1.0.1",
-    "pg": "^8.7.1"
-  },
-  "scripts": {
-    "test": "jest",
-    "pretest:watch": "npm i",
-    "test:watch": "jest --watchAll"
-  },
-  "dependencies": {
-    "bcrypt": "^5.0.1"
-  }
+    "devDependencies": {
+        "axios": "^0.24.0",
+        "dotenv": "^10.0.0",
+        "jest": "^27.4.7",
+        "jsonwebtoken": "^8.5.1",
+        "knex": "^1.0.1",
+        "pg": "^8.7.1"
+    },
+    "scripts": {
+        "test": "source .env && jest -b",
+        "pretest:watch": "npm i",
+        "test:watch": "jest --watchAll"
+    },
+    "dependencies": {
+        "bcrypt": "^5.0.1"
+    }
 }
