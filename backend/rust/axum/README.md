@@ -1,13 +1,4 @@
-# Next
-
-- [x] Move DateTime to be deserialized in the update request struct for update
-
-# Look into
-
-- [x] Are we testing user cannot uncheck another users task
-- [x] All types of updates (patch, atomic) are guarded so that other users can't update any task they want
-
-# Plan
+# Lessons
 
 **Legend**
 
@@ -15,6 +6,14 @@
   - [ ] Standard
     - [ ] Lesson
 
+- [ ] Introduction
+  - [ ] Marketing
+    - [ ] Hype Trailer
+    - [ ] Trailer
+  - [ ] Introduction
+    - [ ] Prerequisites
+    - [ ] Introduction to the course
+    - [ ] Why Axum?
 - [ ] Hello world
   - [ ] Spin up a hello world server
     - [ ] Installing Rust
@@ -91,6 +90,5 @@
 - [ ] Project
   - [ ] Create a server that passes all tests
     - [ ] Introduce the project
-    - [ ] Project follow along
-    - [ ] Spinning up the project
-    - [ ] 
+    - [ ] Setting up the database
+    - [ ] Running the tests
