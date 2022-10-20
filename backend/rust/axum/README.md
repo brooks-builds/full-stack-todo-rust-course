@@ -8,19 +8,28 @@
 
 - [ ] Introduction
   - [ ] Marketing
-    - [ ] Hype Trailer
+    - [x] Hype Trailer
     - [ ] Trailer
   - [ ] Introduction
     - [ ] Prerequisites
+      - Introductory experience with Rust
+      - Programming experience (Have created a todo API in any language)
+      - Familiarity with JSON
     - [ ] Introduction to the course
-    - [ ] Why Axum?
+    - [x] Why Rust / Why Axum?
+      - Strong type system
+      - Tooling
+        - compiler messages
+        - rust analyzer
+        - package manager
+      - Fast development time (once you familiar with the framework / language)
+      - Fun
 - [ ] Hello world
   - [ ] Spin up a hello world server
-    - [ ] Installing Rust
+    - [x] Installing Rust
     - [ ] Using the course repo
-    - [ ] Setting up VS Code
+    - [x] Setting up VS Code
     - [ ] Create hello world Axum server
-    - [ ] Manually testing the server with Thunderclient
 - [ ] Routing
   - [ ] Create a router to handle http methods
     - [ ] handling HTTP methods
