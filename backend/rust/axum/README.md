@@ -29,10 +29,11 @@
     - [x] Installing Rust
     - [ ] Using the course repo
     - [x] Setting up VS Code
-    - [ ] Create hello world Axum server
+    - [x] Create hello world Axum server
+    - [x] Auto restart the server
 - [ ] Routing
-  - [ ] Create a router to handle http methods
-    - [ ] handling HTTP methods
+  - [x] Create a router to handle http methods
+    - [x] handling HTTP methods
   - [ ] Create an extractor to get a string from the body
     - [ ] Receiving data in a Post
   - [ ] Create an extractor to get JSON from the body
