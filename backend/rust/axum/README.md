@@ -31,11 +31,12 @@
     - [x] Setting up VS Code
     - [x] Create hello world Axum server
     - [x] Auto restart the server
+    - [x] Open the documentation
 - [ ] Routing
   - [x] Create a router to handle http methods
     - [x] handling HTTP methods
-  - [ ] Create an extractor to get a string from the body
-    - [ ] Receiving data in a Post
+  - [x] Create an extractor to get a string from the body
+    - [x] Extracting string from body
   - [ ] Create an extractor to get JSON from the body
     - [ ] Receiving JSON in a Post
   - [ ] Create an extractor to get a path variable from a request
