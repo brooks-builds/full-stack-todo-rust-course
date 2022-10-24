@@ -41,8 +41,8 @@
     - [x] Receiving JSON in a Post
   - [x] Create an extractor to get a path variable from a request
     - [x] Handling path variables
-  - [ ] Create an extractor to get query parameters
-    - [ ] Handling query params
+  - [x] Create an extractor to get query parameters
+    - [x] Handling query params
   - [ ] Create an extractor to get the headers
     - [ ] Handling headers
   - [ ] Apply middleware to routes
