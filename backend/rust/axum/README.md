@@ -1,5 +1,17 @@
 # Lessons
 
+## Video Description
+
+View the code for the Introduction to Axum course at https://github.com/brooks-builds/full-stack-todo-rust-course/tree/main/backend/rust/axum.
+
+Axum is a backend API framework for Rust. It's written by the same team that makes Tokio.rs and therefore is 100% compatible with Tokio. It's meant to be easy to get started with but powerful enough to run your project on.
+
+Find the playlist with more Axum videos at https://www.youtube.com/playlist?list=PLrmY5pVcnuE-_CP7XZ_44HN-mDrLQV4nS.
+
+You can join the community Discord server on the Brooks Builds website at https://brooksbuilds.com. If you have any questions about the course, Rust, or Axum please bring them to the course help channel.
+
+This video was recorded live on Twitch at https://twitch.tv/brookzerker if you want to check out what Brooks is up to recently.
+
 **Legend**
 
 - [ ] Unit
@@ -8,7 +20,7 @@
 
 - [ ] Introduction
   - [ ] Marketing
-    - [x] Hype Trailer
+    - [x] ***Hype Trailer***
     - [ ] Trailer
   - [ ] Introduction
     - [ ] Prerequisites
@@ -16,7 +28,7 @@
       - Programming experience (Have created a todo API in any language)
       - Familiarity with JSON
     - [ ] Introduction to the course
-    - [x] Why Rust / Why Axum?
+    - [x] ***Why Rust / Why Axum?***
       - Strong type system
       - Tooling
         - compiler messages
@@ -26,15 +38,15 @@
       - Fun
 - [ ] Hello world
   - [ ] Spin up a hello world server
-    - [x] Installing Rust
+    - [x] ***Installing Rust (cancelled)***
     - [ ] Using the course repo
-    - [x] Setting up VS Code
-    - [x] Create hello world Axum server
-    - [x] Auto restart the server
+    - [x] ***Setting up VS Code***
+    - [x] ***Create hello world Axum server***
+    - [x] ***Auto restart the server***
     - [x] Open the documentation
 - [ ] Routing
   - [x] Create a router to handle http methods
-    - [x] handling HTTP methods
+    - [x] ***handling HTTP methods***
   - [x] Create an extractor to get a string from the body
     - [x] Extracting string from body
   - [x] Create an extractor to get JSON from the body
