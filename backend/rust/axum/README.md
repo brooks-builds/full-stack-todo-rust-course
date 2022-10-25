@@ -55,10 +55,11 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] Handling path variables
   - [x] Create an extractor to get query parameters
     - [x] Handling query params
-  - [ ] Create an extractor to get the headers
+  - [x] Create an extractor to get the headers
     - [x] Extracting the User Agent Header
     - [x] Extracting a Custom Header
   - [ ] Apply middleware to routes
+    - [ ] Set CORS headers
     - [ ] Creating middleware function
     - [ ] Positioning middleware functions
   - [ ] Create a layer to share data between routes
