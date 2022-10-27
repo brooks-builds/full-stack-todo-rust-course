@@ -59,7 +59,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] Extracting the User Agent Header
     - [x] Extracting a Custom Header
   - [ ] Apply middleware to routes
-    - [ ] Set CORS headers
+    - [x] Set CORS headers
     - [ ] Creating middleware function
     - [ ] Positioning middleware functions
   - [ ] Create a layer to share data between routes
