@@ -60,7 +60,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] Extracting a Custom Header
   - [ ] Apply middleware to routes
     - [x] Set CORS headers
-    - [ ] Using layers to share data between routes
+    - [x] Using layers to share data between routes
     - [ ] Creating middleware function
   - [ ] Return the appropriate status code and message when erroring
     - [ ] Returning status codes
