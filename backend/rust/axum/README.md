@@ -61,11 +61,11 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
   - [ ] Apply middleware to routes
     - [x] Set CORS headers
     - [x] Using layers to share data between routes
-    - [ ] Creating middleware function
+    - [x] Creating middleware function
       - Explore creating custom middleware again
       - During recording state that versions are very important
       - New version of Axum will change how middleware works
-      - **WARNING**: Derive Clone on struct being added to Extensions
+      - WARNING: Derive Clone on struct being added to Extensions
   - [ ] Return the appropriate status code and message when erroring
     - [ ] Returning status codes
   - [ ] Return JSON data
