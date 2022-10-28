@@ -44,7 +44,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Create hello world Axum server***
     - [x] ***Auto restart the server***
     - [x] Open the documentation
-- [ ] Routing
+- [x] Routing
   - [x] Create a router to handle http methods
     - [x] ***handling HTTP methods***
   - [x] Create an extractor to get a string from the body
@@ -69,8 +69,8 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
   - [x] Return the appropriate status code and message when erroring
     - [x] Returning error status codes
     - [x] Returning success status codes
-  - [ ] Return JSON data
-    - [ ] Respond with JSON data
+  - [x] Return JSON data
+    - [x] Respond with JSON data
 - [ ] Data
   - [ ] Creating a database
     - [ ] Set up a local database with Docker
