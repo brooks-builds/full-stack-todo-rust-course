@@ -1,3 +1,4 @@
+mod always_errors;
 mod hello_world;
 mod middleware_message;
 mod mirror_body_json;
@@ -13,6 +14,7 @@ use self::{
     middleware_message::middleware_message,
     read_middleware_custom_header::read_middleware_custom_header,
 };
+use always_errors::always_errors;
 use axum::{
     body::Body,
     http::Method,
@@ -60,4 +62,5 @@ pub fn create_routes() -> Router<Body> {
         .route("/middleware_message", get(middleware_message))
         .layer(Extension(shared_data))
         .layer(cors)
+        .route("/always_errors", get(always_errors))
 }

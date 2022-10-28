@@ -58,7 +58,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
   - [x] Create an extractor to get the headers
     - [x] Extracting the User Agent Header
     - [x] Extracting a Custom Header
-  - [ ] Apply middleware to routes
+  - [x] Apply middleware to routes
     - [x] Set CORS headers
     - [x] Using layers to share data between routes
     - [x] Creating middleware function
@@ -66,8 +66,8 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
       - During recording state that versions are very important
       - New version of Axum will change how middleware works
       - WARNING: Derive Clone on struct being added to Extensions
-  - [ ] Return the appropriate status code and message when erroring
-    - [ ] Returning status codes
+  - [x] Return the appropriate status code and message when erroring
+    - [x] Returning status codes
   - [ ] Return JSON data
     - [ ] Respond with JSON data
 - [ ] Data
