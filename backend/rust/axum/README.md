@@ -67,7 +67,8 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
       - New version of Axum will change how middleware works
       - WARNING: Derive Clone on struct being added to Extensions
   - [x] Return the appropriate status code and message when erroring
-    - [x] Returning status codes
+    - [x] Returning error status codes
+    - [x] Returning success status codes
   - [ ] Return JSON data
     - [ ] Respond with JSON data
 - [ ] Data
