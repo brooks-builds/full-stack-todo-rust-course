@@ -72,8 +72,8 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
   - [x] *Return JSON data*
     - [x] *Respond with JSON data*
 - [ ] Data
-  - [ ] Creating a database
-    - [ ] Set up a local database with Docker
+  - [x] Creating a database
+    - [x] Set up a local database with Docker
   - [ ] Connect a database
     - [ ] Install SeaORM
     - [ ] Connect SeaORM to the database

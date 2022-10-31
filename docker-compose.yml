@@ -10,7 +10,7 @@ services:
     ports:
       - 5432:5432
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
+      test: psql -U postgres -q -d postgres -c "SELECT 'ready';"
       interval: 10s
       timeout: 5s
       retries: 5
