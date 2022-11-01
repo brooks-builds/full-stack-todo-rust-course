@@ -43,34 +43,34 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Setting up VS Code***
     - [x] ***Create hello world Axum server***
     - [x] ***Auto restart the server***
-    - [x] *Open the documentation*
+    - [x] ***Open the documentation***
 - [x] Routing
   - [x] ***Create a router to handle http methods***
     - [x] ***handling HTTP methods***
-  - [x] *Create an extractor to get a string from the body*
-    - [x] *Extracting string from body*
-  - [x] *Create an extractor to get JSON from the body*
-    - [x] *Receiving JSON in a Post*
-  - [x] *Create an extractor to get a path variable from a request*
-    - [x] *Handling path variables*
-  - [x] *Create an extractor to get query parameters*
-    - [x] *Handling query params*
-  - [x] *Create an extractor to get the headers*
-    - [x] *Extracting the User Agent Header*
-    - [x] *Extracting a Custom Header*
-  - [x] *Apply middleware to routes*
-    - [x] *Set CORS headers*
-    - [x] *Using layers to share data between routes*
-    - [x] *Creating middleware function*
+  - [x] ***Create an extractor to get a string from the body***
+    - [x] ***Extracting string from body***
+  - [x] ***Create an extractor to get JSON from the body***
+    - [x] ***Receiving JSON in a Post***
+  - [x] ***Create an extractor to get a path variable from a request***
+    - [x] ***Handling path variables***
+  - [x] ***Create an extractor to get query parameters***
+    - [x] ***Handling query params***
+  - [x] ***Create an extractor to get the headers***
+    - [x] ***Extracting the User Agent Header***
+    - [x] ***Extracting a Custom Header***
+  - [x] ***Apply middleware to routes***
+    - [x] ***Set CORS headers***
+    - [x] ***Using layers to share data between routes***
+    - [x] ***Creating middleware function***
       - Explore creating custom middleware again
       - During recording state that versions are very important
       - New version of Axum will change how middleware works
       - WARNING: Derive Clone on struct being added to Extensions
-  - [x] *Return the appropriate status code and message when erroring*
-    - [x] *Returning error status codes*
-    - [x] *Returning success status codes*
-  - [x] *Return JSON data*
-    - [x] *Respond with JSON data*
+  - [x] ***Return the appropriate status code and message when erroring***
+    - [x] ***Returning error status codes***
+    - [x] ***Returning success status codes***
+  - [x] ***Return JSON data***
+    - [x] ***Respond with JSON data***
 - [ ] Data
   - [x] Creating a database
     - [x] Set up a local database with Docker
