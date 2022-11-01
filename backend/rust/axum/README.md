@@ -74,10 +74,10 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
 - [ ] Data
   - [x] Creating a database
     - [x] Set up a local database with Docker
-  - [ ] Connect a database
+  - [x] Connect a database
     - [x] Introducing SeaORM
     - [x] Connecting SeaORM
-    - [ ] Generate the SeaORM data models
+    - [x] SeaORM Models
   - [ ] Validate incoming data
     - [ ] Using serde to deserialize data
     - [ ] Validate data with a Custom JSON extractor
