@@ -39,13 +39,9 @@ services:
   api-test:
     profiles:
       - nodejs-express
-      - rust-axum
     build: ./integration-tests/backend-tests
     volumes:
       - ./integration-tests/backend-tests:/code/
-    depends_on:
-      rust-axum:
-        condition: service_healthy
     environment:
       - API_PORT=3000
       - API_URI=http://rust-axum
@@ -66,25 +62,6 @@ services:
       - "8080"
     environment:
       - VUE_APP_API_URI=http://localhost:3000
-  rust-axum:
-    profiles:
-      - rust-axum
-    build: ./backend/rust/learning_axum
-    volumes:
-      - ./backend/rust/learning_axum:/code
-    depends_on:
-      database:
-        condition: service_healthy
-    expose:
-      - 3000
-    ports:
-      - 3001:3000
-    healthcheck:
-      test: [ "CMD-SHELL", "curl http://localhost:3000/hello_world" ]
-      interval: 10s
-      timeout: 5s
-      retries: 15
-      start_period: 15s
 
 volumes:
   db-data:

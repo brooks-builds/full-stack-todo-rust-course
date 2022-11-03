@@ -73,11 +73,19 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Respond with JSON data***
 - [ ] Data
   - [x] Creating a database
-    - [x] Set up a local database with Docker
-  - [x] Connect a database
-    - [x] Introducing SeaORM
-    - [x] Connecting SeaORM
-    - [x] SeaORM Models
+    - [x] ***Set up a local database with Docker***
+  - [x] ***Connect a database***
+    - [x] ***Introducing SeaORM***
+    - [x] *View the code for the Introduction to Axum course at https://github.com/brooks-builds/full-stack-todo-rust-course/tree/main/backend/rust/axum.
+
+Axum is a backend API framework for Rust. It's written by the same team that makes Tokio.rs and therefore is 100% compatible with Tokio. It's meant to be easy to get started with but powerful enough to run your project on.
+
+Find the playlist with more Axum videos at https://www.youtube.com/playlist?list=PLrmY5pVcnuE-_CP7XZ_44HN-mDrLQV4nS.
+
+You can join the community Discord server on the Brooks Builds website at https://brooksbuilds.com. If you have any questions about the course, Rust, or Axum please bring them to the course help channel.
+
+This video was recorded live on Twitch at https://twitch.tv/brookzerker if you want to check out what Brooks is up to recently.*
+    - [x] *SeaORM Models*
   - [ ] Validate incoming data
     - [ ] Using serde to deserialize data
     - [ ] Validate data with a Custom JSON extractor
