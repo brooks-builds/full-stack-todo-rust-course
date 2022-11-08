@@ -10,4 +10,5 @@ axum = { version = "0.5.17", features = ["headers"] }
 dotenvy = "0.15.6"
 dotenvy_macro = "0.15.1"
 sea-orm = { version = "0.10.1", features = ["sqlx-postgres", "runtime-tokio-rustls"] }
+serde = { version = "1.0.147", features = ["derive"] }
 tokio = { version = "1.21.2", features = ["full"] }

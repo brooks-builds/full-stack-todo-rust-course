@@ -72,14 +72,14 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
   - [x] ***Return JSON data***
     - [x] ***Respond with JSON data***
 - [ ] Data
-  - [x] Creating a database
+  - [x] ***Creating a database***
     - [x] ***Set up a local database with Docker***
   - [x] ***Connect a database***
     - [x] ***Introducing SeaORM***
     - [x] ***Connecting to the database***
     - [x] ***SeaORM Models***
   - [ ] Validate incoming data
-    - [ ] Using serde to deserialize data
+    - [x] Validating JSON with Serde
     - [ ] Validate data with a Custom JSON extractor
   - [ ] CRUD data in the database including soft deletions
     - [ ] Create a row in the database
