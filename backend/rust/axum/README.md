@@ -80,7 +80,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***SeaORM Models***
   - [ ] Validate incoming data
     - [x] Validating JSON with Serde
-    - [ ] Validate data with a Custom JSON extractor
+    - [x] Custom Extractor with Validation
   - [ ] CRUD data in the database including soft deletions
     - [ ] Create a row in the database
     - [ ] Get one item from the database
