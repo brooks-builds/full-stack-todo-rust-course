@@ -10,7 +10,7 @@ use axum::{
 };
 use create_task::create_task;
 use custom_json_extractor::custom_json_extractor;
-use sea_orm::{Database, DatabaseConnection};
+use sea_orm::DatabaseConnection;
 use validate_with_serde::validate_with_serde;
 
 pub async fn create_routes(database: DatabaseConnection) -> Router<Body> {

@@ -83,7 +83,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***SeaORM Models***
     - [x] Passing Database To Handlers
   - [ ] CRUD data in the database including soft deletions
-    - [ ] Create a row in the database
+    - [x] Create a row in the database
     - [ ] Get one item from the database
     - [ ] Get all items from the database
     - [ ] Using filters
