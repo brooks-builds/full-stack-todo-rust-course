@@ -35,22 +35,25 @@ pub async fn get_one_task(
 }
 
 #[derive(Deserialize)]
-pub struct GetAllQueryParams {
+pub struct GetTasksQueryParams {
     priority: Option<String>,
 }
 
 pub async fn get_all_tasks(
     Extension(database): Extension<DatabaseConnection>,
-    Query(query_params): Query<GetAllQueryParams>,
+    Query(query_params): Query<GetTasksQueryParams>,
 ) -> Result<Json<Vec<ResponseTask>>, StatusCode> {
-    let mut filter_by_priority = Condition::all();
+    let mut priority_filter = Condition::all();
     if let Some(priority) = query_params.priority {
-        filter_by_priority = filter_by_priority.add(tasks::Column::Priority.eq(Some(priority)));
+        priority_filter = if priority.is_empty() {
+            priority_filter.add(tasks::Column::Priority.is_null())
+        } else {
+            priority_filter.add(tasks::Column::Priority.eq(priority))
+        };
     }
 
     let tasks = Tasks::find()
-        .filter(filter_by_priority)
-        // .filter(tasks::Column::Priority.eq(Some("A")))
+        .filter(priority_filter)
         .all(&database)
         .await
         .map_err(|_error| StatusCode::INTERNAL_SERVER_ERROR)?
