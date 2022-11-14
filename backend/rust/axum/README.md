@@ -71,9 +71,9 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Returning success status codes***
   - [x] ***Return JSON data***
     - [x] ***Respond with JSON data***
-  - [x] Validate incoming data
-    - [x] Validating JSON with Serde
-    - [x] Custom Extractor with Validation
+  - [x] ***Validate incoming data***
+    - [x] ***Validating JSON with Serde***
+    - [x] ***Custom Extractor with Validation***
 - [ ] Data
   - [x] ***Creating a database***
     - [x] ***Set up a local database with Docker***
@@ -81,10 +81,10 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Introducing SeaORM***
     - [x] ***Connecting to the database***
     - [x] ***SeaORM Models***
-    - [x] Passing Database To Handlers
+    - [x] ***Passing Database To Handlers***
   - [ ] CRUD data in the database including soft deletions
-    - [x] Create a row in the database
-    - [x] Get one item from the database
+    - [x] ***Create a row in the database***
+    - [x] ***Get one item from the database***
     - [ ] Get all items from the database
     - [ ] Using filters
     - [ ] Atomic updates
