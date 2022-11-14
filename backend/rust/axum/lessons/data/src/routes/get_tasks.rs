@@ -2,7 +2,6 @@ use crate::database::tasks::{self, Entity as Tasks};
 use axum::{
     extract::{Path, Query},
     http::StatusCode,
-    response::IntoResponse,
     Extension, Json,
 };
 use sea_orm::{ColumnTrait, Condition, DatabaseConnection, EntityTrait, QueryFilter};
