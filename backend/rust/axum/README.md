@@ -86,7 +86,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Create a row in the database***
     - [x] ***Get one item from the database***
     - [x] Get all items from the database
-    - [ ] Using filters
+    - [x] Using filters
     - [ ] Atomic updates
     - [ ] Patch updates
     - [ ] Deleting data
