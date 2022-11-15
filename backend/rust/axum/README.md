@@ -87,7 +87,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Get one item from the database***
     - [x] Get all items from the database
     - [x] Using filters
-    - [ ] Atomic updates
+    - [x] Atomic updates
     - [ ] Patch updates
     - [ ] Deleting data
     - [ ] Soft-deleting data
