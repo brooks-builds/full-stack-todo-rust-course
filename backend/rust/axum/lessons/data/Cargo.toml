@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 axum = { version = "0.5.17", features = ["headers"] }
+chrono = { version = "0.4.23", features = ["serde"] }
 dotenvy = "0.15.6"
 dotenvy_macro = "0.15.1"
 sea-orm = { version = "0.10.1", features = ["sqlx-postgres", "runtime-tokio-rustls"] }

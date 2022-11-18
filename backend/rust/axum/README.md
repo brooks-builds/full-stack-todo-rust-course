@@ -82,7 +82,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Connecting to the database***
     - [x] ***SeaORM Models***
     - [x] ***Passing Database To Handlers***
-  - [ ] CRUD data in the database including soft deletions
+  - [x] CRUD data in the database including soft deletions
     - [x] ***Create a row in the database***
     - [x] ***Get one item from the database***
     - [x] Get all items from the database
@@ -90,16 +90,8 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] Atomic updates
     - [x] Patch updates (maybe re-record using into_active_value?)
     - [x] Deleting data
-    - [ ] Soft-deleting data
-  - [ ] Work with time
-    - [ ] What kind of time to use in the database
-    - [ ] Storing current time in the database
-    - [ ] Getting a time from the database
-    - [ ] Responding with time
+    - [x] Soft-deleting data
 - [ ] Security
-  - [ ] Load secrets with environment variables
-    - [ ] Loading environment variables
-    - [ ] dotenvy to load a .env file
   - [ ] Create a JWT
     - [ ] Create a JWT
     - [ ] Validate the JWT
