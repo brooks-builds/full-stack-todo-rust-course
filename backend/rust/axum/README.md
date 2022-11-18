@@ -89,9 +89,8 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] Using filters
     - [x] Atomic updates
     - [x] Patch updates (maybe re-record using into_active_value?)
-    - [ ] Deleting data
+    - [x] Deleting data
     - [ ] Soft-deleting data
-    - [ ] Handling nulls
   - [ ] Work with time
     - [ ] What kind of time to use in the database
     - [ ] Storing current time in the database

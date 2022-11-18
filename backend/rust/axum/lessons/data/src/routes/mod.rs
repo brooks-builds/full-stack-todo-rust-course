@@ -1,5 +1,6 @@
 mod create_task;
 mod custom_json_extractor;
+mod delete_task;
 mod get_tasks;
 mod hello_world;
 mod partial_update_task;
@@ -8,11 +9,12 @@ mod validate_with_serde;
 
 use axum::{
     body::Body,
-    routing::{get, patch, post, put},
+    routing::{delete, get, patch, post, put},
     Extension, Router,
 };
 use create_task::create_task;
 use custom_json_extractor::custom_json_extractor;
+use delete_task::delete_task;
 use get_tasks::{get_all_tasks, get_one_task};
 use partial_update_task::partial_update;
 use sea_orm::DatabaseConnection;
@@ -29,5 +31,6 @@ pub async fn create_routes(database: DatabaseConnection) -> Router<Body> {
         .route("/tasks/:task_id", get(get_one_task))
         .route("/tasks/:task_id", put(atomic_update))
         .route("/tasks/:task_id", patch(partial_update))
+        .route("/tasks/:task_id", delete(delete_task))
         .layer(Extension(database))
 }
