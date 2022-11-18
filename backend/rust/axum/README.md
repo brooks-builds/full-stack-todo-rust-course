@@ -92,15 +92,16 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] Deleting data
     - [x] Soft-deleting data
 - [ ] Security
-  - [ ] Create a JWT
-    - [ ] Create a JWT
-    - [ ] Validate the JWT
-  - [ ] Handle errors without crashing
-    - [ ] Custom error response
-    - [ ] converting errors
-  - [ ] Hash passwords
-    - [ ] Hash password
-    - [ ] Validate hash
+  - [ ] Authentication
+    - [ ] Naive authentication (don't do this in production)
+      - plain text passwords in the database (very bad)
+    - [ ] Hashing the password
+    - [ ] Return a JWT
+    - [ ] Guard a route
+    - [ ] Move guard to middleware
+    - [ ] Secure the protected routes
+- [ ] Helper Utilities
+  - [ ] Custom errors
 - [ ] Devops
   - [ ] Run the server in a Docker container
     - [ ] Use a docker container for production
