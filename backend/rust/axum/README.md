@@ -82,15 +82,15 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Connecting to the database***
     - [x] ***SeaORM Models***
     - [x] ***Passing Database To Handlers***
-  - [x] CRUD data in the database including soft deletions
+  - [x] ***CRUD data in the database including soft deletions***
     - [x] ***Create a row in the database***
     - [x] ***Get one item from the database***
     - [x] ***Get all items from the database***
     - [x] ***Using filters***
     - [x] ***Atomic updates***
     - [x] ***Patch updates (maybe re-record using into_active_value?)***
-    - [x] Deleting data
-    - [x] Soft-deleting data
+    - [x] ***Deleting data***
+    - [x] ***Soft-deleting data***
 - [ ] Security
   - [ ] Authentication
     - [ ] Naive authentication (don't do this in production)
