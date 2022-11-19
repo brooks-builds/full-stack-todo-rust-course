@@ -85,10 +85,10 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
   - [x] CRUD data in the database including soft deletions
     - [x] ***Create a row in the database***
     - [x] ***Get one item from the database***
-    - [x] Get all items from the database
-    - [x] Using filters
-    - [x] Atomic updates
-    - [x] Patch updates (maybe re-record using into_active_value?)
+    - [x] ***Get all items from the database***
+    - [x] ***Using filters***
+    - [x] ***Atomic updates***
+    - [x] ***Patch updates (maybe re-record using into_active_value?)***
     - [x] Deleting data
     - [x] Soft-deleting data
 - [ ] Security
