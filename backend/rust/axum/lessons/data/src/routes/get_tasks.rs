@@ -15,6 +15,7 @@ pub struct ResponseTask {
     priority: Option<String>,
     description: Option<String>,
     deleted_at: Option<DateTime<FixedOffset>>,
+    user_id: Option<i32>,
 }
 
 pub async fn get_one_task(
@@ -34,6 +35,7 @@ pub async fn get_one_task(
             priority: task.priority,
             description: task.description,
             deleted_at: task.deleted_at,
+            user_id: task.user_id,
         }))
     } else {
         Err(StatusCode::NOT_FOUND)
@@ -71,6 +73,7 @@ pub async fn get_all_tasks(
             priority: db_task.priority,
             description: db_task.description,
             deleted_at: db_task.deleted_at,
+            user_id: db_task.user_id,
         })
         .collect();
 

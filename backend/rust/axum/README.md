@@ -96,7 +96,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [ ] How auth works
       - [x] creating account
       - [x] login
-      - [ ] guard route
+      - [x] guard route
       - [ ] logout
       - [ ] use middleware
     - [ ] Make it secure
