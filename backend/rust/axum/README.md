@@ -97,7 +97,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
       - [x] creating account
       - [x] login
       - [x] guard route
-      - [ ] logout
+      - [x] logout
       - [ ] use middleware
     - [ ] Make it secure
       - [ ] Hashing the password
