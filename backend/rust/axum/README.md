@@ -93,13 +93,15 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Soft-deleting data***
 - [ ] Security
   - [ ] Authentication
-    - [ ] Naive authentication (don't do this in production)
-      - plain text passwords in the database (very bad)
-    - [ ] Hashing the password
-    - [ ] Return a JWT
-    - [ ] Guard a route
-    - [ ] Move guard to middleware
-    - [ ] Secure the protected routes
+    - [ ] How auth works
+      - [x] creating account
+      - [x] login
+      - [ ] logout
+      - [ ] guard route
+      - [ ] use middleware
+    - [ ] Make it secure
+      - [ ] Hashing the password
+      - [ ] use a JWT
 - [ ] Helper Utilities
   - [ ] Custom errors
 - [ ] Devops
