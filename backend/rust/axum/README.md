@@ -98,7 +98,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
       - [x] *login*
       - [x] *guard route*
       - [x] *logout*
-      - [ ] use middleware
+      - [x] use middleware
     - [ ] Make it secure
       - [ ] Hashing the password
       - [ ] use a JWT
