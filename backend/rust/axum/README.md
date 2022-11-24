@@ -93,14 +93,14 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Soft-deleting data***
 - [ ] Security
   - [ ] Authentication
-    - [ ] How auth works
+    - [x] How auth works
       - [x] ***creating account***
       - [x] *login*
       - [x] *guard route*
       - [x] *logout*
       - [x] use middleware
     - [ ] Make it secure
-      - [ ] Hashing the password
+      - [x] Hashing the password
       - [ ] use a JWT
 - [ ] Helper Utilities
   - [ ] Custom errors
