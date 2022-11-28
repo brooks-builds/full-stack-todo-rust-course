@@ -91,17 +91,17 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Patch updates (maybe re-record using into_active_value?)***
     - [x] ***Deleting data***
     - [x] ***Soft-deleting data***
-- [ ] Security
-  - [ ] Authentication
-    - [x] How auth works
+- [x] Security
+  - [x] Authentication
+    - [x] ***How auth works***
       - [x] ***creating account***
       - [x] ***login***
       - [x] ***guard route***
       - [x] ***logout***
-      - [x] use middleware
-    - [ ] Make it secure
-      - [x] Hashing the password
-      - [ ] use a JWT
+      - [x] ***use middleware***
+    - [x] Make it secure
+      - [x] ***Hashing the password***
+      - [x] use a JWT
 - [ ] Helper Utilities
   - [ ] Custom errors
 - [ ] Devops

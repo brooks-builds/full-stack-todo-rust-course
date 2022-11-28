@@ -11,6 +11,7 @@ bcrypt = "0.13.0"
 chrono = { version = "0.4.23", features = ["serde"] }
 dotenvy = "0.15.6"
 dotenvy_macro = "0.15.1"
+jsonwebtoken = "8.1.1"
 sea-orm = { version = "0.10.1", features = ["sqlx-postgres", "runtime-tokio-rustls"] }
 serde = { version = "1.0.147", features = ["derive"] }
 serde_with = "2.1.0"
