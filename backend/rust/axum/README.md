@@ -102,8 +102,8 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] Make it secure
       - [x] ***Hashing the password***
       - [x] use a JWT
-- [ ] Helper Utilities
-  - [ ] Custom errors
+- [x] Helper Utilities
+  - [x] Custom errors
 - [ ] Devops
   - [ ] Run the server in a Docker container
     - [ ] Use a docker container for production
