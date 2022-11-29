@@ -104,12 +104,15 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
       - [x] use a JWT
 - [x] Helper Utilities
   - [x] Custom errors
-- [ ] Devops
-  - [ ] Run the server in a Docker container
-    - [ ] Use a docker container for production
-    - [ ] Use a docker container for development
-  - [ ] Deploy the server
-    - [ ] Directly to a VPS
+- [x] Devops
+  - [x] Deployment
+    - to own server
+    - VPC
+    - Container service
+    - TLS
+- [ ] Addendums
+  - [ ] Updating Axum to 0.6
+    - [ ] lessons
 - [ ] Project
   - [ ] Create a server that passes all tests
     - [ ] Introduce the project
