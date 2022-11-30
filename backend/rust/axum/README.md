@@ -12,6 +12,8 @@ You can join the community Discord server on the Brooks Builds website at https:
 
 This video was recorded live on Twitch at https://twitch.tv/brookzerker if you want to check out what Brooks is up to recently.
 
+Axum 0.6 has been released! You can view the release notes for 0.6 and future versions at [https://github.com/tokio-rs/axum/blob/main/axum/CHANGELOG.md](https://github.com/tokio-rs/axum/blob/main/axum/CHANGELOG.md).
+
 **Legend**
 
 - [ ] Unit
@@ -91,17 +93,17 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - [x] ***Patch updates (maybe re-record using into_active_value?)***
     - [x] ***Deleting data***
     - [x] ***Soft-deleting data***
-- [x] Security
-  - [x] Authentication
+- [x] ***Security***
+  - [x] ***Authentication***
     - [x] ***How auth works***
       - [x] ***creating account***
       - [x] ***login***
       - [x] ***guard route***
       - [x] ***logout***
       - [x] ***use middleware***
-    - [x] Make it secure
+    - [x] ***Make it secure***
       - [x] ***Hashing the password***
-      - [x] use a JWT
+      - [x] ***use a JWT***
 - [x] Helper Utilities
   - [x] Custom errors
 - [x] Devops
@@ -112,6 +114,7 @@ This video was recorded live on Twitch at https://twitch.tv/brookzerker if you w
     - TLS
 - [ ] Addendums
   - [ ] Updating Axum to 0.6
+    - [ ] Reviewing 0.6 changes
     - [ ] lessons
 - [ ] Project
   - [ ] Create a server that passes all tests
