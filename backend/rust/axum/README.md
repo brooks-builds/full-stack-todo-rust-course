@@ -113,12 +113,28 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - Container service
     - TLS
 - [ ] Addendums
-  - [ ] Updating Router lessons to Axum 0.6
+  - [x] Updating Router lessons to Axum 0.6
     - [x] Update version
     - [x] Router function returns Stateless Router
     - [x] Verify everything is working with Thunderclient
     - [x] Use App State instead of Extension
       - middleware_message
+  - [ ] Updating Data lessons to Axum 0.6
+    - [ ] Update version
+    - [ ] Custom JSON extractor
+      - Add missing generic
+      - Add state to function signature
+      - Brought in Extract trait
+      - Added _ to type for extract
+    - [ ] Return stateless router
+    - [ ] Move body consuming extractors to the bottom of function signatures
+    - [ ] Custom JSON extractor again
+      - Add missing 'static lifetime bound
+    - [ ] Full test
+    - [ ] Put DatabaseConnection in AppState
+      - Update handlers to pull in State
+      - Update guard middleware to use state
+    - [ ] Update guard middleware to use extractors directly
 - [ ] Project
   - [ ] Create a server that passes all tests
     - [ ] Introduce the project
