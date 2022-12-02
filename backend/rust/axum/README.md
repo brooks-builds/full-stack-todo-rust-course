@@ -104,10 +104,10 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] ***Make it secure***
       - [x] ***Hashing the password***
       - [x] ***use a JWT***
-- [x] Helper Utilities
-  - [x] Custom errors
-- [x] Devops
-  - [x] Deployment
+- [x] ***Helper Utilities***
+  - [x] ***Custom errors***
+- [x] ***Devops***
+  - [x] ***Deployment***
     - to own server
     - VPC
     - Container service
