@@ -114,10 +114,10 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - TLS
 - [ ] Addendums
   - [ ] Updating Router lessons to Axum 0.6
-    - [ ] Update version
-    - [ ] Router function returns Stateless Router
-    - [ ] Verify everything is working with Thunderclient
-    - [ ] Use App State instead of Extension
+    - [x] Update version
+    - [x] Router function returns Stateless Router
+    - [x] Verify everything is working with Thunderclient
+    - [x] Use App State instead of Extension
       - middleware_message
 - [ ] Project
   - [ ] Create a server that passes all tests

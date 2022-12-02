@@ -18,11 +18,11 @@ use self::{
 };
 use always_errors::always_errors;
 use axum::{
-    body::Body,
+    extract::FromRef,
     http::Method,
     middleware,
-    routing::{get, patch, post},
-    Extension, Router,
+    routing::{get, post},
+    Router,
 };
 use get_json::get_json;
 use hello_world::hello_world;
@@ -36,17 +36,17 @@ use returns_201::returns_201;
 use set_middleware_custom_header::set_middleware_custom_header;
 use tower_http::cors::{Any, CorsLayer};
 
-#[derive(Clone)]
+#[derive(Clone, FromRef)]
 pub struct SharedData {
     pub message: String,
 }
 
-pub fn create_routes() -> Router<Body> {
+pub fn create_routes() -> Router {
     let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST])
         .allow_origin(Any);
     let shared_data = SharedData {
-        message: "Hello from shared data".to_owned(),
+        message: "Hello from shared data, I am a State now".to_owned(),
     };
 
     Router::new()
@@ -55,7 +55,7 @@ pub fn create_routes() -> Router<Body> {
             get(read_middleware_custom_header),
         )
         .route_layer(middleware::from_fn(set_middleware_custom_header))
-        .route("/", patch(hello_world))
+        .route("/hello_world", get(hello_world))
         .route("/mirror_body_string", post(mirror_body_string))
         .route("/mirror_body_json", post(mirror_body_json))
         .route("/path_variables/15", get(hard_coded_path))
@@ -64,7 +64,7 @@ pub fn create_routes() -> Router<Body> {
         .route("/mirror_user_agent", get(mirror_user_agent))
         .route("/mirror_custom_header", get(mirror_custom_header))
         .route("/middleware_message", get(middleware_message))
-        .layer(Extension(shared_data))
+        .with_state(shared_data)
         .layer(cors)
         .route("/always_errors", get(always_errors))
         .route("/returns_201", post(returns_201))
