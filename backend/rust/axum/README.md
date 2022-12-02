@@ -113,9 +113,12 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - Container service
     - TLS
 - [ ] Addendums
-  - [ ] Updating Axum to 0.6
-    - [ ] Reviewing 0.6 changes
-    - [ ] lessons
+  - [ ] Updating Router lessons to Axum 0.6
+    - [ ] Update version
+    - [ ] Router function returns Stateless Router
+    - [ ] Verify everything is working with Thunderclient
+    - [ ] Use App State instead of Extension
+      - middleware_message
 - [ ] Project
   - [ ] Create a server that passes all tests
     - [ ] Introduce the project
