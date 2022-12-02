@@ -1,6 +1,6 @@
 use crate::database::tasks::{self, Entity as Tasks};
 use axum::{
-    extract::{Path, Query},
+    extract::{Path, Query, State},
     http::StatusCode,
     Extension, Json,
 };
@@ -20,7 +20,7 @@ pub struct ResponseTask {
 
 pub async fn get_one_task(
     Path(task_id): Path<i32>,
-    Extension(database): Extension<DatabaseConnection>,
+    State(database): State<DatabaseConnection>,
 ) -> Result<Json<ResponseTask>, StatusCode> {
     let task = Tasks::find_by_id(task_id)
         .filter(tasks::Column::DeletedAt.is_null())
