@@ -19,7 +19,7 @@ describe("todo api", () => {
       password: `${Date.now()}`,
     };
 
-    test("sign up", async () => {
+    test.only("sign up", async () => {
       const { data: response } = await axios.post(
         `${baseUrl}/users`,
         userToCreate

@@ -138,4 +138,4 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
 - [ ] Project
   - [ ] Create a server that passes all tests
     - [x] Introduce the project
-    - [ ] Hello world with tests
+    - [x] Hello world with tests

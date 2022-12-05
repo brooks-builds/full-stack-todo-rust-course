@@ -2,6 +2,7 @@ use std::net::SocketAddr;
 
 use router::create_router;
 
+mod database;
 mod router;
 mod routes;
 
