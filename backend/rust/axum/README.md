@@ -137,5 +137,5 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] Update guard middleware to use extractors directly
 - [ ] Project
   - [ ] Create a server that passes all tests
-    - [ ] Introduce the project
+    - [x] Introduce the project
     - [ ] Hello world with tests
