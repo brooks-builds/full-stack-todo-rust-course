@@ -76,7 +76,7 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
   - [x] ***Validate incoming data***
     - [x] ***Validating JSON with Serde***
     - [x] ***Custom Extractor with Validation***
-- [ ] Data
+- [x] Data
   - [x] ***Creating a database***
     - [x] ***Set up a local database with Docker***
   - [x] ***Connect a database***
@@ -138,5 +138,4 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
 - [ ] Project
   - [ ] Create a server that passes all tests
     - [ ] Introduce the project
-    - [ ] Setting up the database
-    - [ ] Running the tests
+    - [ ] Hello world with tests
