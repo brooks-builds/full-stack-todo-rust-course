@@ -4,12 +4,14 @@ const jwt = require("jsonwebtoken");
 const knex = require("knex");
 const dbConfiguration = require("./knexfile");
 const bcrypt = require("bcrypt");
+const dns = require('node:dns');
 
 const apiPort = process.env.API_PORT;
 const baseUrl = `${process.env.API_URI}:${apiPort}/api/v1`;
 const JWT_SECRET = process.env.JWT_SECRET;
 const db = knex(dbConfiguration);
 
+dns.setDefaultResultOrder('ipv4first');
 jest.setTimeout(10000);
 
 describe("todo api", () => {
@@ -18,28 +20,28 @@ describe("todo api", () => {
       username: `testuser${Date.now()}`,
       password: `${Date.now()}`,
     };
-
+    
     test.only("sign up", async () => {
       const { data: response } = await axios.post(
         `${baseUrl}/users`,
         userToCreate
-      );
-      expect(response).toHaveProperty("data");
-      const { data } = response;
-      checkLoggedInUser(data, userToCreate);
-      const createdUser = await db
+        );
+        expect(response).toHaveProperty("data");
+        const { data } = response;
+        checkLoggedInUser(data, userToCreate);
+        const createdUser = await db
         .table("users")
         .where("username", userToCreate.username)
         .first();
-      expect(createdUser.id).toBe(data.id);
-      expect(createdUser.username).toBe(userToCreate.username);
-      expect(createdUser.password).not.toBe(userToCreate.password);
-      expect(createdUser.token).toBe(data.token);
-      const passwordMatched = bcrypt.compareSync(
-        userToCreate.password,
-        createdUser.password
-      );
-      expect(passwordMatched).toBe(true);
+        expect(createdUser.id).toBe(data.id);
+        expect(createdUser.username).toBe(userToCreate.username);
+        expect(createdUser.password).not.toBe(userToCreate.password);
+        expect(createdUser.token).toBe(data.token);
+        const passwordMatched = bcrypt.compareSync(
+          userToCreate.password,
+          createdUser.password
+          );
+          expect(passwordMatched).toBe(true);
     });
 
     test("cannot create multiple users with the same user name", async () => {

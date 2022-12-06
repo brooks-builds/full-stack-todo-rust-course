@@ -10,6 +10,7 @@ pub struct ResponseDataUser {
 #[derive(Serialize, Deserialize)]
 pub struct ResponseUser {
     id: i32,
+    username: String,
 }
 
 #[derive(Serialize, Deserialize)]
