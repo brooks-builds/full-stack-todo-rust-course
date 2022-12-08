@@ -11,6 +11,7 @@ pub struct ResponseDataUser {
 pub struct ResponseUser {
     id: i32,
     username: String,
+    token: String,
 }
 
 #[derive(Serialize, Deserialize)]
