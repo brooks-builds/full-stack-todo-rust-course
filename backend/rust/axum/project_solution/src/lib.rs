@@ -2,7 +2,6 @@ use std::net::SocketAddr;
 
 use app_state::AppState;
 use router::create_router;
-use sea_orm::{Database, DatabaseConnection};
 
 pub mod app_state;
 mod database;

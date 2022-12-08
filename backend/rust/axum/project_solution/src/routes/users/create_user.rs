@@ -1,6 +1,5 @@
 use super::{RequestCreateUser, ResponseDataUser, ResponseUser};
 use crate::{
-    app_state::AppState,
     database::users,
     utilities::{
         app_error::AppError, hash::hash_password, jwt::create_token, token_wrapper::TokenWrapper,
