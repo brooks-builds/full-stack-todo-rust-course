@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 axum = { version = "0.6.1", features = ["macros"] }
+bcrypt = "0.13.0"
 chrono = "0.4.23"
 dotenvy = "0.15.6"
 dotenvy_macro = "0.15.1"

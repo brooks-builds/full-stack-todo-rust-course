@@ -2,7 +2,9 @@ use super::{RequestCreateUser, ResponseDataUser, ResponseUser};
 use crate::{
     app_state::AppState,
     database::users,
-    utilities::{app_error::AppError, jwt::create_token, token_wrapper::TokenWrapper},
+    utilities::{
+        app_error::AppError, hash::hash_password, jwt::create_token, token_wrapper::TokenWrapper,
+    },
 };
 use axum::{extract::State, http::StatusCode, Json};
 use sea_orm::{ActiveModelTrait, DatabaseConnection, Set, TryIntoModel};
@@ -15,9 +17,9 @@ pub async fn create_user(
     let mut new_user = users::ActiveModel {
         ..Default::default()
     };
-    new_user.username = Set(request_user.username);
-    new_user.password = Set(request_user.password);
-    new_user.token = Set(Some(create_token(&jwt_secret.0)?));
+    new_user.username = Set(request_user.username.clone());
+    new_user.password = Set(hash_password(&request_user.password)?);
+    new_user.token = Set(Some(create_token(&jwt_secret.0, request_user.username)?));
     let user = new_user
         .save(&db)
         .await
