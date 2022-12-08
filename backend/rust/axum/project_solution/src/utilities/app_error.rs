@@ -20,7 +20,7 @@ impl IntoResponse for AppError {
         (
             self.code,
             Json(ErrorResponse {
-                error_message: self.message.clone(),
+                error: self.message.clone(),
             }),
         )
             .into_response()
@@ -29,5 +29,5 @@ impl IntoResponse for AppError {
 
 #[derive(Serialize, Deserialize)]
 struct ErrorResponse {
-    error_message: String,
+    error: String,
 }

@@ -139,4 +139,4 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
   - [ ] Create a server that passes all tests
     - [x] ***Introduce the project***
     - [x] ***Hello world with tests***
-    - [ ] Create user
+    - [x] Create user
