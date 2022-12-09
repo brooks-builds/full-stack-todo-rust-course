@@ -62,7 +62,7 @@ describe("todo api", () => {
       expect(gotError).toBe(true);
     });
 
-    test.skip("sign in", async () => {
+    test("sign in", async () => {
       const loggedInUser = await axios.post(
         `${baseUrl}/users/login`,
         userToCreate
