@@ -33,7 +33,7 @@ pub async fn login(
         if !verify_password(&request_user.password, &user.password)? {
             return Err(AppError::new(
                 StatusCode::UNAUTHORIZED,
-                "bad username and/or password",
+                "incorrect username and/or password",
             ));
         }
 
@@ -58,8 +58,8 @@ pub async fn login(
         Ok(Json(ResponseDataUser { data: response }))
     } else {
         Err(AppError::new(
-            StatusCode::NOT_FOUND,
-            "bad username and/or password",
+            StatusCode::BAD_REQUEST,
+            "incorrect username and/or password",
         ))
     }
 }

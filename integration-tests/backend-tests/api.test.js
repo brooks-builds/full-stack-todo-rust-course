@@ -70,7 +70,7 @@ describe("todo api", () => {
       checkLoggedInUser(loggedInUser.data.data, userToCreate);
     });
 
-    test.skip("gets a good error message when attempting to log in with bad username and/or password", async () => {
+    test("gets a good error message when attempting to log in with bad username and/or password", async () => {
       let gotError = false;
       try {
         await axios.post(`${baseUrl}/users/login`, {

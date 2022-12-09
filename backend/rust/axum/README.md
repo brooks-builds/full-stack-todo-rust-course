@@ -141,8 +141,8 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] ***Hello world with tests***
     - [x] Create user
     - [x] Handle duplicate username
-    - [ ] sign in
-    - [ ] handling bad username/password
+    - [x] sign in
+    - [x] handling bad username/password
     - [ ] logging out
     - [ ] secure routes part 1
     - [ ] secure routes part 2
