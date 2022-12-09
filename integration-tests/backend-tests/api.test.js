@@ -88,7 +88,7 @@ describe("todo api", () => {
       expect(gotError).toBe(true);
     });
 
-    test.skip("log out", async () => {
+    test.only("log out", async () => {
       const userToCreate = {
         username: "userjusttologout" + Date.now(),
         password: "test1234",
