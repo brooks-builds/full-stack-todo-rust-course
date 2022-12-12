@@ -24,7 +24,7 @@ pub async fn require_authentication<T>(
     } else {
         return Err(AppError::new(
             StatusCode::UNAUTHORIZED,
-            "Missing authentication token",
+            "not authenticated!",
         ));
     };
 

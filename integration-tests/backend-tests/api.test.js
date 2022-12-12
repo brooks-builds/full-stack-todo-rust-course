@@ -88,7 +88,7 @@ describe("todo api", () => {
       expect(gotError).toBe(true);
     });
 
-    test.only("log out", async () => {
+    test("log out", async () => {
       const userToCreate = {
         username: "userjusttologout" + Date.now(),
         password: "test1234",
@@ -108,7 +108,7 @@ describe("todo api", () => {
       expect(dbUser.token).toBe(null);
     });
 
-    test.skip("should get an error when using an authenticated route without a token", async () => {
+    test("should get an error when using an authenticated route without a token", async () => {
       let receivedError = false;
       try {
         await axios.post(`${baseUrl}/users/logout`, {});
@@ -120,7 +120,7 @@ describe("todo api", () => {
       expect(receivedError).toBe(true);
     });
 
-    test.skip("should get an error when using an authenticated route with a fake token", async () => {
+    test("should get an error when using an authenticated route with a fake token", async () => {
       let receivedError = false;
       try {
         await axios.post(
