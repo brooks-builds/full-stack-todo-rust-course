@@ -145,3 +145,4 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] ***handling bad username/password***
     - [x] logging out
     - [x] testing bad tokens
+    - [ ] creating a task
