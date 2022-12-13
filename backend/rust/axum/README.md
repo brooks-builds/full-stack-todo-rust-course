@@ -146,4 +146,5 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] logging out
     - [x] testing bad tokens
     - [x] creating a task
-    - [ ] getting all tasks
+    - [x] getting all tasks
+    - [ ] get one task

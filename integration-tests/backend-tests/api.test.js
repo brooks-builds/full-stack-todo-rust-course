@@ -200,7 +200,7 @@ describe("todo api", () => {
         await createTask(getAllTasksHeaders, { title: "task 3" });
       });
 
-      test.skip("should be able to get all my tasks", async () => {
+      test("should be able to get all my tasks", async () => {
         const createdTasks = await axios.get(`${baseUrl}/tasks`, {
           headers: getAllTasksHeaders,
         });
@@ -210,7 +210,7 @@ describe("todo api", () => {
         expect(createdTasks.data.data[0]).not.toHaveProperty("user_id");
       });
 
-      test.skip("should not be able to get any tasks when logged out", async () => {
+      test("should not be able to get any tasks when logged out", async () => {
         let gotError = false;
 
         try {
@@ -222,7 +222,7 @@ describe("todo api", () => {
         }
       });
 
-      test.skip("should not be able to get other users tasks", async () => {
+      test("should not be able to get other users tasks", async () => {
         const [user, headers] = await createUser();
 
         await createTask(headers, { title: "my task 10" });
@@ -235,7 +235,7 @@ describe("todo api", () => {
         expect(response.data.data.length).toBe(5);
       });
 
-      test.skip("should not be able to get deleted tasks", async () => {
+      test("should not be able to get deleted tasks", async () => {
         const deletedUser = await axios.post(`${baseUrl}/users/login`, {
           username: "deleteduser",
           password: "password",
