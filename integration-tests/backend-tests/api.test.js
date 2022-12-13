@@ -145,7 +145,7 @@ describe("todo api", () => {
       [user, headers] = await createUser();
     });
 
-    describe.only("create a task", () => {
+    describe("create a task", () => {
       test("should be able to create a task", async () => {
         const newTask = {
           priority: "A",
