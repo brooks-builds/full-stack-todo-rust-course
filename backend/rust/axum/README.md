@@ -148,4 +148,5 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] creating a task
     - [x] getting all tasks
     - [x] get one task
-    - [ ] Update a task
+    - [x] Update a task
+    - [ ] Soft-delete a task

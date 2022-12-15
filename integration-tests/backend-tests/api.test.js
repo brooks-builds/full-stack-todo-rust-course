@@ -302,7 +302,7 @@ describe("todo api", () => {
     });
 
     describe("update task", () => {
-      test.skip("should be able to mark a task as completed", async () => {
+      test("should be able to mark a task as completed", async () => {
         const [user, headers] = await createUser();
         const taskResponse = await createTask(headers, { title: "new task" });
         const task = taskResponse.data.data;
@@ -317,7 +317,7 @@ describe("todo api", () => {
         expect(dbTask.completed_at).not.toBe(null);
       });
 
-      test.skip("should be able to mark a task as not completed", async () => {
+      test("should be able to mark a task as not completed", async () => {
         const [user, headers] = await createUser();
         const taskResponse = await createTask(headers, { title: "new task" });
         const task = taskResponse.data.data;
@@ -335,7 +335,7 @@ describe("todo api", () => {
         expect(dbTask.completed_at).toBe(null);
       });
 
-      test.skip("should be able to update all fields in the task", async () => {
+      test("should be able to update all fields in the task", async () => {
         const [user, headers] = await createUser();
         const initialTask = {
           priority: "A",
@@ -370,7 +370,7 @@ describe("todo api", () => {
         expect(completed_at.toUTCString()).toBe(now.toUTCString());
       });
 
-      test.skip("can_update_some_of_the_task_without_losing_data", async () => {
+      test("can_update_some_of_the_task_without_losing_data", async () => {
         const [user, headers] = await createUser();
         const initialTask = {
           priority: "A",
@@ -402,7 +402,7 @@ describe("todo api", () => {
         expect(dbTask.completed_at).not.toBe(null);
       });
 
-      test.skip("can uncomplete a task with an update", async () => {
+      test("can uncomplete a task with an update", async () => {
         const [user, headers] = await createUser();
         const initialTask = {
           priority: "A",
@@ -435,7 +435,7 @@ describe("todo api", () => {
         expect(dbTask.completed_at).toBe(null);
       });
 
-      test.skip("should not be able to mark other users tasks as completed", async () => {
+      test("should not be able to mark other users tasks as completed", async () => {
         const [user1, headers1] = await createUser();
         const [user2, headers2] = await createUser();
         const createdTaskResponse = await createTask(headers1, {
@@ -461,7 +461,7 @@ describe("todo api", () => {
         expect(dbTask.completed_at).toBe(null);
       });
 
-      test.skip("should not be able to mark other users tasks as not completed", async () => {
+      test("should not be able to mark other users tasks as not completed", async () => {
         const [user1, headers1] = await createUser();
         const [user2, headers2] = await createUser();
         const createdTaskResponse = await createTask(headers1, {
@@ -493,7 +493,7 @@ describe("todo api", () => {
         expect(dbTask.completed_at).not.toBe(null);
       });
 
-      test.skip("should not be able to update other users tasks", async () => {
+      test("should not be able to update other users tasks", async () => {
         const [user1, headers1] = await createUser();
         const [user2, headers2] = await createUser();
         const createdTaskResponse = await createTask(headers1, {
