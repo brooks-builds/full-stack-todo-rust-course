@@ -149,6 +149,5 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] getting all tasks
     - [x] get one task
     - [x] Update a task
-    - [ ] Soft-delete a task
-    - [ ] New users should get default tasks
+    - [x] Soft-delete a task
     - [ ] Refactor db queries to module
