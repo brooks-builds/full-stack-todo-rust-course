@@ -143,11 +143,11 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] ***Handle duplicate username***
     - [x] ***sign in***
     - [x] ***handling bad username/password***
-    - [x] logging out
-    - [x] testing bad tokens
-    - [x] creating a task
-    - [x] getting all tasks
-    - [x] get one task
-    - [x] Update a task
-    - [x] Soft-delete a task
+    - [x] ***logging out***
+    - [x] ***testing bad tokens***
+    - [x] ***creating a task***
+    - [x] ***getting all tasks***
+    - [x] ***get one task***
+    - [x] ***Update a task***
+    - [x] ***Soft-delete a task***
     - [ ] Refactor db queries to module
