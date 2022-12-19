@@ -28,8 +28,8 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
       - introduce myself
       - created axum course
       - todo project
-  - [x] Introduction
-    - [x] Prerequisites
+  - [x] *Introduction*
+    - [x] *Prerequisites*
       - Introductory experience with Rust
       - Programming experience (Have created a todo API in any language)
       - Terminal / Shell
@@ -47,10 +47,10 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
         - package manager
       - Fast development time (once you familiar with the framework / language)
       - Fun
-- [x] Hello world
-  - [x] Spin up a hello world server
+- [x] *Hello world*
+  - [x] *Spin up a hello world server*
     - [x] ***Installing Rust (cancelled)***
-    - [x] Using the course repo
+    - [x] *Using the course repo*
     - [x] ***Setting up VS Code***
     - [x] ***Create hello world Axum server***
     - [x] ***Auto restart the server***
@@ -144,8 +144,8 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
       - Update handlers to pull in State
       - Update guard middleware to use state
     - [x] Update guard middleware to use extractors directly
-- [x] Project
-  - [x] Create a server that passes all tests
+- [x] *Project*
+  - [x] *Create a server that passes all tests*
     - [x] ***Introduce the project***
     - [x] ***Hello world with tests***
     - [x] ***Create user***
@@ -159,6 +159,6 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] ***get one task***
     - [x] ***Update a task***
     - [x] ***Soft-delete a task***
-    - [x] Refactor db queries to module
-- [x] Conclusion
-  - [x] Next steps
+    - [x] *Refactor db queries to module*
+- [x] *Conclusion*
+  - [x] *Next steps*
