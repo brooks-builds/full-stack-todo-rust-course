@@ -38,10 +38,10 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
         - package manager
       - Fast development time (once you familiar with the framework / language)
       - Fun
-- [ ] Hello world
-  - [ ] Spin up a hello world server
+- [x] Hello world
+  - [x] Spin up a hello world server
     - [x] ***Installing Rust (cancelled)***
-    - [ ] Using the course repo
+    - [x] Using the course repo
     - [x] ***Setting up VS Code***
     - [x] ***Create hello world Axum server***
     - [x] ***Auto restart the server***
@@ -151,5 +151,5 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] ***Update a task***
     - [x] ***Soft-delete a task***
     - [x] Refactor db queries to module
-- [ ] Conclusion
-  - [ ] Next steps
+- [x] Conclusion
+  - [x] Next steps
