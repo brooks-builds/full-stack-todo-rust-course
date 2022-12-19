@@ -20,16 +20,25 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
   - [ ] Standard
     - [ ] Lesson
 
-- [ ] Introduction
-  - [ ] Marketing
+- [x] Introduction
+  - [x] Marketing
     - [x] ***Hype Trailer***
-    - [ ] Trailer
-  - [ ] Introduction
-    - [ ] Prerequisites
+    - [x] Trailer
+      - problem (do you want to build an api in rust but don't know how?)
+      - introduce myself
+      - created axum course
+      - todo project
+  - [x] Introduction
+    - [x] Prerequisites
       - Introductory experience with Rust
       - Programming experience (Have created a todo API in any language)
-      - Familiarity with JSON
-    - [ ] Introduction to the course
+      - Terminal / Shell
+      - Have Docker installed
+      - Not run postgres at the same time locally
+        - unless you change the ports in the docker compose file
+      - Familiarity with 
+        - JSON
+        - HTTP response codes
     - [x] ***Why Rust / Why Axum?***
       - Strong type system
       - Tooling
