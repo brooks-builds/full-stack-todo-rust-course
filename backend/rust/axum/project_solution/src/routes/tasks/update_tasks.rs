@@ -1,21 +1,10 @@
-use crate::{
-    database::{
-        tasks::{self, Entity as Tasks},
-        users::Model,
-    },
-    queries::task_queries,
-    utilities::app_error::AppError,
-};
+use crate::{database::users::Model, queries::task_queries, utilities::app_error::AppError};
 use axum::{
     extract::{Path, State},
-    http::StatusCode,
     Extension, Json,
 };
 use chrono::Utc;
-use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
-    Set,
-};
+use sea_orm::{DatabaseConnection, IntoActiveModel, Set};
 
 use super::RequestTask;
 

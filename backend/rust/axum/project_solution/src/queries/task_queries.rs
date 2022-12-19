@@ -80,6 +80,20 @@ pub async fn get_all_tasks(
     })
 }
 
+pub async fn get_default_tasks(db: &DatabaseConnection) -> Result<Vec<TaskModel>, AppError> {
+    Tasks::find()
+        .filter(tasks::Column::IsDefault.eq(Some(true)))
+        .all(db)
+        .await
+        .map_err(|error| {
+            eprintln!("Error getting default tasks: {:?}", error);
+            AppError::new(
+                StatusCode::INTERNAL_SERVER_ERROR,
+                "Error getting default tasks",
+            )
+        })
+}
+
 fn convert_active_to_model(active_task: tasks::ActiveModel) -> Result<TaskModel, AppError> {
     active_task.try_into_model().map_err(|error| {
         eprintln!("Error converting task active model to model: {:?}", error);

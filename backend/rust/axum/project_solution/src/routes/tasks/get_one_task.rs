@@ -1,13 +1,11 @@
-use crate::database::tasks::{self, Entity as Tasks};
 use crate::queries::task_queries;
 use crate::{database::users::Model, utilities::app_error::AppError};
 use axum::Json;
 use axum::{
     extract::{Path, State},
-    http::StatusCode,
     Extension,
 };
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter};
+use sea_orm::DatabaseConnection;
 
 use super::{ResponseDataTask, ResponseTask};
 

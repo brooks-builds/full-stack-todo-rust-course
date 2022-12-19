@@ -1,16 +1,11 @@
-use crate::database::tasks::{self, Entity as Tasks};
 use crate::queries::task_queries::{find_task_by_id, save_active_task};
 use crate::{database::users::Model, utilities::app_error::AppError};
 use axum::{
     extract::{Path, State},
-    http::StatusCode,
     Extension,
 };
 use chrono::Utc;
-use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
-    Set,
-};
+use sea_orm::{DatabaseConnection, IntoActiveModel, Set};
 
 pub async fn soft_delete_task(
     Extension(user): Extension<Model>,
