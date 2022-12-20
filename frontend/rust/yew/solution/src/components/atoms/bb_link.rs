@@ -35,7 +35,7 @@ pub fn bb_link(props: &Props) -> Html {
     }
 }
 
-fn choose_stylesheet(link_type: LinkType) -> StyleSource<'static> {
+fn choose_stylesheet(link_type: LinkType) -> StyleSource {
     let link_stylesheet = css!(
         r#"
               color: antiquewhite;

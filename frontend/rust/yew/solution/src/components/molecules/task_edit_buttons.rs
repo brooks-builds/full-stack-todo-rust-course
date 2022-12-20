@@ -25,27 +25,24 @@ pub fn task_edit_buttons() -> Html {
     "#
     );
 
-    let current_route = use_location().unwrap().route::<Route>().unwrap();
-    let task_id = match current_route {
-        Route::OneTask { id } => Some(id),
-        Route::EditTask { id } => Some(id),
-        _ => None,
-    };
+    // let current_route = use_location().unwrap().route::<Route>().unwrap();
+    let current_route = use_location().unwrap().query::<NavId>().unwrap();
+    let task_id = current_route.id;
 
     let (store, dispatch) = use_store::<Store>();
 
     let delete_onclick = {
         let token = store.token.clone();
-        let history = use_history().unwrap();
+        let history = use_navigator().unwrap();
         Callback::from(move |_| {
             let token = token.clone();
             let dispatch = dispatch.clone();
             let history = history.clone();
-            let task_id = task_id.unwrap();
+            let task_id = task_id;
             wasm_bindgen_futures::spawn_local(async move {
                 api::delete_task(task_id, &token).await.unwrap();
                 remove_task_by_id(dispatch, task_id);
-                history.push(Route::Home);
+                history.push(&Route::Home);
             });
         })
     };
