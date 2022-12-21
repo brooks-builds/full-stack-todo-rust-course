@@ -26,8 +26,8 @@ pub fn task_edit_buttons() -> Html {
     );
 
     // let current_route = use_location().unwrap().route::<Route>().unwrap();
-    let current_route = use_location().unwrap().query::<NavId>().unwrap();
-    let task_id = current_route.id;
+    let current_route = use_location().unwrap().query::<NavId>().ok();
+    let task_id = current_route.map(|id| id.id);
 
     let (store, dispatch) = use_store::<Store>();
 

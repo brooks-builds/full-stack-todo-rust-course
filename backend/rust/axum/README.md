@@ -20,16 +20,16 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
   - [ ] Standard
     - [ ] Lesson
 
-- [x] Introduction
-  - [x] Marketing
+- [x] *Introduction*
+  - [x] *Marketing*
     - [x] ***Hype Trailer***
-    - [x] Trailer
+    - [x] *Trailer*
       - problem (do you want to build an api in rust but don't know how?)
       - introduce myself
       - created axum course
       - todo project
-  - [x] *Introduction*
-    - [x] *Prerequisites*
+  - [x] ***Introduction***
+    - [x] ***Prerequisites***
       - Introductory experience with Rust
       - Programming experience (Have created a todo API in any language)
       - Terminal / Shell
@@ -144,8 +144,8 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
       - Update handlers to pull in State
       - Update guard middleware to use state
     - [x] Update guard middleware to use extractors directly
-- [x] *Project*
-  - [x] *Create a server that passes all tests*
+- [x] ***Project***
+  - [x] ***Create a server that passes all tests***
     - [x] ***Introduce the project***
     - [x] ***Hello world with tests***
     - [x] ***Create user***
@@ -159,6 +159,6 @@ Axum 0.6 has been released! You can view the release notes for 0.6 and future ve
     - [x] ***get one task***
     - [x] ***Update a task***
     - [x] ***Soft-delete a task***
-    - [x] *Refactor db queries to module*
-- [x] *Conclusion*
-  - [x] *Next steps*
+    - [x] ***Refactor db queries to module***
+- [x] ***Conclusion***
+  - [x] ***Next steps***
