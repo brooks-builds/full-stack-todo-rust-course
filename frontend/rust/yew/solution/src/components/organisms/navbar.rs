@@ -7,6 +7,7 @@ use crate::components::molecules::task_edit_buttons::TaskEditButtons;
 use crate::router::Route;
 use crate::store::Store;
 use crate::{api, store};
+use stylist::style;
 use stylist::{css, yew::styled_component};
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -14,7 +15,7 @@ use yewdux::prelude::*;
 
 #[styled_component(Navbar)]
 pub fn navbar() -> Html {
-    let stylesheet = css!(
+    let stylesheet = style!(
         r#"
           section {
             border-bottom: 1px solid antiquewhite;
@@ -31,7 +32,8 @@ pub fn navbar() -> Html {
             margin-left: 10px;
           }
         "#
-    );
+    )
+    .unwrap();
 
     let (store, dispatch) = use_store::<Store>();
     let username = store.username.clone();
