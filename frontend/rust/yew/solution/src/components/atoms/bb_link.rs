@@ -1,5 +1,5 @@
 use crate::router::Route;
-use stylist::{css, yew::styled_component, StyleSource};
+use stylist::{css, style, yew::styled_component, Style, StyleSource};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -35,15 +35,16 @@ pub fn bb_link(props: &Props) -> Html {
     }
 }
 
-fn choose_stylesheet(link_type: LinkType) -> StyleSource {
-    let link_stylesheet = css!(
+fn choose_stylesheet(link_type: LinkType) -> Style {
+    let link_stylesheet = style!(
         r#"
               color: antiquewhite;
               text-decoration: none;
               font-size: 36px;
-          "#
-    );
-    let button_stylesheet = css!(
+          "#,
+    )
+    .unwrap();
+    let button_stylesheet = style!(
         r#"
           text-decoration: none;
           font-size: 32px;
@@ -52,8 +53,9 @@ fn choose_stylesheet(link_type: LinkType) -> StyleSource {
           color: black;
           border-radius: 3px;
           margin: 0 10px;
-        "#
-    );
+        "#,
+    )
+    .unwrap();
 
     match link_type {
         LinkType::Link => link_stylesheet,

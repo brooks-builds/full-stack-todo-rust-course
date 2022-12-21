@@ -74,9 +74,9 @@ pub fn edit_task(props: &Props) -> Html {
         let completed_state = completed_state.clone();
         let token = store.token.clone();
         let task_id = props.id;
-        let history = use_history().unwrap();
+        let navigator = use_navigator().unwrap();
         let dispatch = dispatch.clone();
-        Callback::from(move |event: FocusEvent| {
+        Callback::from(move |event: SubmitEvent| {
             event.prevent_default();
             let patch_task = PatchTask::new(
                 title_state.deref().clone(),
@@ -86,14 +86,14 @@ pub fn edit_task(props: &Props) -> Html {
             );
             let token = token.clone();
             let task_id = task_id;
-            let history = history.clone();
+            let navigator = navigator.clone();
             let dispatch = dispatch.clone();
 
             wasm_bindgen_futures::spawn_local(async move {
                 api::update_task(task_id, &token, patch_task.clone())
                     .await
                     .unwrap();
-                history.push(Route::OneTask { id: task_id });
+                navigator.push(&Route::OneTask { id: task_id });
                 update_task_by_id(dispatch, task_id, patch_task)
             });
         })
@@ -102,11 +102,11 @@ pub fn edit_task(props: &Props) -> Html {
     let task = store.get_task_by_id(props.id).unwrap_or_default();
 
     let cancel_onclick = {
-        let history = use_history().unwrap();
+        let navigator = use_navigator().unwrap();
         let task_id = props.id;
         Callback::from(move |event: MouseEvent| {
             event.prevent_default();
-            history.push(Route::OneTask { id: task_id })
+            navigator.push(&Route::OneTask { id: task_id })
         })
     };
 

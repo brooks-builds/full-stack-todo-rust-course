@@ -71,7 +71,7 @@ fn table_data(tasks: &[Task], completed_onchange: Callback<OnchangeData>) -> Vec
         let priority = task.priority.clone().unwrap_or_else(|| "C".to_owned());
         result.push(html! {
           <tr>
-            <td><BBText text={priority} data_test="priority" color={choose_priority_color(&priority)} /></td>
+            <td><BBText text={priority.clone()} data_test="priority" color={choose_priority_color(&priority)} /></td>
             <td><BBCheckbox data_test="completed" id={task.id.to_string()} onchange={completed_onchange.clone()} checked={task.completed_at.is_some()} /></td>
             <td><BBLink text={task.title.clone()} data_test={"tasklink".to_owned()} route={Route::OneTask{id: task.id}} /></td>
           </tr>

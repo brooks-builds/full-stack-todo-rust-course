@@ -8,7 +8,7 @@ use yew::prelude::*;
 use yewdux::prelude::*;
 
 #[styled_component(Home)]
-pub fn home() -> Hmtl {
+pub fn home() -> Html {
     let stylesheet = css!(
         r#"
           display: flex;

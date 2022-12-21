@@ -11,12 +11,11 @@ use crate::store::{add_task, Store};
 use stylist::css;
 use stylist::yew::styled_component;
 use yew::prelude::*;
-use yew_router::history::History;
-use yew_router::hooks::use_history;
+use yew_router::prelude::*;
 use yewdux::prelude::*;
 
 #[styled_component(AddTask)]
-pub fn add_task() -> Html {
+pub fn component() -> Html {
     let stylesheet = css!(
         r#"
       form > div {
@@ -64,23 +63,23 @@ pub fn add_task() -> Html {
         let description = description;
         let priority = priority;
         let token = store.token.clone();
-        let history = use_history().unwrap();
-        Callback::from(move |event: FocusEvent| {
+        let navigator = use_navigator().unwrap();
+        Callback::from(move |event: SubmitEvent| {
             event.prevent_default();
             let token = token.clone();
             let title = title.deref().clone();
             let description = description.deref().clone();
             let priority = priority.deref().clone();
-            let history = history.clone();
+            let navigator = navigator.clone();
             let dispatch = dispatch.clone();
             wasm_bindgen_futures::spawn_local(async move {
                 match api::create_task(&token, title, description, priority).await {
                     Ok(task_response) => {
                         add_task(dispatch, task_response.data);
-                        history.push(Route::Home);
+                        navigator.push(&Route::Home);
                     }
                     Err(ApiError::NotAuthenticated) => {
-                        history.push(Route::Home);
+                        navigator.push(&Route::Home);
                     }
                     Err(error) => {
                         gloo::console::error!(error.to_string());
@@ -92,10 +91,10 @@ pub fn add_task() -> Html {
     };
 
     let cancel_onclick = {
-        let history = use_history().unwrap();
+        let navigator = use_navigator().unwrap();
         Callback::from(move |event: MouseEvent| {
             event.prevent_default();
-            history.push(Route::Home);
+            navigator.push(&Route::Home);
         })
     };
 

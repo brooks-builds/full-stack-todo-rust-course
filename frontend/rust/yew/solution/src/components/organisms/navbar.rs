@@ -39,16 +39,16 @@ pub fn navbar() -> Html {
 
     let logout_onclick = {
         let token = store.token.clone();
-        let history = use_history().unwrap();
+        let navigator = use_navigator().unwrap();
         Callback::from(move |_event: MouseEvent| {
             let token = token.clone();
             let dispatch = dispatch.clone();
-            let history = history.clone();
+            let navigator = navigator.clone();
             wasm_bindgen_futures::spawn_local(async move {
                 match api::logout(&token).await {
                     Ok(_) => {
                         store::logout(dispatch);
-                        history.push(Route::Home);
+                        navigator.push(&Route::Home);
                     }
                     Err(error) => gloo::console::error!(error.to_string()),
                 }

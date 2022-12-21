@@ -6,7 +6,7 @@ use crate::store::Store;
 use stylist::yew::styled_component;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
-use yew_router::{history::History, hooks::use_history};
+use yew_router::prelude::use_navigator;
 use yewdux::prelude::*;
 
 #[styled_component(Login)]
@@ -24,18 +24,18 @@ pub fn login() -> Html {
         "#
     );
 
-    let history = use_history().unwrap();
+    let navigator = use_navigator().unwrap();
     let (_store, store_dispatch) = use_store::<Store>();
 
     let onsubmit = {
         let store_dispatch = store_dispatch.clone();
         Callback::from(move |user: User| {
-            let history = history.clone();
+            let navigator = navigator.clone();
             let store_dispatch = store_dispatch.clone();
 
             spawn_local(async move {
                 let result = api::login(user.username, user.password).await;
-                history.push(Route::Home);
+                navigator.push(&Route::Home);
                 login_reducer(result, store_dispatch);
             });
         })

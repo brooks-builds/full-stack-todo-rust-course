@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use crate::{
     api::{patch_task::PatchTask, AuthResponse, TaskResponse},
     components::atoms::bb_select::SelectOption,
@@ -60,11 +58,9 @@ pub struct Task {
 }
 
 pub fn login_reducer(auth_response: AuthResponse, dispatch: Dispatch<Store>) {
-    dispatch.reduce(move |store| {
-        let mut store = store.deref().clone();
+    dispatch.reduce_mut(|store| {
         store.username = auth_response.data.username;
         store.token = auth_response.data.token;
-        store
     });
 }
 
