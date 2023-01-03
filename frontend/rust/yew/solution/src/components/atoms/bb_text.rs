@@ -1,4 +1,4 @@
-use stylist::{css, yew::styled_component};
+use stylist::{css, yew::styled_component, Style};
 use yew::prelude::*;
 
 #[derive(Clone, Copy, PartialEq)]
@@ -50,7 +50,7 @@ pub struct Props {
 pub fn bb_text(props: &Props) -> Html {
     let text_type = props.text_type.unwrap_or_default();
     let color = props.color.unwrap_or_default();
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
             .danger {
                 color: red;
@@ -64,7 +64,8 @@ pub fn bb_text(props: &Props) -> Html {
                 color: lightblue;
             }
         "#
-    );
+    ))
+    .unwrap();
 
     html! {
         <span class={stylesheet}>
@@ -87,11 +88,12 @@ pub fn bb_text(props: &Props) -> Html {
 }
 
 fn normal_text(data_test: String, text: &str, class: Vec<String>) -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
             font-size: 36px;
         "#
-    );
+    ))
+    .unwrap();
 
     html! {
       <p class={classes!(stylesheet, class)} data-test={data_test}>{text}</p>
@@ -99,11 +101,12 @@ fn normal_text(data_test: String, text: &str, class: Vec<String>) -> Html {
 }
 
 fn title_text(data_test: String, text: &str, class: Vec<String>) -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
       font-size: 72px;
     "#
-    );
+    ))
+    .unwrap();
 
     html! {
       <h1 data-test={data_test} class={classes!(stylesheet, class)}>{text}</h1>

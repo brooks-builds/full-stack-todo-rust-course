@@ -7,6 +7,7 @@ use crate::components::molecules::task_edit_buttons::TaskEditButtons;
 use crate::router::Route;
 use crate::store::Store;
 use crate::{api, store};
+use stylist::Style;
 use stylist::{css, yew::styled_component};
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -14,7 +15,7 @@ use yewdux::prelude::*;
 
 #[styled_component(Navbar)]
 pub fn navbar() -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
           section {
             border-bottom: 1px solid antiquewhite;
@@ -31,7 +32,8 @@ pub fn navbar() -> Html {
             margin-left: 10px;
           }
         "#
-    );
+    ))
+    .unwrap();
 
     let (store, dispatch) = use_store::<Store>();
     let username = store.username.clone();
@@ -39,7 +41,7 @@ pub fn navbar() -> Html {
 
     let logout_onclick = {
         let token = store.token.clone();
-        let history = use_history().unwrap();
+        let history = use_navigator().unwrap();
         Callback::from(move |_event: MouseEvent| {
             let token = token.clone();
             let dispatch = dispatch.clone();
@@ -48,7 +50,7 @@ pub fn navbar() -> Html {
                 match api::logout(&token).await {
                     Ok(_) => {
                         store::logout(dispatch);
-                        history.push(Route::Home);
+                        history.push(&Route::Home);
                     }
                     Err(error) => gloo::console::error!(error.to_string()),
                 }

@@ -2,13 +2,13 @@ use crate::{
     components::atoms::bb_text::BBText,
     store::{reset_error_message, Store},
 };
-use stylist::yew::styled_component;
+use stylist::{yew::styled_component, Style};
 use yew::prelude::*;
 use yewdux::prelude::*;
 
 #[styled_component(ErrorMessage)]
 pub fn error_message() -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
         .error-message {
           text-align: center;
@@ -39,7 +39,8 @@ pub fn error_message() -> Html {
           }
         }
     "#
-    );
+    ))
+    .unwrap();
     let (store, dispatch) = use_store::<Store>();
     let message = store.error_message.clone();
     let timer_id = use_state(|| None);

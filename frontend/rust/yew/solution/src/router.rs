@@ -21,13 +21,13 @@ pub enum Route {
     AddTask,
 }
 
-pub fn switch(route: &Route) -> Html {
+pub fn switch(route: Route) -> Html {
     match route {
         Route::Home => html! { <Home /> },
         Route::CreateAccount => html! { <CreateAccount /> },
         Route::Login => html! { <Login /> },
-        Route::OneTask { id } => html! { <OneTask id={*id} /> },
-        Route::EditTask { id } => html! { <EditTask id={*id} />},
+        Route::OneTask { id } => html! { <OneTask id={id} /> },
+        Route::EditTask { id } => html! { <EditTask id={id} />},
         Route::AddTask => html! { <AddTask /> },
     }
 }

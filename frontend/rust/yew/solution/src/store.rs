@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use crate::{
     api::{patch_task::PatchTask, AuthResponse, TaskResponse},
     components::atoms::bb_select::SelectOption,
@@ -9,7 +7,7 @@ use js_sys::Date;
 use serde::{Deserialize, Serialize};
 use yewdux::prelude::*;
 
-#[derive(Clone, Serialize, Deserialize, Store, PartialEq)]
+#[derive(Clone, Serialize, Deserialize, Store, PartialEq, Debug)]
 #[store(storage = "local")]
 pub struct Store {
     pub username: String,
@@ -50,7 +48,7 @@ impl Default for Store {
     }
 }
 
-#[derive(Clone, Default, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Default, Serialize, Deserialize, PartialEq, Debug)]
 pub struct Task {
     pub completed_at: Option<String>,
     pub description: Option<String>,
@@ -60,11 +58,9 @@ pub struct Task {
 }
 
 pub fn login_reducer(auth_response: AuthResponse, dispatch: Dispatch<Store>) {
-    dispatch.reduce(move |store| {
-        let mut store = store.deref().clone();
+    dispatch.reduce_mut(move |store| {
         store.username = auth_response.data.username;
         store.token = auth_response.data.token;
-        store
     });
 }
 

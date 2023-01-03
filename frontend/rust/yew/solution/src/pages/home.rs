@@ -3,19 +3,20 @@ use crate::{
     components::{atoms::bb_select::SelectOption, organisms::tasks::Tasks},
     store::{self, Store, Task},
 };
-use stylist::yew::styled_component;
+use stylist::{yew::styled_component, Style};
 use yew::prelude::*;
 use yewdux::prelude::*;
 
 #[styled_component(Home)]
-pub fn home() -> Hmtl {
-    let stylesheet = css!(
+pub fn component() -> Html {
+    let stylesheet = Style::new(css!(
         r#"
           display: flex;
           flex-direction: column;
           align-items: center;
         "#
-    );
+    ))
+    .unwrap();
 
     let (store, dispatch) = use_store::<Store>();
 

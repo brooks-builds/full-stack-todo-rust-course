@@ -47,7 +47,7 @@ pub fn app() -> Html {
         <BrowserRouter>
           <Navbar />
           <ErrorMessage />
-          <Switch<Route> render={Switch::render(switch)} />
+          <Switch<Route> render={switch} />
         </BrowserRouter>
     }
 }

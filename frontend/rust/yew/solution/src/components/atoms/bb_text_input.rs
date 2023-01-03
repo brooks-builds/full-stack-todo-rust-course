@@ -1,7 +1,7 @@
 use std::ops::Deref;
 
 use gloo::console::log;
-use stylist::yew::styled_component;
+use stylist::{yew::styled_component, Style};
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
@@ -34,7 +34,7 @@ pub struct Props {
 
 #[styled_component(BBTextInput)]
 pub fn bb_text_input(props: &Props) -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
       label {
         font-size: 36px;
@@ -45,7 +45,8 @@ pub fn bb_text_input(props: &Props) -> Html {
         width: 100%;
       }
     "#
-    );
+    ))
+    .unwrap();
     let placeholder = props.placeholder.clone().unwrap_or_default();
     let id = props.label.to_lowercase().replace(' ', "-");
     let class = props.class.clone().unwrap_or_default();

@@ -1,4 +1,4 @@
-use stylist::yew::styled_component;
+use stylist::{yew::styled_component, Style};
 use yew::prelude::*;
 
 #[derive(Clone, PartialEq)]
@@ -33,7 +33,7 @@ pub struct Props {
 
 #[styled_component(BBButton)]
 pub fn bb_button(props: &Props) -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
           button {
             font-size: 32px;
@@ -54,7 +54,8 @@ pub fn bb_button(props: &Props) -> Html {
             background-color: red;
           }
         "#
-    );
+    ))
+    .unwrap();
 
     let color = props.color.clone().unwrap_or_default();
 

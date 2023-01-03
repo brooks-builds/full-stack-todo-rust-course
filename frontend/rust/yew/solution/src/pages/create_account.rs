@@ -4,14 +4,15 @@ use crate::router::Route;
 use crate::store::login_reducer;
 use crate::store::Store;
 use stylist::yew::styled_component;
+use stylist::Style;
 use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
-use yew_router::{history::History, hooks::use_history};
+use yew_router::prelude::use_navigator;
 use yewdux::prelude::*;
 
 #[styled_component(CreateAccount)]
 pub fn create_account() -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
           section {
             display: flex;
@@ -22,9 +23,10 @@ pub fn create_account() -> Html {
             width: 75vw;
           }
         "#
-    );
+    ))
+    .unwrap();
 
-    let history = use_history().unwrap();
+    let history = use_navigator().unwrap();
     let (_store, dispatch) = use_store::<Store>();
 
     let onsubmit = {
@@ -35,8 +37,8 @@ pub fn create_account() -> Html {
 
             spawn_local(async move {
                 let result = api::create_account(user.username, user.password).await;
-                history.push(Route::Home);
                 login_reducer(result, store_dispatch);
+                history.push(&Route::Home);
             });
         })
     };

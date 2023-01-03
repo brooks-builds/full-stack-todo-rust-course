@@ -13,6 +13,7 @@ use crate::{
     store::Store,
 };
 use stylist::yew::styled_component;
+use stylist::Style;
 use yew::prelude::*;
 use yew_router::prelude::*;
 use yewdux::prelude::*;
@@ -24,7 +25,7 @@ pub struct Props {
 
 #[styled_component(EditTask)]
 pub fn edit_task(props: &Props) -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
       form > * {
         margin-top: 15px;
@@ -34,7 +35,8 @@ pub fn edit_task(props: &Props) -> Html {
         margin-right: 10px;
       }
     "#
-    );
+    ))
+    .unwrap();
 
     let title_state = use_state(|| None);
     let description_state = use_state(|| None);
@@ -74,9 +76,9 @@ pub fn edit_task(props: &Props) -> Html {
         let completed_state = completed_state.clone();
         let token = store.token.clone();
         let task_id = props.id;
-        let history = use_history().unwrap();
+        let history = use_navigator().unwrap();
         let dispatch = dispatch.clone();
-        Callback::from(move |event: FocusEvent| {
+        Callback::from(move |event: SubmitEvent| {
             event.prevent_default();
             let patch_task = PatchTask::new(
                 title_state.deref().clone(),
@@ -93,7 +95,7 @@ pub fn edit_task(props: &Props) -> Html {
                 api::update_task(task_id, &token, patch_task.clone())
                     .await
                     .unwrap();
-                history.push(Route::OneTask { id: task_id });
+                history.push(&Route::OneTask { id: task_id });
                 update_task_by_id(dispatch, task_id, patch_task)
             });
         })
@@ -102,11 +104,11 @@ pub fn edit_task(props: &Props) -> Html {
     let task = store.get_task_by_id(props.id).unwrap_or_default();
 
     let cancel_onclick = {
-        let history = use_history().unwrap();
+        let history = use_navigator().unwrap();
         let task_id = props.id;
         Callback::from(move |event: MouseEvent| {
             event.prevent_default();
-            history.push(Route::OneTask { id: task_id })
+            history.push(&Route::OneTask { id: task_id })
         })
     };
 

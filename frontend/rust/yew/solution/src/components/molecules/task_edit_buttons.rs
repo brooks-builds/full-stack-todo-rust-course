@@ -5,6 +5,7 @@ use crate::router::Route;
 use crate::store::{remove_task_by_id, Store};
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
+use stylist::Style;
 use yew::prelude::*;
 use yew_router::prelude::*;
 use yewdux::prelude::*;
@@ -16,16 +17,17 @@ pub struct NavId {
 
 #[styled_component(TaskEditButtons)]
 pub fn task_edit_buttons() -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
       display: flex;
       align-items: center;
       justify-content: center;
       height: 45px;
     "#
-    );
+    ))
+    .unwrap();
 
-    let current_route = use_location().unwrap().route::<Route>().unwrap();
+    let current_route = use_route::<Route>().unwrap();
     let task_id = match current_route {
         Route::OneTask { id } => Some(id),
         Route::EditTask { id } => Some(id),
@@ -36,7 +38,7 @@ pub fn task_edit_buttons() -> Html {
 
     let delete_onclick = {
         let token = store.token.clone();
-        let history = use_history().unwrap();
+        let history = use_navigator().unwrap();
         Callback::from(move |_| {
             let token = token.clone();
             let dispatch = dispatch.clone();
@@ -45,7 +47,7 @@ pub fn task_edit_buttons() -> Html {
             wasm_bindgen_futures::spawn_local(async move {
                 api::delete_task(task_id, &token).await.unwrap();
                 remove_task_by_id(dispatch, task_id);
-                history.push(Route::Home);
+                history.push(&Route::Home);
             });
         })
     };

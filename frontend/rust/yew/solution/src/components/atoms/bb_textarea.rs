@@ -1,6 +1,6 @@
 use std::ops::Deref;
 
-use stylist::yew::styled_component;
+use stylist::{yew::styled_component, Style};
 use wasm_bindgen::JsCast;
 use web_sys::HtmlTextAreaElement;
 use yew::prelude::*;
@@ -16,7 +16,7 @@ pub struct Props {
 
 #[styled_component(BBTextarea)]
 pub fn bb_textarea(props: &Props) -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
         label {
           font-size: 36px;
@@ -27,7 +27,8 @@ pub fn bb_textarea(props: &Props) -> Html {
           width: 100%;
         }
       "#
-    );
+    ))
+    .unwrap();
 
     let state = use_state(String::new);
     let has_loaded = use_state(|| false);

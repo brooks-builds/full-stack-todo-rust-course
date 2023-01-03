@@ -60,7 +60,7 @@ pub fn account_form(props: &Props) -> Html {
     let onsubmit = {
         let onsubmit_prop = props.onsubmit.clone();
         let state = state;
-        Callback::from(move |event: FocusEvent| {
+        Callback::from(move |event: SubmitEvent| {
             event.prevent_default();
             let user = state.deref().clone();
             onsubmit_prop.emit(user);

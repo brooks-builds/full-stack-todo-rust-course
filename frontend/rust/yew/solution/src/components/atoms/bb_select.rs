@@ -1,10 +1,10 @@
 use serde::{Deserialize, Serialize};
-use stylist::yew::styled_component;
+use stylist::{yew::styled_component, Style};
 use wasm_bindgen::JsCast;
 use web_sys::HtmlSelectElement;
 use yew::prelude::*;
 
-#[derive(Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, PartialEq, Serialize, Deserialize, Debug)]
 pub struct SelectOption {
     pub value: String,
     pub label: String,
@@ -32,7 +32,7 @@ pub struct Props {
 
 #[styled_component(BBSelect)]
 pub fn bb_select(props: &Props) -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
           label {
             font-size: 24px;
@@ -43,7 +43,8 @@ pub fn bb_select(props: &Props) -> Html {
             width: 100%;
           }
     "#
-    );
+    ))
+    .unwrap();
 
     let onchange = {
         let props_onchange = props.onchange.clone();

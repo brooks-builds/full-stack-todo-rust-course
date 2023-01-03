@@ -5,6 +5,7 @@ use crate::{
     store::Store,
 };
 use stylist::yew::styled_component;
+use stylist::Style;
 use yew::prelude::*;
 use yewdux::prelude::*;
 
@@ -15,7 +16,7 @@ pub struct Props {
 
 #[styled_component(OneTask)]
 pub fn one_task(props: &Props) -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
         .title {
           margin-bottom: 25px;
@@ -28,7 +29,8 @@ pub fn one_task(props: &Props) -> Html {
 
         text-align: center;
     "#
-    );
+    ))
+    .unwrap();
 
     let sent_logged_out_error = use_state(|| false);
     let (store, dispatch) = use_store::<Store>();

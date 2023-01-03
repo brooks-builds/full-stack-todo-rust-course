@@ -8,16 +8,15 @@ use crate::components::atoms::bb_text_input::{BBTextInput, InputType};
 use crate::components::atoms::bb_textarea::BBTextarea;
 use crate::router::Route;
 use crate::store::{add_task, Store};
-use stylist::css;
 use stylist::yew::styled_component;
+use stylist::{css, Style};
 use yew::prelude::*;
-use yew_router::history::History;
-use yew_router::hooks::use_history;
+use yew_router::prelude::use_navigator;
 use yewdux::prelude::*;
 
 #[styled_component(AddTask)]
-pub fn add_task() -> Html {
-    let stylesheet = css!(
+pub fn component() -> Html {
+    let stylesheet = Style::new(css!(
         r#"
       form > div {
         margin-top: 10px;
@@ -27,7 +26,8 @@ pub fn add_task() -> Html {
         margin-right: 10px;
       }
     "#
-    );
+    ))
+    .unwrap();
     let title = use_state(String::new);
     let description = use_state(|| Some(String::new()));
     let priority = use_state(|| "A".to_owned());
@@ -64,8 +64,8 @@ pub fn add_task() -> Html {
         let description = description;
         let priority = priority;
         let token = store.token.clone();
-        let history = use_history().unwrap();
-        Callback::from(move |event: FocusEvent| {
+        let history = use_navigator().unwrap();
+        Callback::from(move |event: SubmitEvent| {
             event.prevent_default();
             let token = token.clone();
             let title = title.deref().clone();
@@ -77,10 +77,10 @@ pub fn add_task() -> Html {
                 match api::create_task(&token, title, description, priority).await {
                     Ok(task_response) => {
                         add_task(dispatch, task_response.data);
-                        history.push(Route::Home);
+                        history.push(&Route::Home);
                     }
                     Err(ApiError::NotAuthenticated) => {
-                        history.push(Route::Home);
+                        history.push(&Route::Home);
                     }
                     Err(error) => {
                         gloo::console::error!(error.to_string());
@@ -92,10 +92,10 @@ pub fn add_task() -> Html {
     };
 
     let cancel_onclick = {
-        let history = use_history().unwrap();
+        let history = use_navigator().unwrap();
         Callback::from(move |event: MouseEvent| {
             event.prevent_default();
-            history.push(Route::Home);
+            history.push(&Route::Home);
         })
     };
 

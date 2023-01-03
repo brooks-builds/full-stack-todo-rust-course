@@ -1,4 +1,4 @@
-use stylist::yew::styled_component;
+use stylist::{yew::styled_component, Style};
 use wasm_bindgen::JsCast;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
@@ -20,7 +20,7 @@ pub struct OnchangeData {
 
 #[styled_component(BBCheckbox)]
 pub fn bb_checkbox(props: &Props) -> Html {
-    let stylesheet = css!(
+    let stylesheet = Style::new(css!(
         r#"
       span {
         font-size: 36px;
@@ -49,7 +49,8 @@ pub fn bb_checkbox(props: &Props) -> Html {
         clip: rect(0, 0, 0, 0);
       }
     "#
-    );
+    ))
+    .unwrap();
     let onchange = {
         let props_onchange = props.onchange.clone();
         let id = props.id.clone();
