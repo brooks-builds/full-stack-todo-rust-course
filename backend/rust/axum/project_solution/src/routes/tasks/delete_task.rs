@@ -16,7 +16,7 @@ pub async fn soft_delete_task(
         .await?
         .into_active_model();
 
-    let now = Utc::now();
+    let now = Utc::now().naive_utc();
 
     task.deleted_at = Set(Some(now.into()));
 

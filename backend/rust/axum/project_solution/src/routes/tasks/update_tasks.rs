@@ -17,7 +17,7 @@ pub async fn mark_completed(
         .await?
         .into_active_model();
 
-    let now = Utc::now();
+    let now = Utc::now().naive_utc();
     task.completed_at = Set(Some(now.into()));
 
     task_queries::save_active_task(&db, task).await?;
@@ -60,7 +60,7 @@ pub async fn update_task(
     }
 
     if let Some(completed_at) = request_task.completed_at {
-        task.completed_at = Set(completed_at);
+        task.completed_at = Set(completed_at.map(|date_time| date_time.naive_utc()));
     }
 
     if let Some(description) = request_task.description {
