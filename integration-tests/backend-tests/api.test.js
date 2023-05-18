@@ -11,6 +11,8 @@ const baseUrl = `${process.env.API_URI}:${apiPort}/api/v1`;
 const JWT_SECRET = process.env.JWT_SECRET;
 const db = knex(dbConfiguration);
 
+console.log(apiPort, baseUrl)
+
 dns.setDefaultResultOrder('ipv4first');
 jest.setTimeout(10000);
 
