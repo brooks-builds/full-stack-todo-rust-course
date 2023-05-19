@@ -48,16 +48,28 @@ router.route("/:taskId")
   .patch(async (req, res, next) => {
     try {
       const {priority, title, description, completed_at} = req.body;
-      await updateTask(req.user.id, req.params.taskId, {priority, title, description, completed_at});
-      res.sendStatus(200);
+      const count = await updateTask(req.user.id, req.params.taskId, {priority, title, description, completed_at});
+      if(count) {
+        return res.sendStatus(200);
+      }
+
+      const error = new Error("Not found");
+      error.code = 404;
+      throw error;
     } catch (error) {
       return next(error);
     }
   })
   .delete(async (req, res, next) => {
     try {
-      await softDeleteTask(req.user.id, req.params.taskId);
-      return res.sendStatus(200);
+      const count = await softDeleteTask(req.user.id, req.params.taskId);
+      if(count) {
+        return res.sendStatus(200);
+      }
+
+      const error = new Error("Not found");
+      error.code = 404;
+      throw error;
     } catch(error) {
       return next(error);
     }
@@ -69,8 +81,14 @@ router.route("/:taskId/completed")
     const {taskId} = req.params;
     const userId = req.user.id;
     try {
-      await markTaskAsCompleted(userId, taskId);
-      return res.sendStatus(200);
+      const completedCount = await markTaskAsCompleted(userId, taskId);
+      if(completedCount) {
+        return res.sendStatus(200);
+      }
+
+      const error = new Error("not found");
+      error.code = 404;
+      throw error;
     } catch (error) {
       return next(error);
     }
@@ -82,8 +100,14 @@ router.route("/:taskId/uncompleted")
     const {taskId} = req.params;
     const userId = req.user.id;
     try {
-      await markTaskAsUncompleted(userId, taskId);
-      return res.sendStatus(200);
+      const resultCount = await markTaskAsUncompleted(userId, taskId);
+      if(resultCount) {
+        return res.sendStatus(200);
+      }
+
+      const error = new Error("not found");
+      error.code = 404;
+      throw error;
     } catch (error) {
       return next(error);
     }

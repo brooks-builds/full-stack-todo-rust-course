@@ -13,7 +13,7 @@ pub mod utilities;
 
 pub async fn run(app_state: AppState) {
     let app = create_router(app_state);
-    let address = SocketAddr::from(([0, 0, 0, 0], 3000));
+    let address = SocketAddr::from(([0, 0, 0, 0], 4000));
 
     axum::Server::bind(&address)
         .serve(app.into_make_service())
