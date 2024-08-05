@@ -8,7 +8,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=keyoarbcat
     ports:
-      - 5432:5432
+      - 5433:5432
     healthcheck:
       test: psql -U postgres -q -d postgres -c "SELECT 'ready';"
       interval: 10s
@@ -39,12 +39,13 @@ services:
   api-test:
     profiles:
       - nodejs-express
+      - axum
     build: ./integration-tests/backend-tests
     volumes:
       - ./integration-tests/backend-tests:/code/
     environment:
       - API_PORT=3000
-      - API_URI=http://nodejs-express
+      - API_URI=http://axum
       - JWT_SECRET=keyboardcat
       - DB_CONNECTION=postres://postgres:keyoarbcat@database/postgres
   js-vue:
@@ -62,6 +63,20 @@ services:
       - "8080"
     environment:
       - VUE_APP_API_URI=http://localhost:3000
-
+  axum:
+    build: backend/rust/axum
+    develop:
+      watch:
+        - path: /code
+          action: sync
+          target:  backend/rust/axum
+    expose: 
+      - 3001:3000
+    environment:
+      - PORT=3000
+      - JWT_SECRET=keyboardcat
+      - SALT_ROUNDS=10
+      - DB_CONNECTION=postgresql://postgres:keyoarbcat@database
+      
 volumes:
   db-data:
