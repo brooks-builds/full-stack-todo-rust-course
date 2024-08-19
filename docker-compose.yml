@@ -64,6 +64,8 @@ services:
     environment:
       - VUE_APP_API_URI=http://localhost:3000
   axum:
+    profiles:
+      - axum
     build: backend/rust/axum
     develop:
       watch:

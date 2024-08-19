@@ -2,6 +2,7 @@ use axum::Json;
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
+#[allow(dead_code)]
 pub struct RequestUser {
     pub username: Option<String>,
     pub password: String,

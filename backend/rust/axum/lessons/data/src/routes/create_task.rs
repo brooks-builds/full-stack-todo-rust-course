@@ -1,11 +1,10 @@
 use crate::database::tasks;
 use crate::database::users::{self, Entity as Users};
 use axum::extract::State;
-use axum::{
-    headers::{authorization::Bearer, Authorization},
-    http::StatusCode,
-    Json, TypedHeader,
-};
+use axum::{http::StatusCode, Json};
+use axum_extra::headers::authorization::Bearer;
+use axum_extra::headers::Authorization;
+use axum_extra::TypedHeader;
 use sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set};
 use serde::Deserialize;
 
