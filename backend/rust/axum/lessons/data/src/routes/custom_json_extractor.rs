@@ -1,9 +1,8 @@
 use axum::{
     async_trait,
-    body::HttpBody,
-    extract::FromRequest,
-    http::{Request, StatusCode},
-    BoxError, Json, RequestExt,
+    extract::{FromRequest, Request},
+    http::StatusCode,
+    Json, RequestExt,
 };
 use serde::Deserialize;
 use validator::Validate;
@@ -17,16 +16,16 @@ pub struct RequestUser {
 }
 
 #[async_trait]
-impl<S, B> FromRequest<S, B> for RequestUser
+impl<S> FromRequest<S> for RequestUser
 where
-    B: HttpBody + Send + 'static,
-    B::Data: Send,
-    B::Error: Into<BoxError>,
+    // B: HttpBody + Send + 'static,
+    // B::Data: Send,
+    // B::Error: Into<BoxError>,
     S: Send + Sync,
 {
     type Rejection = (StatusCode, String);
 
-    async fn from_request(request: Request<B>, _state: &S) -> Result<Self, Self::Rejection> {
+    async fn from_request(request: Request, _state: &S) -> Result<Self, Self::Rejection> {
         let Json(user) = request
             .extract::<Json<RequestUser>, _>()
             .await

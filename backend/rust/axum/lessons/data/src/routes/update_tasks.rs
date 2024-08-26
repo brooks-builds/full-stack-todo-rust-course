@@ -12,6 +12,7 @@ use serde::Deserialize;
 
 #[derive(Deserialize)]
 pub struct RequestTask {
+    #[allow(dead_code)]
     pub id: Option<i32>,
     pub priority: Option<String>,
     pub title: String,

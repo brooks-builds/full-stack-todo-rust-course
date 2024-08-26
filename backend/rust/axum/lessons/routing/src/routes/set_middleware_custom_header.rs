@@ -1,4 +1,5 @@
 use axum::{
+    body::Body,
     http::{Request, StatusCode},
     middleware::Next,
     response::Response,
@@ -6,9 +7,9 @@ use axum::{
 
 use super::read_middleware_custom_header::HeaderMessage;
 
-pub async fn set_middleware_custom_header<B>(
-    mut request: Request<B>,
-    next: Next<B>,
+pub async fn set_middleware_custom_header(
+    mut request: Request<Body>,
+    next: Next,
 ) -> Result<Response, StatusCode> {
     let headers = request.headers();
     let message = headers
