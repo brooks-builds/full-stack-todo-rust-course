@@ -6,7 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-axum = { version = "0.6.1", features = ["macros", "headers"] }
+axum = { version = "0.7.5", features = ["macros"] }
+axum-extra = { version = "0.9.3", features = ["typed-header"] }
 bcrypt = "0.13.0"
 chrono = "0.4.23"
 dotenvy = "0.15.6"
