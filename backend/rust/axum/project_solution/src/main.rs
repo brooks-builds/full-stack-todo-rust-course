@@ -4,7 +4,6 @@ use sea_orm::Database;
 
 #[tokio::main]
 async fn main() {
-    /////////////
     dotenv().ok();
     let database_url = std::env::var("DATABASE_URL")
         .expect("Missing environment variable DATABASE_URL")
